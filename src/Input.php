@@ -1,8 +1,10 @@
 <?php
 namespace Gt\Input;
 
-class Input {
-	public function __construct() {
+use Psr\Http\Message\StreamInterface;
 
+class Input {
+	public function getStream():StreamInterface {
+		return new Body();
 	}
 }
