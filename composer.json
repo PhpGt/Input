@@ -1,0 +1,10 @@
+{
+	"name": "phpgt/input",
+	"license": "MIT",
+
+	"autoload": {
+		"psr-4": {
+			"Gt\\Input\\": "./src"
+		}
+	}
+}
