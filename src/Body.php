@@ -3,6 +3,8 @@ namespace Gt\Input;
 
 use Psr\Http\Message\StreamInterface;
 
+// TODO: This class is generic to any StreamInterface implementation and should exist as an abstract class within Gt\Http.
+
 class Body implements StreamInterface {
 	const READABLE_MODES = ["r", "w+", "r+", "x+", "c+", "rb", "w+b", "r+b", "x+b", "c+b", "rt", "w+t", "r+t", "x+t", "c+t", "a+"];
 	const WRITABLE_MODES = ["w", "w+", "rw", "r+", "x+", "c+", "wb", "w+b", "r+b", "x+b", "c+b", "w+t", "r+t", "x+t", "c+t", "a", "a+"];
@@ -154,7 +156,20 @@ class Body implements StreamInterface {
 	 * @throws \RuntimeException on failure.
 	 */
 	public function write($string):int {
-		// TODO: Implement write() method.
+		if(!isset($this->stream)) {
+			// TODO: Throw runtime exception.
+		}
+
+		if(!$this->isWritable()) {
+			// TODO: Throw runtime exception.
+		}
+
+		$bytes = fwrite($this->stream, $string);
+		if($bytes === false) {
+			// TODO: Throw runtime exception.
+		}
+
+		return $bytes;
 	}
 
 	/**
@@ -177,7 +192,28 @@ class Body implements StreamInterface {
 	 * @throws \RuntimeException if an error occurs.
 	 */
 	public function read($length):string {
-		// TODO: Implement read() method.
+		if(!isset($this->stream)) {
+			// TODO: Throw runtime exception.
+		}
+
+		if(!$this->isReadable()) {
+			// TODO: Throw runtime exception.
+		}
+
+		if($length < 0) {
+			// TODO: Throw runtime exception.
+		}
+
+		if($length === 0) {
+			return "";
+		}
+
+		$string = fread($this->stream, $length);
+		if($string === false) {
+			// TODO: Throw runtime exception.
+		}
+
+		return $string;
 	}
 
 	/**
@@ -188,7 +224,19 @@ class Body implements StreamInterface {
 	 *     reading.
 	 */
 	public function getContents():string {
-		// TODO: Implement getContents() method.
+		if(!isset($this->stream)) {
+			// TODO: Throw runtime exception.
+		}
+		if(!$this->isReadable()) {
+			// TODO: Throw runtime exception.
+		}
+
+		$string = stream_get_contents($this->stream);
+		if($string === false) {
+			// TODO: Throw runtime exception.
+		}
+
+		return $string;
 	}
 
 	/**
