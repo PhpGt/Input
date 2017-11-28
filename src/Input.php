@@ -4,14 +4,136 @@ namespace Gt\Input;
 use Psr\Http\Message\StreamInterface;
 
 class Input {
+	const METHOD_GET = "get";
+	const METHOD_POST = "post";
+	const METHOD_BOTH = "both";
+
 	/** @var Body */
 	protected $body;
 
-	public function __construct() {
+	/** @var InputData */
+	protected $queryStringParameters;
+	/** @var InputData */
+	protected $postFields;
+	/** @var Upload */
+	protected $files;
+	/** @var InputData */
+	protected $combinedGetPost;
+
+	public function __construct(array $get, array $post, array $files) {
 		$this->body = new Body("php://input");
+		$this->queryStringParameters = new InputData($get);
+		$this->postFields = new InputData($post);
+		$this->files = new Upload($files);
+		$this->combinedGetPost = new InputData($get, $post);
 	}
 
+	/**
+	 * Returns the input payload as a streamable HTTP request body.
+	 */
 	public function getStream():StreamInterface {
 		return $this->body;
+	}
+
+	/**
+	 * Get a particular input value by its key. To specify either GET or POST variables, pass
+	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
+	 * Input::METHOD_BOTH).
+	 */
+	public function get(string $key, string $method = null):?string {
+		if(is_null($method)) {
+			$method = self::METHOD_BOTH;
+		}
+
+		switch($method) {
+		case self::METHOD_GET:
+			$variable = $this->queryStringParameters;
+			break;
+		case self::METHOD_POST:
+			$variable = $this->postFields;
+			break;
+		case self::METHOD_BOTH:
+			$variable = $this->combinedGetPost;
+			break;
+		default:
+			throw new InvalidInputMethodException($method);
+		}
+
+		return $variable->$key;
+	}
+
+	/**
+	 * Does the input contain the specified key?
+	 */
+	public function has(string $key):bool {
+		return isset($this->combinedGetPost->$key);
+	}
+
+	/**
+	 * Get an InputData object containing all request variables. To specify only GET or POST
+	 * variables, pass Input::METHOD_GET or Input::METHOD_POST.
+	 */
+	public function getAll(string $method = null):InputData {
+		if(is_null($method)) {
+			$method = self::METHOD_BOTH;
+		}
+
+		switch($method) {
+		case self::METHOD_GET:
+			return $this->queryStringParameters;
+		case self::METHOD_POST:
+			return $this->postFields;
+		case self::METHOD_BOTH:
+			return $this->combinedGetPost;
+		default:
+			throw new InvalidInputMethodException($method);
+		}
+	}
+
+	/**
+	 * Return a "do" Trigger, matching when a request variable is present with the
+	 * provided $match value.
+	 */
+	public function do(string $match):Trigger {
+		return $this->when(["do" => $match]);
+	}
+
+	/**
+	 * Return a Trigger, firing when one or more request variables are present with
+	 * the provided key value pair(s) are present.
+	 *
+	 * $matches is an associative array, where the key is a request variable's name and the
+	 * value is the request variable's value to match.
+	 */
+	public function when(array $matches):Trigger {
+		$trigger = new Trigger($this);
+		$trigger->when($matches);
+		return $trigger;
+	}
+
+	/**
+	 * Return a Trigger that will only pass the provided keys to its callback.
+	 */
+	public function with(string...$keys):Trigger {
+		return $this->newTrigger("with", ...$keys);
+	}
+
+	/**
+	 * Return a Trigger that will pass all keys apart from the provided keys to its callback.
+	 */
+	public function without(string...$keys):Trigger {
+		return $this->newTrigger("without", ...$keys);
+	}
+
+	/**
+	 * Return a Trigger that will pass all keys to its callback.
+	 */
+	public function withAll():Trigger {
+		return $this->newTrigger("withAll");
+	}
+
+	protected function newTrigger(string $functionName, ...$args):Trigger {
+		$trigger = new Trigger($this);
+		return $trigger->$functionName(...$args);
 	}
 }
