@@ -1,5 +1,6 @@
 {
 	"name": "phpgt/input",
+	"description": "Encapsulated user input.",
 	"license": "MIT",
 
 	"autoload": {
