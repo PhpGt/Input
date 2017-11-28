@@ -9,6 +9,7 @@
 	},
 
 	"require": {
+		"phpgt/http": "dev-master",
 		"psr/http-message": "^1.0"
 	}
 }
