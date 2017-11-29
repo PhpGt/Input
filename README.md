@@ -22,7 +22,7 @@ passed only the user input they require, rather than having read/write access to
 	<img src="https://img.shields.io/packagist/v/phpgt/input.svg?style=for-the-badge" alt="PHP.Gt/Input latest release" />
 </a>
 <a href="http://www.php.gt/input" target="_blank">
-	<img src="https://img.shields.io/badge/docs-www.php.gt/input-26a5e3.svg?style=flat-square" alt="PHP.G/Input documentation" />
+	<img src="https://img.shields.io/badge/docs-www.php.gt/input-26a5e3.svg?style=for-the-badge" alt="PHP.G/Input documentation" />
 </a>
 
 Example usage
