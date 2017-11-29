@@ -23,9 +23,10 @@ class Input {
 	public function __construct(
 	array $get = [],
 	array $post = [],
-	array $files = []
+	array $files = [],
+	string $bodyPath = "php://input"
 	) {
-		$this->body = new Body("php://input");
+		$this->body = new Body($bodyPath);
 		$this->queryStringParameters = new InputData($get);
 		$this->postFields = new InputData($post);
 		$this->files = new Upload($files);
