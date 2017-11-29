@@ -15,7 +15,7 @@ passed only the user input they require, rather than having read/write access to
 <a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
 	<img src="https://img.shields.io/scrutinizer/g/phpgt/input.svg?style=for-the-badge" alt="PHP.Gt/Input code quality" />
 </a>
-<a href="https://coveralls.io/r/phpgt/input" target="_blank">
+<a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
 	<img src="https://img.shields.io/scrutinizer/coverage/g/PhpGt/Input/master.svg?style=for-the-badge" alt="PHP.Gt/Input code coverage" />
 </a>
 <a href="https://packagist.org/packages/phpgt/input" target="_blank">
