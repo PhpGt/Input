@@ -13,7 +13,7 @@ passed only the user input they require, rather than having read/write access to
 	<img src="https://img.shields.io/circleci/project/PhpGt/Input.svg?style=flat-square" alt="PHP.Gt/Input build status" />
 </a>
 <a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
-	<img src="https://img.shields.io/scrutinizer/g/phpgt/input.svg?style=flat-square" alt="PHP.Gt/Input code quality" />
+	<img src="https://img.shields.io/scrutinizer/g/PhpGt/Input.svg?style=flat-square" alt="PHP.Gt/Input code quality" />
 </a>
 <a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
 	<img src="https://img.shields.io/scrutinizer/coverage/g/PhpGt/Input/master.svg?style=flat-square" alt="PHP.Gt/Input code coverage" />
