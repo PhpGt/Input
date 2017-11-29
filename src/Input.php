@@ -20,7 +20,11 @@ class Input {
 	/** @var InputData */
 	protected $combinedGetPost;
 
-	public function __construct(array $get, array $post, array $files) {
+	public function __construct(
+	array $get = [],
+	array $post = [],
+	array $files = []
+	) {
 		$this->body = new Body("php://input");
 		$this->queryStringParameters = new InputData($get);
 		$this->postFields = new InputData($post);
