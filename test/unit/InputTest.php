@@ -35,6 +35,20 @@ class InputTest extends TestCase {
 		self::assertFalse(isset($combined->thisDoesNotExist));
 	}
 
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testGetAllMethods(array $get, array $post):void {
+		$input = new Input($get, $post);
+		$getVariables = $input->getAll(Input::METHOD_GET);
+		$postVariables = $input->getAll(Input::METHOD_POST);
+
+		foreach($get as $key => $value) {
+			self::assertTrue(isset($getVariables->$key));
+			self::assertFalse(isset($postVariables->$key));
+		}
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
