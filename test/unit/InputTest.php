@@ -60,6 +60,15 @@ class InputTest extends TestCase {
 		self::assertTrue($trigger->fire());
 	}
 
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testNotDo(string $doName):void {
+		$input = new Input(["do" => "submit"]);
+		$trigger = $input->do($doName);
+		self::assertFalse($trigger->fire());
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
