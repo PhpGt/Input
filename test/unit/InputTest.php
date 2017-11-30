@@ -2,6 +2,7 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Input;
+use Gt\Input\Trigger;
 use PHPUnit\Framework\TestCase;
 
 class InputTest extends TestCase {
@@ -49,6 +50,16 @@ class InputTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testDo(string $doName):void {
+		$input = new Input(["do" => $doName]);
+		$trigger = $input->do($doName);
+		$this->assertInstanceOf(Trigger::class, $trigger);
+		self::assertTrue($trigger->fire());
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
@@ -56,6 +67,19 @@ class InputTest extends TestCase {
 			$params = [
 				$this->getRandomKvp(rand(10, 100)),
 				$this->getRandomKvp(rand(10, 100))
+			];
+			$data []= $params;
+		}
+
+		return $data;
+	}
+
+	public function dataRandomString():array {
+		$data = [];
+
+		for($i = 0; $i < 100; $i++) {
+			$params = [
+				uniqid(),
 			];
 			$data []= $params;
 		}
