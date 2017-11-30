@@ -21,25 +21,42 @@ class InputTest extends TestCase {
 	/**
 	 * @dataProvider dataRandomGetPost
 	 */
-	public function testGetCombined(array $_GET, array $_POST):void {
+	public function testGetAll(array $get, array $post):void {
+		$input = new Input($get, $post);
+		$combined = $input->getAll();
 
+		foreach($get as $key => $value) {
+			self::assertTrue(isset($combined->$key));
+		}
+		foreach($post as $key => $value) {
+			self::assertTrue(isset($combined->$key));
+		}
+
+		self::assertFalse(isset($combined->thisDoesNotExist));
 	}
 
 	public function dataRandomGetPost():array {
 		$data = [];
 
 		for($i = 0; $i < 100; $i++) {
-			$params = [$this->getRandomKvp(), $this->getRandomKvp()];
+			$params = [
+				$this->getRandomKvp(rand(10, 100)),
+				$this->getRandomKvp(rand(10, 100))
+			];
 			$data []= $params;
 		}
 
 		return $data;
 	}
 
-	private function getRandomKvp():array {
+	private function getRandomKvp(int $num):array {
 		$kvp = [];
 
-
+		for($i = 0; $i < $num; $i++) {
+			$key = uniqid() . "key";
+			$value = uniqid() . "value";
+			$kvp[$key] = $value;
+		}
 
 		return $kvp;
 	}
