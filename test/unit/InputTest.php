@@ -69,6 +69,23 @@ class InputTest extends TestCase {
 		self::assertFalse($trigger->fire());
 	}
 
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhen(string $whenName):void {
+		$whenValue = uniqid("whenValue");
+
+		$input = new Input([
+			uniqid("key") => uniqid("value"),
+			$whenName => $whenValue,
+		]);
+		$trigger = $input->when([
+			$whenName => $whenValue,
+		]);
+
+		self::assertTrue($trigger->fire());
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
