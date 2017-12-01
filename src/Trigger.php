@@ -66,6 +66,11 @@ class Trigger {
 	public function fire():bool {
 		$fired = false;
 
+		if(empty($this->matches)) {
+			$this->callCallbacks();
+			return true;
+		}
+
 		foreach($this->matches as $key => $matchList) {
 			if($this->input->has($key)) {
 				if(empty($matchList)
