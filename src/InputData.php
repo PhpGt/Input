@@ -65,11 +65,11 @@ class InputData implements ArrayAccess, Iterator {
 	}
 
 	public function offsetSet($offset, $value):void {
-		throw new ReadOnlyInputModificationException($offset);
+		$this->add($offset, $value);
 	}
 
 	public function offsetUnset($offset) {
-		throw new ReadOnlyInputModificationException($offset);
+		$this->remove($offset);
 	}
 
 	public function current():?string {
