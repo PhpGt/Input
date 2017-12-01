@@ -134,13 +134,50 @@ class InputTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testWithout(array $get, array $post):void {
+		$withoutKeys = [];
+
+		for($i = 0; $i < 10; $i++) {
+			if(rand(0, 1)) {
+				$withoutKeys []= array_rand($get);
+			}
+			else {
+				$withoutKeys []= array_rand($post);
+			}
+		}
+
+		$input = new Input($get, $post);
+		$trigger = $input->without(...$withoutKeys);
+		$keysCalled = [];
+
+		$trigger->call(function(InputData $data) use(&$keysCalled) {
+			foreach($data as $key => $value) {
+				$keysCalled []= $key;
+			}
+		});
+
+		foreach(array_merge($get, $post) as $key => $value) {
+			if(in_array($key, $withoutKeys)) {
+				continue;
+			}
+
+			self::assertContains($key, $keysCalled);
+		}
+		foreach($withoutKeys as $key) {
+			self::assertNotContains($key, $keysCalled);
+		}
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
 		for($i = 0; $i < 100; $i++) {
 			$params = [
-				$this->getRandomKvp(rand(10, 100)),
-				$this->getRandomKvp(rand(10, 100))
+				$this->getRandomKvp(rand(10, 100), "get-"),
+				$this->getRandomKvp(rand(10, 100), "post-"),
 			];
 			$data []= $params;
 		}
@@ -165,12 +202,12 @@ class InputTest extends TestCase {
 
 	}
 
-	private function getRandomKvp(int $num):array {
+	private function getRandomKvp(int $num, string $prefix = ""):array {
 		$kvp = [];
 
 		for($i = 0; $i < $num; $i++) {
-			$key = uniqid() . "key";
-			$value = uniqid() . "value";
+			$key = "key-$i-$prefix" . uniqid();
+			$value = "value-$i-$prefix" . uniqid();
 			$kvp[$key] = $value;
 		}
 
