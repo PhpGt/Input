@@ -17,6 +17,16 @@ class TriggerTest extends TestCase {
 		self::assertTrue($trigger->fire());
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWhenNot($input):void {
+		$whenCriteria = Data::getRandomWhenCriteria($input, false);
+		$trigger = new Trigger($input);
+		$trigger->when($whenCriteria);
+		self::assertFalse($trigger->fire());
+	}
+
 	public function dataInput():array {
 		$data = [];
 

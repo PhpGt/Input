@@ -25,14 +25,14 @@ class Data {
 			$keys = array_rand($inputDataArray, $numberToCreate);
 		}
 		else {
-			$nonInputDataArray = [];
+			$inputDataArray = [];
 			$numberToCreate = rand(1, 100);
 			for($i = 0; $i < $numberToCreate; $i++) {
-				$nonInputDataArray[
+				$inputDataArray[
 					"key-$i-madeup" . uniqid()
 				] = "value-$i-madeup" . uniqid();
 			}
-			$keys = array_rand($nonInputDataArray, $numberToCreate);
+			$keys = array_rand($inputDataArray, $numberToCreate);
 		}
 
 		if(!is_array($keys)) {
@@ -41,7 +41,7 @@ class Data {
 
 		$criteria = [];
 		foreach($keys as $k) {
-			$criteria[$k] = $inputData[$k];
+			$criteria[$k] = $inputDataArray[$k];
 		}
 
 		return $criteria;
