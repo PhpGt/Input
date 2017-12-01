@@ -63,4 +63,27 @@ class InputDataTest extends TestCase {
 		self::assertEquals("tab1", $data["view"]);
 		self::assertEquals("large", $data["screenSize"]);
 	}
+
+	public function testRemove():void {
+		$data = new InputData([
+			"name" => "Debbie",
+			"gender" => "f",
+		]);
+
+		self::assertEquals("f", $data["gender"]);
+		$data->remove("gender");
+		self::assertNull($data["gender"]);
+	}
+
+	public function testRemoveMany():void {
+		$data = new InputData([
+			"name" => "Eddie",
+			"gender" => "m",
+			"userAccess" => "admin",
+		]);
+		$data->remove("gender", "name");
+		self::assertNull($data["name"]);
+		self::assertNull($data["gender"]);
+		self::assertNotNull($data["userAccess"]);
+	}
 }
