@@ -29,4 +29,10 @@ class InputDataTest extends TestCase {
 		self::assertEquals("save", $data["do"]);
 		self::assertEquals("admin", $data["userAccess"]);
 	}
+
+	public function testAddFromEmpty():void {
+		$data = new InputData();
+		$data->add("name", "Bob");
+		self::assertEquals("Bob", $data["name"]);
+	}
 }
