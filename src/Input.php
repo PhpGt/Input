@@ -64,14 +64,14 @@ class Input {
 			throw new InvalidInputMethodException($method);
 		}
 
-		return $variable->$key;
+		return $variable[$key];
 	}
 
 	/**
 	 * Does the input contain the specified key?
 	 */
 	public function has(string $key):bool {
-		return isset($this->combinedGetPost->$key);
+		return isset($this->combinedGetPost[$key]);
 	}
 
 	/**

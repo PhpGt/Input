@@ -1,9 +1,10 @@
 <?php
 namespace Gt\Input;
 
+use ArrayAccess;
 use Iterator;
 
-class InputData implements Iterator {
+class InputData implements ArrayAccess, Iterator {
 	/** @var array */
 	protected $data;
 	/** @var array */
@@ -55,12 +56,20 @@ class InputData implements Iterator {
 		$this->dataKeys = array_keys($this->data);
 	}
 
-	public function __isset(string $name):bool {
-		return isset($this->data[$name]);
+	public function offsetExists($offset):bool {
+		return isset($this->data[$offset]);
 	}
 
-	public function __get(string $name):?string {
-		return $this->data[$name] ?? null;
+	public function offsetGet($offset):?string {
+		return $this->data[$offset] ?? null;
+	}
+
+	public function offsetSet($offset, $value):void {
+		throw new ReadOnlyInputModificationException($offset);
+	}
+
+	public function offsetUnset($offset) {
+		throw new ReadOnlyInputModificationException($offset);
 	}
 
 	public function current():?string {
