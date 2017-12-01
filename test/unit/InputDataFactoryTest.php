@@ -3,6 +3,7 @@ namespace Gt\Input\Test;
 
 use Gt\Input\Input;
 use Gt\Input\InputDataFactory;
+use Gt\Input\WithWithoutClashingException;
 use PHPUnit\Framework\TestCase;
 
 class InputDataFactoryTest extends TestCase {
@@ -40,6 +41,12 @@ class InputDataFactoryTest extends TestCase {
 		self::assertNull($data["age"]);
 		self::assertNull($data["telephone"]);
 		self::assertNull($data["postcode"]);
+	}
+
+	public function testCreateCriteriaWithWithoutClash():void {
+		$input = $this->createInput();
+		self::expectException(WithWithoutClashingException::class);
+		InputDataFactory::create($input, ["name", "age"], ["age"]);
 	}
 
 	protected function createInput() {
