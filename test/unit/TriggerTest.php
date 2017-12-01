@@ -10,7 +10,7 @@ class TriggerTest extends TestCase {
 	/**
 	 * @dataProvider dataInput
 	 */
-	public function testWhen($input):void {
+	public function testWhenMatchesInput($input):void {
 		$whenCriteria = Data::getRandomWhenCriteria($input, true);
 		$trigger = new Trigger($input);
 		$trigger->when($whenCriteria);
@@ -20,7 +20,7 @@ class TriggerTest extends TestCase {
 	/**
 	 * @dataProvider dataInput
 	 */
-	public function testWhenNot($input):void {
+	public function testWhenNotMatchesInput($input):void {
 		$whenCriteria = Data::getRandomWhenCriteria($input, false);
 		$trigger = new Trigger($input);
 		$trigger->when($whenCriteria);
