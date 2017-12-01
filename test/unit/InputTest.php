@@ -2,8 +2,10 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Input;
+use Gt\Input\InputData;
 use Gt\Input\Trigger;
 use PHPUnit\Framework\TestCase;
+use StdClass;
 
 class InputTest extends TestCase {
 	public function testBodyStreamContents():void {
@@ -102,6 +104,36 @@ class InputTest extends TestCase {
 		self::assertFalse($trigger->fire());
 	}
 
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testWithExist(array $get, array $post):void {
+		$withKeys = [];
+
+		for($i = 0; $i < 10; $i++) {
+			if(rand(0, 1)) {
+				$withKeys []= array_rand($get);
+			}
+			else {
+				$withKeys []= array_rand($post);
+			}
+		}
+
+		$input = new Input($get, $post);
+		$trigger = $input->with(...$withKeys);
+		$keysCalled = [];
+
+		$trigger->call(function(InputData $data) use(&$keysCalled) {
+			foreach($data as $key => $value) {
+				$keysCalled []= $key;
+			}
+		});
+
+		foreach($withKeys as $key) {
+			self::assertContains($key, $keysCalled);
+		}
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
@@ -127,6 +159,10 @@ class InputTest extends TestCase {
 		}
 
 		return $data;
+	}
+
+	public function callbackWith(...$args) {
+
 	}
 
 	private function getRandomKvp(int $num):array {
