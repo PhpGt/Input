@@ -35,4 +35,32 @@ class InputDataTest extends TestCase {
 		$data->add("name", "Bob");
 		self::assertEquals("Bob", $data["name"]);
 	}
+
+	public function testAddMultipleFromEmpty():void {
+		$data = new InputData();
+		$data->add("name", "Bob");
+		$data->add("gender", "m");
+		self::assertEquals("Bob", $data["name"]);
+		self::assertEquals("m", $data["gender"]);
+	}
+
+	public function testAddFromExisting():void {
+		$data = new InputData([
+			"name" => "Charles",
+			"gender" => "m",
+		], [
+			"do" => "save",
+			"userAccess" => "admin",
+		]);
+
+		$data->add("view", "tab1");
+		$data->add("screenSize", "large");
+
+		self::assertEquals("Charles", $data["name"]);
+		self::assertEquals("m", $data["gender"]);
+		self::assertEquals("save", $data["do"]);
+		self::assertEquals("admin", $data["userAccess"]);
+		self::assertEquals("tab1", $data["view"]);
+		self::assertEquals("large", $data["screenSize"]);
+	}
 }
