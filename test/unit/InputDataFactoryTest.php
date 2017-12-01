@@ -33,6 +33,15 @@ class InputDataFactoryTest extends TestCase {
 		self::assertEquals("AB12 3CD", $data["postcode"]);
 	}
 
+	public function testCreateCriteriaWithWithoutNoClash():void {
+		$input = $this->createInput();
+		$data = InputDataFactory::create($input, ["name"], ["postcode"]);
+		self::assertEquals("Edward", $data["name"]);
+		self::assertNull($data["age"]);
+		self::assertNull($data["telephone"]);
+		self::assertNull($data["postcode"]);
+	}
+
 	protected function createInput() {
 		return new Input([
 			"name" => "Edward",
