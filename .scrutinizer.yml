@@ -13,8 +13,8 @@ build:
     analysis:
       project_setup:
         override: true
-          tests:
-            override: [php-scrutinizer-run]
+        tests:
+          override: [php-scrutinizer-run]
 
 checks:
   php:
