@@ -121,4 +121,26 @@ class InputDataTest extends TestCase {
 		self::assertTrue(isset($data["gender"]));
 		self::assertFalse(isset($data["creditCard"]));
 	}
+
+	public function testSetAsArray():void {
+		$data = new InputData([
+			"name" => "Hannah",
+			"gender" => "f",
+		]);
+		$data["userAccess"] = "test";
+		self::assertEquals("Hannah", $data["name"]);
+		self::assertEquals("f", $data["gender"]);
+		self::assertEquals("test", $data["userAccess"]);
+	}
+
+	public function testUnsetAsArray():void {
+		$data = new InputData([
+			"name" => "Ian",
+			"gender" => "m",
+		]);
+		self::assertTrue(isset($data["gender"]));
+		unset($data["gender"]);
+		self::assertFalse(isset($data["gender"]));
+		self::assertEquals("Ian", $data["name"]);
+	}
 }
