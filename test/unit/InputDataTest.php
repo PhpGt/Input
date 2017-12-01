@@ -98,4 +98,16 @@ class InputDataTest extends TestCase {
 		self::assertNull($data["gender"]);
 		self::assertEquals("sales", $data["userAccess"]);
 	}
+
+	public function testRemoveExceptMulti():void {
+		$data = new InputData([
+			"name" => "Emma",
+			"gender" => "f",
+			"userAccess" => "sales",
+		]);
+		$data->removeExcept("name", "userAccess");
+		self::assertEquals("Emma", $data["name"]);
+		self::assertEquals("sales", $data["userAccess"]);
+		self::assertNull($data["gender"]);
+	}
 }
