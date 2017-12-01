@@ -29,10 +29,10 @@ class InputTest extends TestCase {
 		$combined = $input->getAll();
 
 		foreach($get as $key => $value) {
-			self::assertTrue(isset($combined->$key));
+			self::assertTrue(isset($combined[$key]));
 		}
 		foreach($post as $key => $value) {
-			self::assertTrue(isset($combined->$key));
+			self::assertTrue(isset($combined[$key]));
 		}
 
 		self::assertFalse(isset($combined->thisDoesNotExist));
@@ -47,8 +47,8 @@ class InputTest extends TestCase {
 		$postVariables = $input->getAll(Input::METHOD_POST);
 
 		foreach($get as $key => $value) {
-			self::assertTrue(isset($getVariables->$key));
-			self::assertFalse(isset($postVariables->$key));
+			self::assertTrue(isset($getVariables[$key]));
+			self::assertFalse(isset($postVariables[$key]));
 		}
 	}
 
