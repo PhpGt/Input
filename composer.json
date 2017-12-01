@@ -8,6 +8,11 @@
 			"Gt\\Input\\": "./src"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Gt\\Input\\Test\\": "./test/unit"
+		}
+	},
 
 	"require": {
 		"phpgt/http": "dev-master"

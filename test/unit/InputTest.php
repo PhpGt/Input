@@ -3,6 +3,7 @@ namespace Gt\Input\Test;
 
 use Gt\Input\Input;
 use Gt\Input\InputData;
+use Gt\Input\Test\Helper\Data;
 use Gt\Input\Trigger;
 use PHPUnit\Framework\TestCase;
 use StdClass;
@@ -195,8 +196,8 @@ class InputTest extends TestCase {
 
 		for($i = 0; $i < 100; $i++) {
 			$params = [
-				$this->getRandomKvp(rand(10, 100), "get-"),
-				$this->getRandomKvp(rand(10, 100), "post-"),
+				Data::getRandomKvp(rand(10, 100), "get-"),
+				Data::getRandomKvp(rand(10, 100), "post-"),
 			];
 			$data []= $params;
 		}
@@ -219,17 +220,5 @@ class InputTest extends TestCase {
 
 	public function callbackWith(...$args) {
 
-	}
-
-	private function getRandomKvp(int $num, string $prefix = ""):array {
-		$kvp = [];
-
-		for($i = 0; $i < $num; $i++) {
-			$key = "key-$i-$prefix" . uniqid();
-			$value = "value-$i-$prefix" . uniqid();
-			$kvp[$key] = $value;
-		}
-
-		return $kvp;
 	}
 }
