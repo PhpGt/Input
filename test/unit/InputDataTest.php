@@ -14,4 +14,19 @@ class InputDataTest extends TestCase {
 		self::assertEquals("Alice", $data["name"]);
 		self::assertEquals("f", $data["gender"]);
 	}
+
+	public function testMultipleSources():void {
+		$data = new InputData([
+			"name" => "Alice",
+			"gender" => "f",
+		], [
+			"do" => "save",
+			"userAccess" => "admin",
+		]);
+
+		self::assertEquals("Alice", $data["name"]);
+		self::assertEquals("f", $data["gender"]);
+		self::assertEquals("save", $data["do"]);
+		self::assertEquals("admin", $data["userAccess"]);
+	}
 }
