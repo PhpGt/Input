@@ -23,24 +23,30 @@ class InputData implements Iterator {
 		$this->dataKeys = array_keys($this->data);
 	}
 
-	public function add(string $key, string $value) {
+	public function add(string $key, string $value):self {
 		$this->data[$key] = $value;
+
+		return $this;
 	}
 
-	public function remove(string...$keys) {
+	public function remove(string...$keys):self {
 		foreach($keys as $key) {
 			if(isset($this->data[$key])) {
 				unset($this->data[$key]);
 			}
 		}
+
+		return $this;
 	}
 
-	public function removeExcept(string...$keys) {
+	public function removeExcept(string...$keys):self {
 		foreach($this->data as $key => $value) {
 			if(!in_array($key, $keys)) {
 				unset($this->data[$key]);
 			}
 		}
+
+		return $this;
 	}
 
 	public function __isset(string $name):bool {
