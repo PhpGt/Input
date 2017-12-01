@@ -57,7 +57,7 @@ class Trigger {
 	}
 
 	public function call(callable $callback, ...$args):self {
-		$this->callbacks []= new Callback($callback, $args);
+		$this->callbacks []= new Callback($callback, ...$args);
 		$this->fire();
 
 		return $this;

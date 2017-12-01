@@ -20,12 +20,12 @@ class InputData implements Iterator {
 			}
 		}
 
-		$this->dataKeys = array_keys($this->data);
+		$this->storeDataKeys();
 	}
 
 	public function add(string $key, string $value):self {
 		$this->data[$key] = $value;
-
+		$this->storeDataKeys();
 		return $this;
 	}
 
@@ -36,6 +36,7 @@ class InputData implements Iterator {
 			}
 		}
 
+		$this->storeDataKeys();
 		return $this;
 	}
 
@@ -46,7 +47,12 @@ class InputData implements Iterator {
 			}
 		}
 
+		$this->storeDataKeys();
 		return $this;
+	}
+
+	protected function storeDataKeys():void {
+		$this->dataKeys = array_keys($this->data);
 	}
 
 	public function __isset(string $name):bool {
