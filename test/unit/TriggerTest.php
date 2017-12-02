@@ -238,6 +238,14 @@ class TriggerTest extends TestCase {
 		self::assertContains($param3, $callbackArgs);
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testFiresWithNoMatches(Input $input):void {
+		$trigger = new Trigger($input);
+		self::assertTrue($trigger->fire());
+	}
+
 	public function dataInput():array {
 		$data = [];
 
