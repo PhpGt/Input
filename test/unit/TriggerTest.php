@@ -129,6 +129,26 @@ class TriggerTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWithoutMultipleKeysVariableArguments(Input $input):void {
+		$keys = Helper::getKeysFromInput($input, rand(2, 100));
+		$trigger = new Trigger($input);
+		$trigger->without(...$keys);
+
+		$callbackKeys = [];
+		$trigger->call(function(InputData $data) use (&$callbackKeys) {
+			foreach($data as $key => $value) {
+				$callbackKeys []= $key;
+			}
+		});
+
+		foreach($keys as $key) {
+			self::assertNotContains($key, $callbackKeys);
+		}
+	}
+
 	public function dataInput():array {
 		$data = [];
 
