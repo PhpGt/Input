@@ -88,6 +88,24 @@ class TriggerTest extends TestCase {
 		self::assertEquals($keys, $callbackKeys);
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWithoutSingleKey(Input $input):void {
+		$keys = Helper::getKeysFromInput($input, 1);
+		$trigger = new Trigger($input);
+		$trigger->without($keys[0]);
+
+		$callbackKeys = [];
+		$trigger->call(function(InputData $data) use (&$callbackKeys) {
+			foreach($data as $key => $value) {
+				$callbackKeys []= $key;
+			}
+		});
+
+		self::assertNotContains($keys[0], $callbackKeys);
+	}
+
 	public function dataInput():array {
 		$data = [];
 
