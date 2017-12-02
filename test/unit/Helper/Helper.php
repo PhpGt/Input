@@ -4,7 +4,7 @@ namespace Gt\Input\Test\Helper;
 use Gt\Input\Input;
 use Gt\Input\InputData;
 
-class Data {
+class Helper {
 	public static function getRandomKvp(int $num, string $prefix = ""):array {
 		$kvp = [];
 
@@ -55,5 +55,19 @@ class Data {
 		}
 
 		return $array;
+	}
+
+	public static function getKeysFromInput(Input $input, int $num):array {
+		$keys = [];
+
+		foreach($input as $key => $value) {
+			$keys []= $key;
+
+			if(count($keys) >= $num) {
+				break;
+			}
+		}
+
+		return $keys;
 	}
 }
