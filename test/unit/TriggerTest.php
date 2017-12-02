@@ -215,6 +215,29 @@ class TriggerTest extends TestCase {
 		self::assertFalse($trigger->fire());
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testCallWithArgs(Input $input):void {
+		$trigger = new Trigger($input);
+		$param1 = "one";
+		$param2 = "two";
+		$param3 = "three";
+
+		$callbackArgs = [];
+
+		$trigger->call(function(InputData $data, $one, $two, $three) use (&$callbackArgs) {
+			$callbackArgs["one"] = $one;
+			$callbackArgs["two"] = $two;
+			$callbackArgs["three"] = $three;
+		}, $param1, $param2, $param3);
+
+		self::assertCount(3, $callbackArgs);
+		self::assertContains($param1, $callbackArgs);
+		self::assertContains($param2, $callbackArgs);
+		self::assertContains($param3, $callbackArgs);
+	}
+
 	public function dataInput():array {
 		$data = [];
 
