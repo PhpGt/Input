@@ -25,6 +25,38 @@ class InputTest extends TestCase {
 	/**
 	 * @dataProvider dataRandomGetPost
 	 */
+	public function testGetAllQueryString(array $get, array $post):void {
+		$input = new Input($get, $post);
+		$queryString = $input->getAll(Input::DATA_QUERYSTRING);
+
+		foreach($post as $key => $value) {
+			self::assertFalse(isset($queryString[$key]));
+		}
+
+		foreach($get as $key => $value) {
+			self::assertTrue(isset($queryString[$key]));
+		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testGetAllPostFields(array $get, array $post):void {
+		$input = new Input($get, $post);
+		$postFields = $input->getAll(Input::DATA_POSTFIELDS);
+
+		foreach($get as $key => $value) {
+			self::assertFalse(isset($postFields[$key]));
+		}
+
+		foreach($post as $key => $value) {
+			self::assertTrue(isset($postFields[$key]));
+		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
 	public function testGetAll(array $get, array $post):void {
 		$input = new Input($get, $post);
 		$combined = $input->getAll();
@@ -44,8 +76,8 @@ class InputTest extends TestCase {
 	 */
 	public function testGetAllMethods(array $get, array $post):void {
 		$input = new Input($get, $post);
-		$getVariables = $input->getAll(Input::METHOD_GET);
-		$postVariables = $input->getAll(Input::METHOD_POST);
+		$getVariables = $input->getAll(Input::DATA_QUERYSTRING);
+		$postVariables = $input->getAll(Input::DATA_POSTFIELDS);
 
 		foreach($get as $key => $value) {
 			self::assertTrue(isset($getVariables[$key]));

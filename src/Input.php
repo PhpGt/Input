@@ -11,9 +11,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 	use InputDataCountable;
 	use InputDataIterator;
 
-	const METHOD_GET = "get";
-	const METHOD_POST = "post";
-	const METHOD_BOTH = "both";
+	const DATA_QUERYSTRING = "get";
+	const DATA_POSTFIELDS = "post";
+	const DATA_COMBINED = "both";
 
 	/** @var Body */
 	protected $body;
@@ -53,17 +53,17 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 */
 	public function get(string $key, string $method = null):?string {
 		if(is_null($method)) {
-			$method = self::METHOD_BOTH;
+			$method = self::DATA_COMBINED;
 		}
 
 		switch($method) {
-		case self::METHOD_GET:
+		case self::DATA_QUERYSTRING:
 			$variable = $this->queryStringParameters;
 			break;
-		case self::METHOD_POST:
+		case self::DATA_POSTFIELDS:
 			$variable = $this->postFields;
 			break;
-		case self::METHOD_BOTH:
+		case self::DATA_COMBINED:
 			$variable = $this->data;
 			break;
 		default:
@@ -86,15 +86,15 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 */
 	public function getAll(string $method = null):InputData {
 		if(is_null($method)) {
-			$method = self::METHOD_BOTH;
+			$method = self::DATA_COMBINED;
 		}
 
 		switch($method) {
-		case self::METHOD_GET:
+		case self::DATA_QUERYSTRING:
 			return $this->queryStringParameters;
-		case self::METHOD_POST:
+		case self::DATA_POSTFIELDS:
 			return $this->postFields;
-		case self::METHOD_BOTH:
+		case self::DATA_COMBINED:
 			return $this->data;
 		default:
 			throw new InvalidInputMethodException($method);
