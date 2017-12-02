@@ -64,21 +64,25 @@ class Trigger {
 	}
 
 	public function fire():bool {
-		$fired = false;
-
-		if(empty($this->matches)) {
-			$this->callCallbacks();
-			return true;
-		}
+		$fired = true;
 
 		foreach($this->matches as $key => $matchList) {
 			if($this->input->has($key)) {
-				if(empty($matchList)
-				|| in_array($this->input->get($key),$matchList)) {
-					$this->callCallbacks();
-					$fired = true;
+				if(empty($matchList)) {
+					continue;
+				}
+
+				if(!in_array($this->input->get($key),$matchList)) {
+					$fired = false;
 				}
 			}
+			else {
+				$fired = false;
+			}
+		}
+
+		if($fired) {
+			$this->callCallbacks();
 		}
 
 		return $fired;
