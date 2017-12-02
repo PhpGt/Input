@@ -25,6 +25,44 @@ class InputTest extends TestCase {
 	/**
 	 * @dataProvider dataRandomGetPost
 	 */
+	public function testGetQueryString(array $get, array $post):void {
+		$input = new Input($get, $post);
+
+		for($i = 0; $i < 100; $i++) {
+			$key = array_rand($get);
+
+			$value = $input->get(
+				$key,
+				Input::DATA_QUERYSTRING
+			);
+
+			self::assertEquals($get[$key], $value);
+			self::assertFalse(isset($post[$key]));
+		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testGetPostField(array $get, array $post):void {
+		$input = new Input($get, $post);
+
+		for($i = 0; $i < 100; $i++) {
+			$key = array_rand($post);
+
+			$value = $input->get(
+				$key,
+				Input::DATA_POSTFIELDS
+			);
+
+			self::assertEquals($post[$key], $value);
+			self::assertFalse(isset($get[$key]));
+		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
 	public function testGetAllQueryString(array $get, array $post):void {
 		$input = new Input($get, $post);
 		$queryString = $input->getAll(Input::DATA_QUERYSTRING);
