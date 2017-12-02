@@ -168,6 +168,20 @@ class TriggerTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testSetTriggerNoMatch(Input $input):void {
+		$keys = Helper::getKeysFromInput($input, rand(2, 100));
+		$trigger = new Trigger($input);
+
+		foreach($keys as $key) {
+			$trigger->setTrigger($key, $input[$key]);
+		}
+
+		self::assertTrue($trigger->fire());
+	}
+
 	public function dataInput():array {
 		$data = [];
 
