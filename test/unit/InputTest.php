@@ -3,6 +3,7 @@ namespace Gt\Input\Test;
 
 use Gt\Input\Input;
 use Gt\Input\InputData;
+use Gt\Input\InvalidInputMethodException;
 use Gt\Input\Test\Helper\Helper;
 use Gt\Input\Trigger;
 use PHPUnit\Framework\TestCase;
@@ -58,6 +59,24 @@ class InputTest extends TestCase {
 			self::assertEquals($post[$key], $value);
 			self::assertFalse(isset($get[$key]));
 		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testGetInvalidDataType(array $get, array $post):void {
+		self::expectException(InvalidInputMethodException::class);
+		$input = new Input($get, $post);
+		$input->get("test", "WRONG_TYPE");
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testGetAllInvalidDataType(array $get, array $post):void {
+		self::expectException(InvalidInputMethodException::class);
+		$input = new Input($get, $post);
+		$input->getAll("WRONG_TYPE");
 	}
 
 	/**
