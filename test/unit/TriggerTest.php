@@ -106,6 +106,29 @@ class TriggerTest extends TestCase {
 		self::assertNotContains($keys[0], $callbackKeys);
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWithoutMultipleKeysSequential(Input $input):void {
+		$keys = Helper::getKeysFromInput($input, rand(2, 100));
+		$trigger = new Trigger($input);
+
+		foreach($keys as $key) {
+			$trigger->without($key);
+		}
+
+		$callbackKeys = [];
+		$trigger->call(function(InputData $data) use (&$callbackKeys) {
+			foreach($data as $key => $value) {
+				$callbackKeys []= $key;
+			}
+		});
+
+		foreach($keys as $key) {
+			self::assertNotContains($key, $callbackKeys);
+		}
+	}
+
 	public function dataInput():array {
 		$data = [];
 
