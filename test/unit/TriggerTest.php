@@ -149,6 +149,25 @@ class TriggerTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWithAll(Input $input):void {
+		$trigger = new Trigger($input);
+		$trigger->withAll();
+
+		$callbackKeys = [];
+		$trigger->call(function(InputData $data) use (&$callbackKeys) {
+			foreach($data as $key => $value) {
+				$callbackKeys []= $key;
+			}
+		});
+
+		foreach($input->getAll() as $key => $value) {
+			self::assertContains($key, $callbackKeys);
+		}
+	}
+
 	public function dataInput():array {
 		$data = [];
 
