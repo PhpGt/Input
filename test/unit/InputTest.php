@@ -280,6 +280,18 @@ class InputTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testSettingOwnData(array $get, array $post):void {
+		$input = new Input($get, $post);
+		$originalInputCount = count($input);
+
+		$input["added-from-test"] = uniqid();
+
+		self::assertEquals($originalInputCount + 1, count($input));
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
