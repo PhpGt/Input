@@ -17,7 +17,7 @@ trait InputDataArrayAccess {
 
 	public function offsetSet($offset, $value):void {
 		if($this->data instanceof InputData) {
-			$this->add($offset, $value);
+			$this->data->add($offset, $value);
 		}
 		else {
 			$this->data[$offset] = $value;
@@ -27,7 +27,7 @@ trait InputDataArrayAccess {
 
 	public function offsetUnset($offset) {
 		if($this->data instanceof InputData) {
-			$this->remove($offset);
+			$this->data->remove($offset);
 		}
 		else {
 			unset($this->data[$offset]);
