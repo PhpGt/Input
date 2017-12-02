@@ -3,7 +3,7 @@ namespace Gt\Input\Test;
 
 use Gt\Input\Input;
 use Gt\Input\InputData;
-use Gt\Input\Test\Helper\Data;
+use Gt\Input\Test\Helper\Helper;
 use Gt\Input\Trigger;
 use PHPUnit\Framework\TestCase;
 use StdClass;
@@ -196,8 +196,8 @@ class InputTest extends TestCase {
 
 		for($i = 0; $i < 100; $i++) {
 			$params = [
-				Data::getRandomKvp(rand(10, 100), "get-"),
-				Data::getRandomKvp(rand(10, 100), "post-"),
+				Helper::getRandomKvp(rand(10, 100), "get-"),
+				Helper::getRandomKvp(rand(10, 100), "post-"),
 			];
 			$data []= $params;
 		}
