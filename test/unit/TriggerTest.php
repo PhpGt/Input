@@ -47,6 +47,29 @@ class TriggerTest extends TestCase {
 		self::assertcount(1, $callbackKeys);
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWithMultipleKeysSequential(Input $input):void {
+		$keys = Helper::getKeysFromInput($input, rand(2, 100));
+		$trigger = new Trigger($input);
+
+		foreach($keys as $key) {
+			$trigger->with($key);
+		}
+
+		$callbackKeys = [];
+		$trigger->call(function(InputData $data) use(&$callbackKeys) {
+			foreach($data as $key => $value) {
+				$callbackKeys []= $key;
+			}
+		});
+
+		foreach($keys as $key) {
+			self::assertContains($key, $callbackKeys);
+		}
+	}
+
 	public function dataInput():array {
 		$data = [];
 
