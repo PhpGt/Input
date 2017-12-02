@@ -70,6 +70,24 @@ class TriggerTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider dataInput
+	 */
+	public function testWithMultipleKeysVariableArguments(Input $input):void {
+		$keys = Helper::getKeysFromInput($input, rand(2, 100));
+		$trigger = new Trigger($input);
+		$trigger->with(...$keys);
+
+		$callbackKeys = [];
+		$trigger->call(function(InputData $data) use(&$callbackKeys) {
+			foreach($data as $key => $value) {
+				$callbackKeys []= $key;
+			}
+		});
+
+		self::assertEquals($keys, $callbackKeys);
+	}
+
 	public function dataInput():array {
 		$data = [];
 
