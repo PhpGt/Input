@@ -292,6 +292,23 @@ class InputTest extends TestCase {
 		self::assertEquals($originalInputCount + 1, count($input));
 	}
 
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testUnsettingOwnData(array $get, array $post):void {
+		$input = new Input($get, $post);
+		$originalInputCount = count($input);
+
+		$getToUnset = array_rand($get);
+		$postToUnset = array_rand($post);
+
+		unset($input[$getToUnset]);
+		self::assertEquals($originalInputCount - 1, count($input));
+
+		unset($input[$postToUnset]);
+		self::assertEquals($originalInputCount - 2, count($input));
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
