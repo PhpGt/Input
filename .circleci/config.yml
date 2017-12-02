@@ -20,6 +20,5 @@ jobs:
       - store_test_results:
           path: test/unit/_junit
       - store_artifacts:
-          paths:
-            - test/unit/_junit
-            - test/unit/_coverage
+          path: test/unit/_junit
+          path: test/unit/_coverage
