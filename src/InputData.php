@@ -2,15 +2,13 @@
 namespace Gt\Input;
 
 use ArrayAccess;
+use Countable;
 use Iterator;
 
-class InputData implements ArrayAccess, Iterator {
-	/** @var array */
-	protected $data;
-	/** @var array */
-	protected $dataKeys;
-	/** @var int */
-	protected $iteratorKey;
+class InputData implements ArrayAccess, Countable, Iterator {
+	use InputDataArrayAccess;
+	use InputDataCountable;
+	use InputDataIterator;
 
 	public function __construct(array...$sources) {
 		$this->data = [];
@@ -52,47 +50,7 @@ class InputData implements ArrayAccess, Iterator {
 		return $this;
 	}
 
-	protected function storeDataKeys():void {
-		$this->dataKeys = array_keys($this->data);
-	}
-
-	public function offsetExists($offset):bool {
-		return isset($this->data[$offset]);
-	}
-
-	public function offsetGet($offset):?string {
-		return $this->data[$offset] ?? null;
-	}
-
-	public function offsetSet($offset, $value):void {
-		$this->add($offset, $value);
-	}
-
-	public function offsetUnset($offset) {
-		$this->remove($offset);
-	}
-
-	public function current():?string {
-		return $this->data[$this->getIteratorDataKey()];
-	}
-
-	public function next():void {
-		$this->iteratorKey++;
-	}
-
-	public function key():string {
-		return $this->getIteratorDataKey();
-	}
-
-	public function valid() {
-		return !empty($this->getIteratorDataKey());
-	}
-
-	public function rewind() {
-		$this->iteratorKey = 0;
-	}
-
-	protected function getIteratorDataKey():?string {
-		return $this->dataKeys[$this->iteratorKey] ?? null;
+	public function getKeys():array {
+		return $this->dataKeys;
 	}
 }

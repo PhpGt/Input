@@ -1,9 +1,16 @@
 <?php
 namespace Gt\Input;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
 use Psr\Http\Message\StreamInterface;
 
-class Input {
+class Input implements ArrayAccess, Countable, Iterator {
+	use InputDataArrayAccess;
+	use InputDataCountable;
+	use InputDataIterator;
+
 	const METHOD_GET = "get";
 	const METHOD_POST = "post";
 	const METHOD_BOTH = "both";
@@ -17,8 +24,6 @@ class Input {
 	protected $postFields;
 	/** @var Upload */
 	protected $files;
-	/** @var InputData */
-	protected $combinedGetPost;
 
 	public function __construct(
 	array $get = [],
@@ -30,7 +35,8 @@ class Input {
 		$this->queryStringParameters = new InputData($get);
 		$this->postFields = new InputData($post);
 		$this->files = new Upload($files);
-		$this->combinedGetPost = new InputData($get, $post);
+		$this->data = new InputData($get, $post);
+		$this->dataKeys = $this->data->getKeys();
 	}
 
 	/**
@@ -58,7 +64,7 @@ class Input {
 			$variable = $this->postFields;
 			break;
 		case self::METHOD_BOTH:
-			$variable = $this->combinedGetPost;
+			$variable = $this->data;
 			break;
 		default:
 			throw new InvalidInputMethodException($method);
@@ -71,7 +77,7 @@ class Input {
 	 * Does the input contain the specified key?
 	 */
 	public function has(string $key):bool {
-		return isset($this->combinedGetPost[$key]);
+		return isset($this->data[$key]);
 	}
 
 	/**
@@ -89,7 +95,7 @@ class Input {
 		case self::METHOD_POST:
 			return $this->postFields;
 		case self::METHOD_BOTH:
-			return $this->combinedGetPost;
+			return $this->data;
 		default:
 			throw new InvalidInputMethodException($method);
 		}
