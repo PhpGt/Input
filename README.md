@@ -65,11 +65,11 @@ Example usage
 <?php
 // Pass secured input to PaymentProcessor's processCard function:
 $payment = new PaymentProcessor();
-$this->input->do("pay")
+$input->do("pay")
 	->call([$payment, "processCard"]);
 		
 // Storing user's shipping data doesn't need to know credit card information:
-$this->input->do("pay")
+$input->do("pay")
 	->with("name", "address")
 	->call("processShipping");
 	
