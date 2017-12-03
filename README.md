@@ -67,12 +67,12 @@ Example usage
 $payment = new PaymentProcessor();
 $input->do("pay")
 	->call([$payment, "processCard"]);
-		
+
 // Storing user's shipping data doesn't need to know credit card information:
 $input->do("pay")
 	->with("name", "address")
 	->call("processShipping");
-	
+
 function processShipping(InputData $data) {
 	setUsername($data["name"]);
 	storeNameAddress($data["name"], $data["address"]);
