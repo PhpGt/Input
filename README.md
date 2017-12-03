@@ -93,6 +93,8 @@ How?
 
 Once an instance of Input is created, all global variables can be unset completely, preventing ad-hoc usage and possible alteration from unknown sources. This is done using `Gt\Input\Globals::unset()`.
 
+Note that the automatic security feature is being released as [version 2][v2] and is not currently available in the library, but will be released when ready with no backwards breaking changes.
+
 The page can be secured by injecting the public key into the page. If your application uses a [DOM document][dom], the forms can be injected for you with `Gt\Input\Security\Injector`, otherwise generate your own using `Gt\Input\Security\Key` to create [secure data fields][secure-data-fields].
 
 A small amount of JavaScript is used to secure user input before being sent by the browser. The JavaScript is within the `src/JavaScript` directory.
