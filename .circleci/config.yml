@@ -21,3 +21,4 @@ jobs:
           path: test/unit/_junit
       - store_artifacts:
           path: test/unit/_coverage
+          destination: TestCoverage
