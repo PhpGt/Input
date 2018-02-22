@@ -12,18 +12,19 @@ class Input implements ArrayAccess, Countable, Iterator {
 	use InputDataIterator;
 
 	const DATA_QUERYSTRING = "get";
-	const DATA_POSTFIELDS = "post";
+	const DATA_BODY = "post";
+	const DATA_FILES = "files";
 	const DATA_COMBINED = "both";
 
-	/** @var Body */
-	protected $body;
+	/** @var BodyStream */
+	protected $bodyStream;
 
+	/** @var UploadData */
+	protected $uploadedFileParameters;
 	/** @var InputData */
 	protected $queryStringParameters;
 	/** @var InputData */
-	protected $postFields;
-	/** @var Upload */
-	protected $files;
+	protected $bodyParameters;
 
 	public function __construct(
 	array $get = [],
@@ -31,11 +32,13 @@ class Input implements ArrayAccess, Countable, Iterator {
 	array $files = [],
 	string $bodyPath = "php://input"
 	) {
-		$this->body = new Body($bodyPath);
+		$this->bodyStream = new BodyStream($bodyPath);
+		// TODO: The following three variables can extend the same base class. AbstractInputData?
 		$this->queryStringParameters = new InputData($get);
-		$this->postFields = new InputData($post);
-		$this->files = new Upload($files);
-		$this->data = new InputData($get, $post);
+		$this->bodyParameters = new InputData($post);
+		$this->uploadedFileParameters = new UploadData($files);
+
+		$this->data = new InputData($get, $post, $this->uploadedFileParameters);
 		$this->dataKeys = $this->data->getKeys();
 	}
 
@@ -43,7 +46,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Returns the input payload as a streamable HTTP request body.
 	 */
 	public function getStream():StreamInterface {
-		return $this->body;
+		return $this->bodyStream;
 	}
 
 	/**
@@ -51,38 +54,110 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
 	 * Input::METHOD_BOTH).
 	 */
-	public function get(string $key, string $method = null):?string {
+	public function get(string $key, string $method = null):?InputDatum {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
 
-		switch($method) {
-		case self::DATA_QUERYSTRING:
-			$variable = $this->queryStringParameters;
-			break;
-		case self::DATA_POSTFIELDS:
-			$variable = $this->postFields;
-			break;
-		case self::DATA_COMBINED:
-			$variable = $this->data;
-			break;
-		default:
-			throw new InvalidInputMethodException($method);
+		$data = null;
+
+		if($this->has($key, $method)) {
+			switch($method) {
+			case self::DATA_QUERYSTRING:
+				$data = $this->getQueryStringParameter($key);
+				break;
+
+			case self::DATA_BODY:
+				$data =$this->getBodyParameter($key);
+				break;
+
+			case self::DATA_FILES:
+				$data =$this->getUploadedFileParameter($key);
+				break;
+
+			case self::DATA_COMBINED:
+				$data = $this->data[$key];
+				break;
+
+			default:
+				throw new InvalidInputMethodException($method);
+			}
 		}
 
-		return $variable[$key];
+		return $data;
+	}
+
+	public function getQueryStringParameter(string $key):?InputDatum {
+		if($this->hasQueryStringParameter($key)) {
+			return $this->queryStringParameters[$key];
+		}
+		return null;
+	}
+
+	public function getBodyParameter(string $key):?InputDatum {
+		if($this->hasBodyParameter($key)) {
+			return $this->bodyParameters[$key];
+		}
+		return null;
+	}
+
+	public function getUploadedFileParameter(string $key):?InputDatum {
+		if($this->hasUploadedFileParameter($key)) {
+			return $this->uploadedFileParameters[$key];
+		}
+		return null;
 	}
 
 	/**
 	 * Does the input contain the specified key?
 	 */
-	public function has(string $key):bool {
-		return isset($this->data[$key]);
+	public function has(string $key, string $method = null):bool {
+		if(is_null($method)) {
+			$method = self::DATA_COMBINED;
+		}
+
+		$isset = false;
+
+		switch($method) {
+		case self::DATA_QUERYSTRING:
+			$isset = $this->hasQueryStringParameter($key);
+			break;
+
+		case self::DATA_BODY:
+			$isset =$this->hasBodyParameter($key);
+			break;
+
+		case self::DATA_FILES:
+			$isset =$this->hasUploadedFileParameter($key);
+			break;
+
+		case self::DATA_COMBINED:
+			$isset = isset($this->data[$key]);
+			break;
+
+		default:
+			throw new InvalidInputMethodException($method);
+		}
+
+		return $isset;
+	}
+
+	public function hasQueryStringParameter(string $key):bool {
+		return isset($this->queryStringParameters[$key]);
+	}
+
+	public function hasBodyParameter(string $key):bool {
+		return isset($this->bodyParameters[$key]);
+	}
+
+	public function hasUploadedFileParameter(string $key):bool {
+		return isset($this->uploadedFileParameters[$key]);
 	}
 
 	/**
 	 * Get an InputData object containing all request variables. To specify only GET or POST
 	 * variables, pass Input::METHOD_GET or Input::METHOD_POST.
+	 * TODO: Return type needs to be AbstractInputData
 	 */
 	public function getAll(string $method = null):InputData {
 		if(is_null($method)) {
@@ -92,8 +167,10 @@ class Input implements ArrayAccess, Countable, Iterator {
 		switch($method) {
 		case self::DATA_QUERYSTRING:
 			return $this->queryStringParameters;
-		case self::DATA_POSTFIELDS:
-			return $this->postFields;
+		case self::DATA_BODY:
+			return $this->bodyParameters;
+		case self::DATA_FILES:
+			return $this->uploadedFileParameters;
 		case self::DATA_COMBINED:
 			return $this->data;
 		default:

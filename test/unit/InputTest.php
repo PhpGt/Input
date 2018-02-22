@@ -62,7 +62,7 @@ class InputTest extends TestCase {
 
 			$value = $input->get(
 				$key,
-				Input::DATA_POSTFIELDS
+				Input::DATA_BODY
 			);
 
 			self::assertEquals($post[$key], $value);
@@ -109,7 +109,7 @@ class InputTest extends TestCase {
 	 */
 	public function testGetAllPostFields(array $get, array $post):void {
 		$input = new Input($get, $post);
-		$postFields = $input->getAll(Input::DATA_POSTFIELDS);
+		$postFields = $input->getAll(Input::DATA_BODY);
 
 		foreach($get as $key => $value) {
 			self::assertFalse(isset($postFields[$key]));
@@ -143,7 +143,7 @@ class InputTest extends TestCase {
 	public function testGetAllMethods(array $get, array $post):void {
 		$input = new Input($get, $post);
 		$getVariables = $input->getAll(Input::DATA_QUERYSTRING);
-		$postVariables = $input->getAll(Input::DATA_POSTFIELDS);
+		$postVariables = $input->getAll(Input::DATA_BODY);
 
 		foreach($get as $key => $value) {
 			self::assertTrue(isset($getVariables[$key]));

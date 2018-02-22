@@ -1,7 +1,7 @@
 <?php
 namespace Gt\Input;
 
-class Upload {
+class UploadData {
 	public function __construct(array $files) {
 	}
 }
