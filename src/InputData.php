@@ -10,7 +10,7 @@ class InputData implements ArrayAccess, Countable, Iterator {
 	use InputDataCountable;
 	use InputDataIterator;
 
-	public function __construct(array...$sources) {
+	public function __construct(iterable...$sources) {
 		$this->data = [];
 
 		foreach($sources as $source) {
