@@ -3,6 +3,8 @@ namespace Gt\Input\Test\Helper;
 
 use Gt\Input\Input;
 use Gt\Input\InputData;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class Helper {
 	public static function getRandomKvp(int $num, string $prefix = ""):array {
@@ -69,5 +71,36 @@ class Helper {
 		}
 
 		return $keys;
+	}
+
+	public static function cleanUp() {
+		$testDirectory = Helper::getTestDirectory();
+
+		if(!is_dir($testDirectory)) {
+			return;
+		}
+
+		$files = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator(
+				$testDirectory,
+				RecursiveDirectoryIterator::SKIP_DOTS),
+			RecursiveIteratorIterator::CHILD_FIRST
+		);
+
+		foreach ($files as $fileInfo) {
+			$action = ($fileInfo->isDir() ? 'rmdir' : 'unlink');
+			$action($fileInfo->getRealPath());
+		}
+
+		rmdir($testDirectory);
+	}
+
+	public static function getTestDirectory() {
+		return implode(DIRECTORY_SEPARATOR, [
+			sys_get_temp_dir(),
+			"phpgt",
+			"input",
+			"test",
+		]);
 	}
 }

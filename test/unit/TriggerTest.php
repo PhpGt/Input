@@ -249,7 +249,7 @@ class TriggerTest extends TestCase {
 	public function dataInput():array {
 		$data = [];
 
-		for($i = 0; $i < 100; $i++) {
+		for($i = 0; $i < 10; $i++) {
 			$params = [];
 
 			$getData = Helper::getRandomKvp(rand(10, 100), "get-");
