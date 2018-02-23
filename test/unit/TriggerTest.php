@@ -2,7 +2,7 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Input;
-use Gt\Input\InputData;
+use Gt\Input\InputData\InputData;
 use Gt\Input\Test\Helper\Helper;
 use Gt\Input\Trigger\Trigger;
 use PHPUnit\Framework\TestCase;
