@@ -6,7 +6,10 @@ class FileUploadInputData extends InputData {
 	public function __construct(array $files) {
 		$files = $this->normalizeArray($files);
 
-		// TODO: Set $this->data with kvp of files ($files[filename] => FileUpload(data))
+		// TODO: Set $this->parameters with kvp of files ($files[filename] => FileUpload(data))
+		foreach($files as $inputName => $details) {
+
+		}
 	}
 
 	/**

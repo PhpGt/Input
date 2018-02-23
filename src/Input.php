@@ -7,7 +7,7 @@ use Iterator;
 use Psr\Http\Message\StreamInterface;
 use Gt\Input\Trigger\Trigger;
 use Gt\Input\InputData\InputData;
-use Gt\Input\InputData\InputDatum;
+use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\KeyValueArrayAccess;
 use Gt\Input\InputData\KeyValueCountable;
 use Gt\Input\InputData\KeyValueIterator;

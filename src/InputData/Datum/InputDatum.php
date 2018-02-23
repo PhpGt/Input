@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input\InputData;
+namespace Gt\Input\InputData\Datum;
 
 class InputDatum {
 	protected $value;

@@ -1,6 +1,8 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\InputData\Datum\InputDatum;
+
 class InputData extends AbstractInputData {
 	public function __construct(iterable...$sources) {
 		$this->parameters = [];
