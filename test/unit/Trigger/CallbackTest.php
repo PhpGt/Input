@@ -2,8 +2,8 @@
 
 namespace Gt\Input\Test;
 
-use Gt\Input\Callback;
-use Gt\Input\InputData;
+use Gt\Input\InputData\InputData;
+use Gt\Input\Trigger\Callback;
 use PHPUnit\Framework\TestCase;
 
 class CallbackTest extends TestCase {
