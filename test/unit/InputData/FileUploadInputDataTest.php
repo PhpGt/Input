@@ -1,11 +1,11 @@
 <?php
-namespace Gt\Input\Test;
+namespace Gt\Input\InputData\Test;
 
 use PHPUnit\Framework\TestCase;
 use Gt\Input\InputData\FileUploadInputData;
 use Gt\Input\Test\Helper\Reflection;
 
-class UploadDataTest extends TestCase {
+class FileUploadInputDataTest extends TestCase {
 	/**
 	 * @dataProvider dataFilesSuperglobal
 	 */
