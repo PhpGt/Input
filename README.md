@@ -73,9 +73,9 @@ $input->do("pay")
 	->with("name", "address")
 	->call("processShipping");
 
-function processShipping(InputData $data) {
-	setUsername($data["name"]);
-	storeNameAddress($data["name"], $data["address"]);
+function processShipping(string $name, string $address) {
+	setUsername($name);
+	storeNameAddress($name, $address);
 }
 ```
 
