@@ -20,4 +20,28 @@ class FileUpload extends InputDatum {
 
 		parent::__construct($originalFilename);
 	}
+
+	public function move(string $destinationPath, string $renameTo = null):void {
+
+	}
+
+	public function getRealPath():string {
+
+	}
+
+	public function getOriginalName():string {
+
+	}
+
+	public function getOriginalExtension():string {
+
+	}
+
+	public function getSize():int {
+
+	}
+
+	public function getMimeType():string {
+
+	}
 }
