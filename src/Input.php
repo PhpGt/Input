@@ -3,11 +3,18 @@ namespace Gt\Input;
 
 use ArrayAccess;
 use Countable;
+use Gt\Input\Trigger\Trigger;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
+use Gt\Input\InputData\InputData;
+use Gt\Input\InputData\InputDatum;
 use Gt\Input\InputData\KeyValueArrayAccess;
 use Gt\Input\InputData\KeyValueCountable;
 use Gt\Input\InputData\KeyValueIterator;
+use Gt\Input\InputData\BodyInputData;
+use Gt\Input\InputData\CombinedInputData;
+use Gt\Input\InputData\FileUploadInputData;
+use Gt\Input\InputData\QueryStringInputData;
 
 class Input implements ArrayAccess, Countable, Iterator {
 	use KeyValueArrayAccess;

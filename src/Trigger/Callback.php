@@ -1,5 +1,7 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\Trigger;
+
+use Gt\Input\InputData\InputData;
 
 class Callback {
 	/** @var callable */
