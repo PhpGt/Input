@@ -7,7 +7,7 @@ class InputData extends AbstractInputData {
 
 		foreach($sources as $source) {
 			foreach($source as $key => $value) {
-				if(is_string($value)) {
+				if(!$value instanceof InputDatum) {
 					$value = new InputDatum($value);
 				}
 				$this->add($key, $value);
