@@ -1,15 +1,17 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\InputData\Datum\FileUpload;
+
 class FileUploadInputData extends InputData {
 
 	public function __construct(array $files) {
+		$parameters = [];
 		$files = $this->normalizeArray($files);
 
 		// TODO: Set $this->parameters with kvp of files ($files[filename] => FileUpload(data))
-		foreach($files as $inputName => $details) {
-
-		}
+		$parameters = $this->createParameters($files);
+		parent::__construct($parameters);
 	}
 
 	/**
@@ -33,5 +35,19 @@ class FileUploadInputData extends InputData {
 		}
 
 		return $files;
+	}
+
+	protected function createParameters(array $files):array {
+		$parameters = [];
+
+		foreach($files as $inputName => $details) {
+			foreach($details["tmp_name"] as $i => $tmpPath) {
+				$parameters []= new FileUpload(
+
+				);
+			}
+		}
+
+		return $parameters;
 	}
 }
