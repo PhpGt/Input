@@ -44,4 +44,8 @@ class InputData extends AbstractInputData {
 
 		return $this;
 	}
+
+	public function getKeys():array {
+		return array_keys($this->parameters);
+	}
 }

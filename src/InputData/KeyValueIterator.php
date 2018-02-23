@@ -26,7 +26,15 @@ trait KeyValueIterator {
 	}
 
 	protected function getIteratorDataKey():?string {
-		$keys = array_keys($this->parameters);
+		$keys = [];
+
+		if(is_array($this->parameters)) {
+			$keys = $this->parameters;
+		}
+		else if($this->parameters instanceof InputData) {
+			$keys = $this->parameters->getKeys();
+		}
+
 		return $keys[$this->iteratorKey] ?? null;
 	}
 }
