@@ -1,7 +1,7 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
-class UploadInputData extends InputData {
+class FileUploadInputData extends InputData {
 
 	public function __construct(array $files) {
 		$files = $this->normalizeArray($files);

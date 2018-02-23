@@ -5,8 +5,15 @@ use ArrayAccess;
 use Countable;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
+use Gt\Input\InputData\KeyValueArrayAccess;
+use Gt\Input\InputData\KeyValueCountable;
+use Gt\Input\InputData\KeyValueIterator;
 
 class Input implements ArrayAccess, Countable, Iterator {
+	use KeyValueArrayAccess;
+	use KeyValueCountable;
+	use KeyValueIterator;
+
 	const DATA_QUERYSTRING = "get";
 	const DATA_BODY = "post";
 	const DATA_FILES = "files";
@@ -19,10 +26,10 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected $queryStringParameters;
 	/** @var BodyInputData */
 	protected $bodyParameters;
-	/** @var UploadInputData */
-	protected $uploadedFileParameters;
+	/** @var FileUploadInputData */
+	protected $fileUploadParameters;
 	/** @var CombinedInputData */
-	protected $combinedParameters;
+	protected $parameters;
 
 	public function __construct(
 	array $get = [],
@@ -34,12 +41,12 @@ class Input implements ArrayAccess, Countable, Iterator {
 
 		$this->queryStringParameters = new QueryStringInputData($get);
 		$this->bodyParameters = new BodyInputData($post);
-		$this->uploadedFileParameters = new UploadInputData($files);
+		$this->fileUploadParameters = new FileUploadInputData($files);
 
-		$this->combinedParameters = new CombinedInputData(
+		$this->parameters = new CombinedInputData(
 			$this->queryStringParameters,
 			$this->bodyParameters,
-			$this->uploadedFileParameters
+			$this->fileUploadParameters
 		);
 	}
 
@@ -72,11 +79,11 @@ class Input implements ArrayAccess, Countable, Iterator {
 			break;
 
 		case self::DATA_FILES:
-			$data = $this->uploadedFileParameters->get($key);
+			$data = $this->fileUploadParameters->get($key);
 			break;
 
 		case self::DATA_COMBINED:
-			$data = $this->combinedParameters->get($key);
+			$data = $this->parameters->get($key);
 			break;
 
 		default:
@@ -94,8 +101,6 @@ class Input implements ArrayAccess, Countable, Iterator {
 			$method = self::DATA_COMBINED;
 		}
 
-		$isset = false;
-
 		switch($method) {
 		case self::DATA_QUERYSTRING:
 			$isset = $this->hasQueryStringParameter($key);
@@ -106,7 +111,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 			break;
 
 		case self::DATA_FILES:
-			$isset =$this->hasUploadedFileParameter($key);
+			$isset =$this->hasFileUploadParameter($key);
 			break;
 
 		case self::DATA_COMBINED:
@@ -128,14 +133,13 @@ class Input implements ArrayAccess, Countable, Iterator {
 		return isset($this->bodyParameters[$key]);
 	}
 
-	public function hasUploadedFileParameter(string $key):bool {
-		return isset($this->uploadedFileParameters[$key]);
+	public function hasFileUploadParameter(string $key):bool {
+		return isset($this->fileUploadParameters[$key]);
 	}
 
 	/**
 	 * Get an InputData object containing all request variables. To specify only GET or POST
 	 * variables, pass Input::METHOD_GET or Input::METHOD_POST.
-	 * TODO: Return type needs to be AbstractInputData
 	 */
 	public function getAll(string $method = null):InputData {
 		if(is_null($method)) {
@@ -148,9 +152,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 		case self::DATA_BODY:
 			return $this->bodyParameters;
 		case self::DATA_FILES:
-			return $this->uploadedFileParameters;
+			return $this->fileUploadParameters;
 		case self::DATA_COMBINED:
-			return $this->data;
+			return $this->parameters;
 		default:
 			throw new InvalidInputMethodException($method);
 		}

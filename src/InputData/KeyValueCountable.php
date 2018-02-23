@@ -1,8 +1,8 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
 trait KeyValueCountable {
 	public function count():int {
-		return count($this->data);
+		return count($this->parameters);
 	}
 }

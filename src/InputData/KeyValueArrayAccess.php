@@ -1,9 +1,9 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
 trait KeyValueArrayAccess {
 	public function offsetExists($offset):bool {
-		return isset($this->data[$offset]);
+		return isset($this->parameters[$offset]);
 	}
 
 	public function offsetGet($offset):?InputDatum {
@@ -11,20 +11,20 @@ trait KeyValueArrayAccess {
 	}
 
 	public function offsetSet($offset, $value):void {
-		if($this->data instanceof InputData) {
-			$this->data->add($offset, $value);
+		if($this->parameters instanceof InputData) {
+			$this->parameters->add($offset, $value);
 		}
 		else {
-			$this->data[$offset] = $value;
+			$this->parameters[$offset] = $value;
 		}
 	}
 
 	public function offsetUnset($offset) {
-		if($this->data instanceof InputData) {
-			$this->data->remove($offset);
+		if($this->parameters instanceof InputData) {
+			$this->parameters->remove($offset);
 		}
 		else {
-			unset($this->data[$offset]);
+			unset($this->parameters[$offset]);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
 class InputDataFactory {
 	public static function create(Input $input, array $with = [], array $without = []):InputData {

@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
 use ArrayAccess;
 use Countable;
@@ -11,19 +11,19 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	use KeyValueIterator;
 
 	/** @var InputDatum[] */
-	protected $data;
+	protected $parameters;
 
 	public function get(string $key):?InputDatum {
-		return $this->data[$key] ?? null;
+		return $this->parameters[$key] ?? null;
 	}
 
 	protected function set(string $key, InputDatum $value):void {
-		$this->data[$key] = $value;
+		$this->parameters[$key] = $value;
 	}
 
 	public function withKeyValue(string $key, InputDatum $value):self {
 		$clone = clone($this);
-		$clone->data[$key] = $value;
+		$clone->parameters[$key] = $value;
 		return $clone;
 	}
 }

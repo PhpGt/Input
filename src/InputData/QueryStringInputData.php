@@ -1,4 +1,4 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
 class QueryStringInputData extends InputData {}
