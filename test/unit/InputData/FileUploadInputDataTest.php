@@ -15,6 +15,11 @@ class FileUploadInputDataTest extends TestCase {
 			"normalizeArray"
 		);
 
+		// The $_FILES superglobal is an odd shape. Depending on the use of [] in the
+		// parameter name, the contained uploadData array(s) could contain either strings
+		// or arrays. The dataFilesSuperGlobal dataProvider creates $_FILES that definitely
+		// contain both strings and arrays.
+
 		$numberOfStrings = 0;
 		$numberOfArrays = 0;
 
@@ -64,7 +69,7 @@ class FileUploadInputDataTest extends TestCase {
 			$hasAtLeastOneFieldBeenSingle = false;
 			$hasAtLeastOneFieldBeenMulti = false;
 
-			$numDifferentFileFields = rand(1, 50);
+			$numDifferentFileFields = rand(2, 50);
 			for($iFileUpload = 0; $iFileUpload < $numDifferentFileFields; $iFileUpload++) {
 				$name = "upload_" . uniqid();
 				$files[$name] = [];
