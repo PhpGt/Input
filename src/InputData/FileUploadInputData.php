@@ -10,7 +10,7 @@ class FileUploadInputData extends InputData {
 		$files = $this->normalizeArray($files);
 
 		// TODO: Set $this->parameters with kvp of files ($files[filename] => FileUpload(data))
-		$parameters = $this->createParameters($files);
+		$parameters = $this->createDatumList($files);
 		parent::__construct($parameters);
 	}
 
@@ -37,17 +37,28 @@ class FileUploadInputData extends InputData {
 		return $files;
 	}
 
-	protected function createParameters(array $files):array {
-		$parameters = [];
+	protected function createDatumList(array $files):array {
+		$datumList = [];
 
 		foreach($files as $inputName => $details) {
 			foreach($details["tmp_name"] as $i => $tmpPath) {
-				$parameters []= new FileUpload(
+				$params = [
+					$details["name"][$i],
+					$details["type"][$i],
+					$details["size"][$i],
+					$details["tmp_name"][$i],
+				];
 
-				);
+				if($details["error"][$i] === UPLOAD_ERR_OK) {
+					$datumList []= new FileUpload(...$params);
+				}
+				else {
+					$params []= $details["error"][$i];
+					$datumList []= new FailedFileUpload(...$params);
+				}
 			}
 		}
 
-		return $parameters;
+		return $datumList;
 	}
 }
