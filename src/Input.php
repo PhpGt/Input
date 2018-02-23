@@ -122,7 +122,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 			break;
 
 		case self::DATA_COMBINED:
-			$isset = isset($this->data[$key]);
+			$isset = isset($this->parameters[$key]);
 			break;
 
 		default:

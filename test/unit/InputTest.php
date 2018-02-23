@@ -5,7 +5,7 @@ use Gt\Input\Input;
 use Gt\Input\InputData;
 use Gt\Input\InvalidInputMethodException;
 use Gt\Input\Test\Helper\Helper;
-use Gt\Input\Trigger;
+use Gt\Input\Trigger\Trigger;
 use PHPUnit\Framework\TestCase;
 
 class InputTest extends TestCase {
@@ -158,7 +158,7 @@ class InputTest extends TestCase {
 		$input = new Input(["do" => $doName]);
 		$trigger = $input->do($doName);
 		$this->assertInstanceOf(Trigger::class, $trigger);
-		self::assertTrue($trigger->fire());
+		self::assertTrue($trigger->fire(), "Triggers should fire");
 	}
 
 	/**
