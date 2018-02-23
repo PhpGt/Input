@@ -1,8 +1,8 @@
 <?php
 
-namespace Gt\Input\Test;
+namespace Gt\Input\InputData\Test;
 
-use Gt\Input\InputData;
+use Gt\Input\InputData\InputData;
 use PHPUnit\Framework\TestCase;
 
 class InputDataTest extends TestCase {
@@ -32,14 +32,14 @@ class InputDataTest extends TestCase {
 
 	public function testAddFromEmpty():void {
 		$data = new InputData();
-		$data->add("name", "Bob");
+		$data->addKeyValue("name", "Bob");
 		self::assertEquals("Bob", $data["name"]);
 	}
 
 	public function testAddMultipleFromEmpty():void {
 		$data = new InputData();
-		$data->add("name", "Bob");
-		$data->add("gender", "m");
+		$data->addKeyValue("name", "Bob");
+		$data->addKeyValue("gender", "m");
 		self::assertEquals("Bob", $data["name"]);
 		self::assertEquals("m", $data["gender"]);
 	}
@@ -53,8 +53,8 @@ class InputDataTest extends TestCase {
 			"userAccess" => "admin",
 		]);
 
-		$data->add("view", "tab1");
-		$data->add("screenSize", "large");
+		$data->addKeyValue("view", "tab1");
+		$data->addKeyValue("screenSize", "large");
 
 		self::assertEquals("Charles", $data["name"]);
 		self::assertEquals("m", $data["gender"]);

@@ -1,5 +1,8 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\Trigger;
+
+use Gt\Input\Input;
+use Gt\Input\InputData\InputDataFactory;
 
 class Trigger {
 	/** @var Input */
@@ -96,6 +99,7 @@ class Trigger {
 		);
 
 		foreach($this->callbacks as $callback) {
+			/** @var $callback \Gt\Input\Trigger\Callback */
 			$callback->call($fields);
 		}
 	}

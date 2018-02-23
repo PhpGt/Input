@@ -1,8 +1,8 @@
 <?php
-namespace Gt\Input\Test;
+namespace Gt\Input\InputData\Test;
 
 use Gt\Input\Input;
-use Gt\Input\InputDataFactory;
+use Gt\Input\InputData\InputDataFactory;
 use Gt\Input\WithWithoutClashingException;
 use PHPUnit\Framework\TestCase;
 
@@ -11,7 +11,7 @@ class InputDataFactoryTest extends TestCase {
 		$input = $this->createInput();
 		$data = InputDataFactory::create($input);
 		self::assertEquals("Edward", $data["name"]);
-		self::assertEquals(51, $data["age"]);
+		self::assertEquals("51", $data["age"]);
 		self::assertEquals("01234 567890", $data["telephone"]);
 		self::assertEquals("AB12 3CD", $data["postcode"]);
 	}

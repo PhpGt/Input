@@ -1,12 +1,12 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
 
-trait InputDataIterator {
+trait KeyValueIterator {
 	/** @var int */
 	protected $iteratorKey;
 
 	public function current():?string {
-		return $this->data[$this->getIteratorDataKey()];
+		return $this->parameters[$this->getIteratorDataKey()];
 	}
 
 	public function next():void {
@@ -26,6 +26,15 @@ trait InputDataIterator {
 	}
 
 	protected function getIteratorDataKey():?string {
-		return $this->dataKeys[$this->iteratorKey] ?? null;
+		$keys = [];
+
+		if(is_array($this->parameters)) {
+			$keys = array_keys($this->parameters);
+		}
+		else if($this->parameters instanceof InputData) {
+			$keys = $this->parameters->getKeys();
+		}
+
+		return $keys[$this->iteratorKey] ?? null;
 	}
 }

@@ -1,10 +1,10 @@
 <?php
-namespace Gt\Input\Test;
+namespace Gt\Input\Trigger\Test;
 
 use Gt\Input\Input;
-use Gt\Input\InputData;
+use Gt\Input\InputData\InputData;
 use Gt\Input\Test\Helper\Helper;
-use Gt\Input\Trigger;
+use Gt\Input\Trigger\Trigger;
 use PHPUnit\Framework\TestCase;
 
 class TriggerTest extends TestCase {
@@ -249,15 +249,12 @@ class TriggerTest extends TestCase {
 	public function dataInput():array {
 		$data = [];
 
-		for($i = 0; $i < 100; $i++) {
-			$params = [];
-
+		for($i = 0; $i < 10; $i++) {
 			$getData = Helper::getRandomKvp(rand(10, 100), "get-");
 			$postData = Helper::getRandomKvp(rand(10, 100), "post-");
-			$input = new Input($getData, $postData);
-			$params []= $input;
+			$input = new Input($getData, $postData, []);
 
-			$data []= $params;
+			$data []= [$input];
 		}
 
 		return $data;

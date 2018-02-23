@@ -1,5 +1,8 @@
 <?php
-namespace Gt\Input;
+namespace Gt\Input\InputData;
+
+use Gt\Input\Input;
+use Gt\Input\WithWithoutClashingException;
 
 class InputDataFactory {
 	public static function create(Input $input, array $with = [], array $without = []):InputData {

@@ -2,17 +2,26 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Input;
-use Gt\Input\InputData;
+use Gt\Input\InputData\InputData;
 use Gt\Input\InvalidInputMethodException;
 use Gt\Input\Test\Helper\Helper;
-use Gt\Input\Trigger;
+use Gt\Input\Trigger\Trigger;
 use PHPUnit\Framework\TestCase;
-use StdClass;
 
 class InputTest extends TestCase {
+	public function tearDown() {
+		Helper::cleanUp();
+	}
+
 	public function testBodyStreamContents():void {
 		$testMessage = "This is a test message";
-		$tmpPath = "/tmp/phpgt/input/test/" . uniqid();
+		$tmpPath = implode(DIRECTORY_SEPARATOR, [
+			sys_get_temp_dir(),
+			"phpgt",
+			"input",
+			"test",
+			uniqid(),
+		]);
 		mkdir(dirname($tmpPath), 0775, true);
 		touch($tmpPath);
 		$fh = fopen($tmpPath, "r+");
@@ -53,7 +62,7 @@ class InputTest extends TestCase {
 
 			$value = $input->get(
 				$key,
-				Input::DATA_POSTFIELDS
+				Input::DATA_BODY
 			);
 
 			self::assertEquals($post[$key], $value);
@@ -100,7 +109,7 @@ class InputTest extends TestCase {
 	 */
 	public function testGetAllPostFields(array $get, array $post):void {
 		$input = new Input($get, $post);
-		$postFields = $input->getAll(Input::DATA_POSTFIELDS);
+		$postFields = $input->getAll(Input::DATA_BODY);
 
 		foreach($get as $key => $value) {
 			self::assertFalse(isset($postFields[$key]));
@@ -134,7 +143,7 @@ class InputTest extends TestCase {
 	public function testGetAllMethods(array $get, array $post):void {
 		$input = new Input($get, $post);
 		$getVariables = $input->getAll(Input::DATA_QUERYSTRING);
-		$postVariables = $input->getAll(Input::DATA_POSTFIELDS);
+		$postVariables = $input->getAll(Input::DATA_BODY);
 
 		foreach($get as $key => $value) {
 			self::assertTrue(isset($getVariables[$key]));
@@ -149,7 +158,7 @@ class InputTest extends TestCase {
 		$input = new Input(["do" => $doName]);
 		$trigger = $input->do($doName);
 		$this->assertInstanceOf(Trigger::class, $trigger);
-		self::assertTrue($trigger->fire());
+		self::assertTrue($trigger->fire(), "Triggers should fire");
 	}
 
 	/**
@@ -312,7 +321,7 @@ class InputTest extends TestCase {
 	public function dataRandomGetPost():array {
 		$data = [];
 
-		for($i = 0; $i < 100; $i++) {
+		for($i = 0; $i < 10; $i++) {
 			$params = [
 				Helper::getRandomKvp(rand(10, 100), "get-"),
 				Helper::getRandomKvp(rand(10, 100), "post-"),
@@ -326,7 +335,7 @@ class InputTest extends TestCase {
 	public function dataRandomString():array {
 		$data = [];
 
-		for($i = 0; $i < 100; $i++) {
+		for($i = 0; $i < 10; $i++) {
 			$params = [
 				uniqid(),
 			];
