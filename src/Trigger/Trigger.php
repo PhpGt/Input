@@ -99,6 +99,7 @@ class Trigger {
 		);
 
 		foreach($this->callbacks as $callback) {
+			/** @var $callback \Gt\Input\Trigger\Callback */
 			$callback->call($fields);
 		}
 	}
