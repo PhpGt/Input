@@ -1,6 +1,9 @@
 <?php
 namespace Gt\Input\InputData\Datum;
 
+use Gt\Input\UploadedFileMoveException;
+use Gt\Input\UploadedFileSecurityException;
+
 class FileUpload extends InputDatum {
 	protected $originalFileName;
 	protected $mimeType;
@@ -21,27 +24,52 @@ class FileUpload extends InputDatum {
 		parent::__construct($originalFilename);
 	}
 
-	public function move(string $destinationPath, string $renameTo = null):void {
+	public function move(string $destinationDirectory, string $renameTo = null):void {
+		if(!is_uploaded_file($this->tempFilePath)) {
+			throw new UploadedFileSecurityException($this->tempFilePath);
+		}
 
+		if(is_null($renameTo)) {
+			$renameTo = $this->originalFileName;
+		}
+
+		$destinationDirectory = str_replace(
+			["/", "\\"],
+			DIRECTORY_SEPARATOR,
+			$destinationDirectory
+		);
+		$destinationPath = implode(DIRECTORY_SEPARATOR, [
+			$destinationDirectory,
+			$renameTo,
+		]);
+
+		$success = move_uploaded_file(
+			$this->tempFilePath,
+			$destinationPath
+		);
+
+		if(!$success) {
+			throw new UploadedFileMoveException($this->tempFilePath);
+		}
 	}
 
 	public function getRealPath():string {
-
+		return $this->tempFilePath;
 	}
 
 	public function getOriginalName():string {
-
+		return $this->originalFileName;
 	}
 
 	public function getOriginalExtension():string {
-
+		return pathinfo($this->originalFileName, PATHINFO_EXTENSION);
 	}
 
 	public function getSize():int {
-
+		return $this->fileSize;
 	}
 
 	public function getMimeType():string {
-
+		return $this->mimeType;
 	}
 }
