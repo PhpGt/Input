@@ -29,7 +29,7 @@ trait KeyValueIterator {
 		$keys = [];
 
 		if(is_array($this->parameters)) {
-			$keys = $this->parameters;
+			$keys = array_keys($this->parameters);
 		}
 		else if($this->parameters instanceof InputData) {
 			$keys = $this->parameters->getKeys();
