@@ -7,24 +7,22 @@ use Iterator;
 use Psr\Http\Message\StreamInterface;
 
 class Input implements ArrayAccess, Countable, Iterator {
-	use InputDataArrayAccess;
-	use InputDataCountable;
-	use InputDataIterator;
-
 	const DATA_QUERYSTRING = "get";
 	const DATA_BODY = "post";
 	const DATA_FILES = "files";
-	const DATA_COMBINED = "both";
+	const DATA_COMBINED = "combined";
 
 	/** @var BodyStream */
 	protected $bodyStream;
 
-	/** @var UploadData */
-	protected $uploadedFileParameters;
-	/** @var InputData */
+	/** @var QueryStringInputData */
 	protected $queryStringParameters;
-	/** @var InputData */
+	/** @var BodyInputData */
 	protected $bodyParameters;
+	/** @var UploadInputData */
+	protected $uploadedFileParameters;
+	/** @var CombinedInputData */
+	protected $combinedParameters;
 
 	public function __construct(
 	array $get = [],
@@ -33,13 +31,16 @@ class Input implements ArrayAccess, Countable, Iterator {
 	string $bodyPath = "php://input"
 	) {
 		$this->bodyStream = new BodyStream($bodyPath);
-		// TODO: The following three variables can extend the same base class. AbstractInputData?
-		$this->queryStringParameters = new InputData($get);
-		$this->bodyParameters = new InputData($post);
-		$this->uploadedFileParameters = new UploadData($files);
 
-		$this->data = new InputData($get, $post, $this->uploadedFileParameters);
-		$this->dataKeys = $this->data->getKeys();
+		$this->queryStringParameters = new QueryStringInputData($get);
+		$this->bodyParameters = new BodyInputData($post);
+		$this->uploadedFileParameters = new UploadInputData($files);
+
+		$this->combinedParameters = new CombinedInputData(
+			$this->queryStringParameters,
+			$this->bodyParameters,
+			$this->uploadedFileParameters
+		);
 	}
 
 	/**
@@ -61,51 +62,28 @@ class Input implements ArrayAccess, Countable, Iterator {
 
 		$data = null;
 
-		if($this->has($key, $method)) {
-			switch($method) {
-			case self::DATA_QUERYSTRING:
-				$data = $this->getQueryStringParameter($key);
-				break;
+		switch($method) {
+		case self::DATA_QUERYSTRING:
+			$data = $this->queryStringParameters->get($key);
+			break;
 
-			case self::DATA_BODY:
-				$data =$this->getBodyParameter($key);
-				break;
+		case self::DATA_BODY:
+			$data =$this->bodyParameters->get($key);
+			break;
 
-			case self::DATA_FILES:
-				$data =$this->getUploadedFileParameter($key);
-				break;
+		case self::DATA_FILES:
+			$data = $this->uploadedFileParameters->get($key);
+			break;
 
-			case self::DATA_COMBINED:
-				$data = $this->data[$key];
-				break;
+		case self::DATA_COMBINED:
+			$data = $this->combinedParameters->get($key);
+			break;
 
-			default:
-				throw new InvalidInputMethodException($method);
-			}
+		default:
+			throw new InvalidInputMethodException($method);
 		}
 
 		return $data;
-	}
-
-	public function getQueryStringParameter(string $key):?InputDatum {
-		if($this->hasQueryStringParameter($key)) {
-			return $this->queryStringParameters[$key];
-		}
-		return null;
-	}
-
-	public function getBodyParameter(string $key):?InputDatum {
-		if($this->hasBodyParameter($key)) {
-			return $this->bodyParameters[$key];
-		}
-		return null;
-	}
-
-	public function getUploadedFileParameter(string $key):?InputDatum {
-		if($this->hasUploadedFileParameter($key)) {
-			return $this->uploadedFileParameters[$key];
-		}
-		return null;
 	}
 
 	/**

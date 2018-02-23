@@ -2,7 +2,7 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Test\Helper\Reflection;
-use Gt\Input\UploadData;
+use Gt\Input\UploadInputData;
 use PHPUnit\Framework\TestCase;
 
 class UploadDataTest extends TestCase {
@@ -11,7 +11,7 @@ class UploadDataTest extends TestCase {
 	 */
 	public function testNormaliseArray(array $files) {
 		$method = Reflection::getMethod(
-			UploadData::class,
+			UploadInputData::class,
 			"normalizeArray"
 		);
 
@@ -32,7 +32,7 @@ class UploadDataTest extends TestCase {
 		self::assertGreaterThan(0, $numberOfStrings);
 		self::assertGreaterThan(0, $numberOfArrays);
 
-		$uploadData = new UploadData($files);
+		$uploadData = new UploadInputData($files);
 		$normalized = $method->invoke($uploadData, $files);
 
 		$numberOfStrings = 0;

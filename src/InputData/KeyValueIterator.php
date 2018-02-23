@@ -1,7 +1,7 @@
 <?php
 namespace Gt\Input;
 
-trait InputDataIterator {
+trait KeyValueIterator {
 	/** @var int */
 	protected $iteratorKey;
 
@@ -26,6 +26,7 @@ trait InputDataIterator {
 	}
 
 	protected function getIteratorDataKey():?string {
-		return $this->dataKeys[$this->iteratorKey] ?? null;
+		$keys = array_keys($this->data);
+		return $keys[$this->iteratorKey] ?? null;
 	}
 }
