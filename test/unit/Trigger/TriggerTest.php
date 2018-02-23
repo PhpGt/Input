@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input\Test;
+namespace Gt\Input\Trigger\Test;
 
 use Gt\Input\Input;
 use Gt\Input\InputData\InputData;
@@ -250,14 +250,11 @@ class TriggerTest extends TestCase {
 		$data = [];
 
 		for($i = 0; $i < 10; $i++) {
-			$params = [];
-
 			$getData = Helper::getRandomKvp(rand(10, 100), "get-");
 			$postData = Helper::getRandomKvp(rand(10, 100), "post-");
-			$input = new Input($getData, $postData);
-			$params []= $input;
+			$input = new Input($getData, $postData, []);
 
-			$data []= $params;
+			$data []= [$input];
 		}
 
 		return $data;

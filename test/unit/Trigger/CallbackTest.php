@@ -1,6 +1,5 @@
 <?php
-
-namespace Gt\Input\Test;
+namespace Gt\Input\Trigger\Test;
 
 use Gt\Input\InputData\InputData;
 use Gt\Input\Trigger\Callback;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gt\Input\Test;
+namespace Gt\Input\InputData\Test;
 
 use Gt\Input\InputData\InputData;
 use PHPUnit\Framework\TestCase;
