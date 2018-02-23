@@ -2,7 +2,7 @@
 namespace Gt\Input\Test\Helper;
 
 use Gt\Input\Input;
-use Gt\Input\InputData;
+use Gt\Input\InputData\InputData;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
