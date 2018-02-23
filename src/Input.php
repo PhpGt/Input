@@ -3,9 +3,9 @@ namespace Gt\Input;
 
 use ArrayAccess;
 use Countable;
-use Gt\Input\Trigger\Trigger;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
+use Gt\Input\Trigger\Trigger;
 use Gt\Input\InputData\InputData;
 use Gt\Input\InputData\InputDatum;
 use Gt\Input\InputData\KeyValueArrayAccess;
