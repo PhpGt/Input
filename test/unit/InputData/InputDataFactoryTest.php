@@ -2,7 +2,7 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Input;
-use Gt\Input\InputDataFactory;
+use Gt\Input\InputData\InputDataFactory;
 use Gt\Input\WithWithoutClashingException;
 use PHPUnit\Framework\TestCase;
 

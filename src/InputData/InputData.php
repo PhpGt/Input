@@ -20,6 +20,11 @@ class InputData extends AbstractInputData {
 		return $this;
 	}
 
+	public function addKeyValue(string $key, string $value):self {
+		$datum = new InputDatum($value);
+		return $this->add($key, $datum);
+	}
+
 	public function remove(string...$keys):self {
 		foreach($keys as $key) {
 			if(isset($this->parameters[$key])) {

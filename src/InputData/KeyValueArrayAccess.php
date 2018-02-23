@@ -12,9 +12,19 @@ trait KeyValueArrayAccess {
 
 	public function offsetSet($offset, $value):void {
 		if($this->parameters instanceof InputData) {
-			$this->parameters->add($offset, $value);
+			if(is_string($value)) {
+				$this->parameters->addKeyValue($offset, $value);
+
+			}
+			else {
+				$this->parameters->add($offset, $value);
+			}
 		}
 		else {
+			if(is_string($value)) {
+				$value = new InputDatum($value);
+			}
+
 			$this->parameters[$offset] = $value;
 		}
 	}
