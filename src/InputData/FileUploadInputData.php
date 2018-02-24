@@ -1,17 +1,17 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\InputData\Datum\FailedFileUpload;
 use Gt\Input\InputData\Datum\FileUpload;
 
 class FileUploadInputData extends InputData {
 
 	public function __construct(array $files) {
-		$parameters = [];
 		$files = $this->normalizeArray($files);
 
 		// TODO: Set $this->parameters with kvp of files ($files[filename] => FileUpload(data))
-		$parameters = $this->createDatumList($files);
-		parent::__construct($parameters);
+		$data = $this->createData($files);
+		parent::__construct($data);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class FileUploadInputData extends InputData {
 		return $files;
 	}
 
-	protected function createDatumList(array $files):array {
+	protected function createData(array $files):array {
 		$datumList = [];
 
 		foreach($files as $inputName => $details) {
@@ -50,11 +50,11 @@ class FileUploadInputData extends InputData {
 				];
 
 				if($details["error"][$i] === UPLOAD_ERR_OK) {
-					$datumList []= new FileUpload(...$params);
+					$datumList[$inputName] = new FileUpload(...$params);
 				}
 				else {
 					$params []= $details["error"][$i];
-					$datumList []= new FailedFileUpload(...$params);
+					$datumList[$inputName] = new FailedFileUpload(...$params);
 				}
 			}
 		}

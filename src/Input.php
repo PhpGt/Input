@@ -172,6 +172,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * provided $match value.
 	 */
 	public function do(string $match):Trigger {
+		var_dump($this->fileUploadParameters);die();
 		return $this->when(["do" => $match]);
 	}
 

@@ -3,6 +3,7 @@ namespace Gt\Input\InputData\Datum;
 
 use Gt\Input\UploadedFileMoveException;
 use Gt\Input\UploadedFileSecurityException;
+use SplFileInfo;
 
 class FileUpload extends InputDatum {
 	protected $originalFileName;
@@ -51,6 +52,10 @@ class FileUpload extends InputDatum {
 		if(!$success) {
 			throw new UploadedFileMoveException($this->tempFilePath);
 		}
+	}
+
+	public function getFileInfo():SplFileInfo {
+		return new SplFileInfo($this->tempFilePath);
 	}
 
 	public function getRealPath():string {
