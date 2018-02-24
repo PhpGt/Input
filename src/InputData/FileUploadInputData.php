@@ -45,7 +45,7 @@ class FileUploadInputData extends InputData {
 				$params = [
 					$details["name"][$i],
 					$details["type"][$i],
-					$details["size"][$i],
+					(int)$details["size"][$i],
 					$details["tmp_name"][$i],
 				];
 
@@ -53,7 +53,7 @@ class FileUploadInputData extends InputData {
 					$datumList[$inputName] = new FileUpload(...$params);
 				}
 				else {
-					$params []= $details["error"][$i];
+					$params []= (int)$details["error"][$i];
 					$datumList[$inputName] = new FailedFileUpload(...$params);
 				}
 			}
