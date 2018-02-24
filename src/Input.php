@@ -7,7 +7,7 @@ use Iterator;
 use Psr\Http\Message\StreamInterface;
 use Gt\Input\Trigger\Trigger;
 use Gt\Input\InputData\InputData;
-use Gt\Input\InputData\InputDatum;
+use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\KeyValueArrayAccess;
 use Gt\Input\InputData\KeyValueCountable;
 use Gt\Input\InputData\KeyValueIterator;
@@ -118,7 +118,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 			break;
 
 		case self::DATA_FILES:
-			$isset =$this->hasFileUploadParameter($key);
+			$isset =$this->hasFile($key);
 			break;
 
 		case self::DATA_COMBINED:
@@ -140,7 +140,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 		return isset($this->bodyParameters[$key]);
 	}
 
-	public function hasFileUploadParameter(string $key):bool {
+	public function hasFile(string $key):bool {
 		return isset($this->fileUploadParameters[$key]);
 	}
 

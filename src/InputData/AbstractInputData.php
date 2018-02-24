@@ -4,6 +4,7 @@ namespace Gt\Input\InputData;
 use ArrayAccess;
 use Countable;
 use Iterator;
+use Gt\Input\InputData\Datum\InputDatum;
 
 abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	use KeyValueArrayAccess;

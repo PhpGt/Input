@@ -1,6 +1,8 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\InputData\Datum\InputDatum;
+
 trait KeyValueArrayAccess {
 	public function offsetExists($offset):bool {
 		return isset($this->parameters[$offset]);

@@ -1,11 +1,13 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\InputData\Datum\InputDatum;
+
 trait KeyValueIterator {
 	/** @var int */
 	protected $iteratorKey;
 
-	public function current():?string {
+	public function current():?InputDatum {
 		return $this->parameters[$this->getIteratorDataKey()];
 	}
 

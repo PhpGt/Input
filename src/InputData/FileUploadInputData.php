@@ -1,12 +1,17 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\InputData\Datum\FailedFileUpload;
+use Gt\Input\InputData\Datum\FileUpload;
+
 class FileUploadInputData extends InputData {
 
 	public function __construct(array $files) {
 		$files = $this->normalizeArray($files);
 
-		// TODO: Set $this->data with kvp of files ($files[filename] => FileUpload(data))
+		// TODO: Set $this->parameters with kvp of files ($files[filename] => FileUpload(data))
+		$data = $this->createData($files);
+		parent::__construct($data);
 	}
 
 	/**
@@ -30,5 +35,30 @@ class FileUploadInputData extends InputData {
 		}
 
 		return $files;
+	}
+
+	protected function createData(array $files):array {
+		$datumList = [];
+
+		foreach($files as $inputName => $details) {
+			foreach($details["tmp_name"] as $i => $tmpPath) {
+				$params = [
+					$details["name"][$i],
+					$details["type"][$i],
+					(int)$details["size"][$i],
+					$details["tmp_name"][$i],
+				];
+
+				if($details["error"][$i] === UPLOAD_ERR_OK) {
+					$datumList[$inputName] = new FileUpload(...$params);
+				}
+				else {
+					$params []= (int)$details["error"][$i];
+					$datumList[$inputName] = new FailedFileUpload(...$params);
+				}
+			}
+		}
+
+		return $datumList;
 	}
 }

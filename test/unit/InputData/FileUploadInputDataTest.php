@@ -1,11 +1,11 @@
 <?php
-namespace Gt\Input\Test;
+namespace Gt\Input\InputData\Test;
 
 use PHPUnit\Framework\TestCase;
 use Gt\Input\InputData\FileUploadInputData;
 use Gt\Input\Test\Helper\Reflection;
 
-class UploadDataTest extends TestCase {
+class FileUploadInputDataTest extends TestCase {
 	/**
 	 * @dataProvider dataFilesSuperglobal
 	 */
@@ -14,6 +14,11 @@ class UploadDataTest extends TestCase {
 			FileUploadInputData::class,
 			"normalizeArray"
 		);
+
+		// The $_FILES superglobal is an odd shape. Depending on the use of [] in the
+		// parameter name, the contained uploadData array(s) could contain either strings
+		// or arrays. The dataFilesSuperGlobal dataProvider creates $_FILES that definitely
+		// contain both strings and arrays.
 
 		$numberOfStrings = 0;
 		$numberOfArrays = 0;
@@ -64,7 +69,7 @@ class UploadDataTest extends TestCase {
 			$hasAtLeastOneFieldBeenSingle = false;
 			$hasAtLeastOneFieldBeenMulti = false;
 
-			$numDifferentFileFields = rand(1, 50);
+			$numDifferentFileFields = rand(2, 50);
 			for($iFileUpload = 0; $iFileUpload < $numDifferentFileFields; $iFileUpload++) {
 				$name = "upload_" . uniqid();
 				$files[$name] = [];
