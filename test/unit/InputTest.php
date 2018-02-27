@@ -4,6 +4,7 @@ namespace Gt\Input\Test;
 use Gt\Input\Input;
 use Gt\Input\InputData\InputData;
 use Gt\Input\InvalidInputMethodException;
+use Gt\Input\MissingInputParameterException;
 use Gt\Input\Test\Helper\Helper;
 use Gt\Input\Trigger\Trigger;
 use PHPUnit\Framework\TestCase;
@@ -231,6 +232,23 @@ class InputTest extends TestCase {
 		foreach($withKeys as $key) {
 			self::assertContains($key, $keysCalled);
 		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testWithNotExist(array $get, array $post):void {
+		$withKeys = [];
+		$combined = array_merge($get, $post);
+
+		for($i = 0; $i < 3; $i++) {
+			$withKeys []= array_rand($combined);
+		}
+
+		$withKeys []= "does_not_exist";
+		$input = new Input($get, $post);
+		self::expectException(MissingInputParameterException::class);
+		$trigger = $input->with(...$withKeys);
 	}
 
 	/**

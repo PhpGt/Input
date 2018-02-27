@@ -192,6 +192,12 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Return a Trigger that will only pass the provided keys to its callback.
 	 */
 	public function with(string...$keys):Trigger {
+		foreach($keys as $key) {
+			if(!$this->parameters->has($key)) {
+				throw new MissingInputParameterException($key);
+			}
+		}
+
 		return $this->newTrigger("with", ...$keys);
 	}
 
