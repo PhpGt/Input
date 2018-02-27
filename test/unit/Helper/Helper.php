@@ -12,7 +12,7 @@ class Helper {
 
 		for($i = 0; $i < $num; $i++) {
 			$key = "key-$i-$prefix" . uniqid();
-			$value = "value-$i-$prefix" . uniqid();
+			$value = "value-$i-$prefix" . str_repeat(uniqid(), rand(1, 10));
 			$kvp[$key] = $value;
 		}
 
