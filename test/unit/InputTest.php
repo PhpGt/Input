@@ -362,8 +362,4 @@ class InputTest extends TestCase {
 
 		return $data;
 	}
-
-	public function callbackWith(...$args) {
-
-	}
 }
