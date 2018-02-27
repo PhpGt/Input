@@ -273,6 +273,27 @@ class InputTest extends TestCase {
 	/**
 	 * @dataProvider dataRandomGetPost
 	 */
+	public function testNoWith(array $get, array $post):void {
+		$post["example-trigger"] = "testtesttest";
+
+		$input = new Input($get, $post);
+		$trigger = $input->when(["example-trigger" => "testtesttest"]);
+		$keysCalled = [];
+
+		$trigger->call(function(InputData $data) use(&$keysCalled) {
+			foreach($data as $key => $value) {
+				$keysCalled []= $key;
+			}
+		});
+
+		foreach(array_merge($get, $post) as $key => $value) {
+			self::assertContains($key, $keysCalled);
+		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
 	public function testWithout(array $get, array $post):void {
 		$withoutKeys = [];
 
