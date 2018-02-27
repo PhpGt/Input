@@ -8,7 +8,6 @@ use Gt\Input\DataNotCompatibleFormatException;
 use Gt\Input\DataNotFileUploadException;
 use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
-use Gt\Input\InputException;
 use TypeError;
 
 class InputData extends AbstractInputData {
