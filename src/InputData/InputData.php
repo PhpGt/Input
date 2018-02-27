@@ -1,7 +1,15 @@
 <?php
 namespace Gt\Input\InputData;
 
+use DateTime;
+use DateTimeInterface;
+use Exception;
+use Gt\Input\DataNotCompatibleFormatException;
+use Gt\Input\DataNotFileUploadException;
+use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
+use Gt\Input\InputException;
+use TypeError;
 
 class InputData extends AbstractInputData {
 	public function __construct(iterable...$sources) {
@@ -14,6 +22,26 @@ class InputData extends AbstractInputData {
 				}
 				$this->add($key, $value);
 			}
+		}
+	}
+
+	public function getFile(string $key):FileUpload {
+		try {
+			/** @noinspection PhpIncompatibleReturnTypeInspection */
+			return $this->get($key);
+		}
+		catch(TypeError $exception) {
+			throw new DataNotFileUploadException($key);
+		}
+	}
+
+	public function getDateTime(string $key):DateTimeInterface {
+		try {
+			$dateTime = new DateTime($this[$key]);
+			return $dateTime;
+		}
+		catch(Exception $exception) {
+			throw new DataNotCompatibleFormatException($key);
 		}
 	}
 
