@@ -41,6 +41,8 @@ class FileUploadInputData extends InputData {
 		$datumList = [];
 
 		foreach($files as $inputName => $details) {
+			$datumList[$inputName] = [];
+
 			foreach($details["tmp_name"] as $i => $tmpPath) {
 				$params = [
 					$details["name"][$i],
@@ -50,15 +52,14 @@ class FileUploadInputData extends InputData {
 				];
 
 				if($details["error"][$i] === UPLOAD_ERR_OK) {
-					$datumList[$inputName] = new FileUpload(...$params);
+					$datumList[$inputName] []= new FileUpload(...$params);
 				}
 				else {
 					$params []= (int)$details["error"][$i];
-					$datumList[$inputName] = new FailedFileUpload(...$params);
+					$datumList[$inputName] []= new FailedFileUpload(...$params);
 				}
 			}
 		}
-
 		return $datumList;
 	}
 }
