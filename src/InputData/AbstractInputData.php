@@ -22,6 +22,11 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 		return isset($this->parameters[$key]);
 	}
 
+	public function hasValue(string $key):bool {
+		$value = $this->parameters[$key] ?? "";
+		return (strlen((string)$value) > 0);
+	}
+
 	protected function set(string $key, InputDatum $value):void {
 		$this->parameters[$key] = $value;
 	}
