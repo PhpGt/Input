@@ -233,6 +233,22 @@ class InputTest extends TestCase {
 	}
 
 	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenKeySurrounded(string $whenName):void {
+		$whenValue = uniqid("whenValue");
+
+		$input = new Input([
+			uniqid("whenKey1") => uniqid("whenValue1"),
+			$whenName => $whenValue,
+			uniqid("whenKey2") => uniqid("whenValue2"),
+		]);
+		$trigger = $input->when($whenName);
+
+		self::assertTrue($trigger->fire());
+	}
+
+	/**
 	 * @dataProvider dataRandomGetPost
 	 */
 	public function testWithExist(array $get, array $post):void {
