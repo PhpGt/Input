@@ -182,7 +182,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * $matches is an associative array, where the key is a request variable's name and the
 	 * value is the request variable's value to match.
 	 */
-	public function when(array $matches):Trigger {
+	public function when(...$matches):Trigger {
 		$trigger = new Trigger($this);
 		$trigger->when($matches);
 		return $trigger;

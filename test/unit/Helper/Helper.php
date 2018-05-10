@@ -43,7 +43,7 @@ class Helper {
 
 		$criteria = [];
 		foreach($keys as $k) {
-			$criteria[$k] = $inputDataArray[$k];
+			$criteria[$k] = (string)$inputDataArray[$k];
 		}
 
 		return $criteria;

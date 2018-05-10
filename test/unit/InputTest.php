@@ -205,6 +205,86 @@ class InputTest extends TestCase {
 	}
 
 	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenKey(string $whenName):void {
+		$whenValue = uniqid("whenValue");
+
+		$input = new Input([
+			$whenName => $whenValue,
+		]);
+		$trigger = $input->when($whenName);
+
+		self::assertTrue($trigger->fire());
+	}
+
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenNotKey(string $whenName):void {
+		$whenValue = uniqid("whenValue");
+
+		$input = new Input([
+			"$whenName-oh-no" => $whenValue,
+		]);
+		$trigger = $input->when($whenName);
+
+		self::assertFalse($trigger->fire());
+	}
+
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenKeySurrounded(string $whenName):void {
+		$whenValue = uniqid("whenValue");
+
+		$input = new Input([
+			uniqid("whenKey1") => uniqid("whenValue1"),
+			$whenName => $whenValue,
+			uniqid("whenKey2") => uniqid("whenValue2"),
+		]);
+		$trigger = $input->when($whenName);
+
+		self::assertTrue($trigger->fire());
+	}
+
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenKeyMultiple(string $whenName):void {
+		$whenName2 = "$whenName-2";
+		$whenValue = uniqid("whenValue");
+		$whenValue2 = "$whenValue-2";
+
+		$input = new Input([
+			$whenName => $whenValue,
+			$whenName2 => $whenValue2,
+			uniqid("whenName3") => uniqid("whenValue3"),
+		]);
+		$trigger = $input->when($whenName, $whenName2);
+
+		self::assertTrue($trigger->fire());
+	}
+
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenKeyMultipleMissing(string $whenName):void {
+		$whenName2 = "$whenName-2";
+		$whenValue = uniqid("whenValue");
+		$whenValue2 = "$whenValue-2";
+
+		$input = new Input([
+			$whenName => $whenValue,
+			"$whenName2-oh-no" => $whenValue2,
+			uniqid("whenName3") => uniqid("whenValue3"),
+		]);
+		$trigger = $input->when($whenName, $whenName2);
+
+		self::assertFalse($trigger->fire());
+	}
+
+	/**
 	 * @dataProvider dataRandomGetPost
 	 */
 	public function testWithExist(array $get, array $post):void {
