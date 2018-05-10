@@ -9,6 +9,7 @@ class Trigger {
 	protected $input;
 
 	protected $matches = [];
+	protected $keyMatches = [];
 	protected $with = [];
 	protected $without = [];
 	/** @var Callback[] */
@@ -18,9 +19,16 @@ class Trigger {
 		$this->input = $input;
 	}
 
-	public function when(array $matches):self {
-		foreach($matches as $key => $value) {
-			$this->setTrigger($key, $value);
+	public function when(...$matches):self {
+		$matches = $this->flattenArray($matches);
+
+		foreach($matches as $key => $match) {
+			if(is_int($key)) {
+				$this->setKeyTrigger($match);
+			}
+			else {
+				$this->setTrigger($key, $match);
+			}
 		}
 
 		return $this;
@@ -59,6 +67,14 @@ class Trigger {
 		return $this;
 	}
 
+	protected function setKeyTrigger(string $key):self {
+		if(!isset($this->keyMatches[$key])) {
+			$this->keyMatches []= $key;
+		}
+
+		return $this;
+	}
+
 	public function call(callable $callback, ...$args):self {
 		$this->callbacks []= new Callback($callback, ...$args);
 		$this->fire();
@@ -84,6 +100,12 @@ class Trigger {
 			}
 		}
 
+		foreach($this->keyMatches as $key) {
+			if(!$this->input->has($key)) {
+				$fired = false;
+			}
+		}
+
 		if($fired) {
 			$this->callCallbacks();
 		}
@@ -102,5 +124,38 @@ class Trigger {
 			/** @var $callback \Gt\Input\Trigger\Callback */
 			$callback->call($fields);
 		}
+	}
+
+	protected function flattenArray(array $array):array {
+		$result = [];
+
+		foreach($array as $inner) {
+			if(is_array($inner)) {
+				foreach($inner as $key => $value) {
+					if(is_array($value)) {
+						$result = array_merge(
+							$result,
+							$value
+						);
+					}
+					else {
+						if(is_int($key)) {
+							$result[] = $value;
+						}
+						else {
+							$result[$key] = $value;
+						}
+					}
+				}
+			}
+			else {
+				$result = array_merge(
+					$result,
+					$inner
+				);
+			}
+		}
+
+		return $result;
 	}
 }
