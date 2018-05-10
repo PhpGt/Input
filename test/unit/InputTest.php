@@ -204,6 +204,9 @@ class InputTest extends TestCase {
 		self::assertFalse($trigger->fire());
 	}
 
+	/**
+	 * @dataProvider dataRandomString
+	 */
 	public function testWhenKey(string $whenName):void {
 		$whenValue = uniqid("whenValue");
 
@@ -213,6 +216,20 @@ class InputTest extends TestCase {
 		$trigger = $input->when($whenName);
 
 		self::assertTrue($trigger->fire());
+	}
+
+	/**
+	 * @dataProvider dataRandomString
+	 */
+	public function testWhenNotKey(string $whenName):void {
+		$whenValue = uniqid("whenValue");
+
+		$input = new Input([
+			"$whenName-oh-no" => $whenValue,
+		]);
+		$trigger = $input->when($whenName);
+
+		self::assertFalse($trigger->fire());
 	}
 
 	/**
