@@ -11,19 +11,19 @@ User input is automatically secured using openssl ([coming in v2][v2]), preventi
 ***
 
 <a href="https://circleci.com/gh/phpgt/input" target="_blank">
-	<img src="https://img.shields.io/circleci/project/PhpGt/Input.svg?style=flat-square" alt="PHP.Gt/Input build status" />
+	<img src="https://badge.status.php.gt/input-build.svg" alt="PHP.Gt/Input build status" />
 </a>
 <a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
-	<img src="https://img.shields.io/scrutinizer/g/PhpGt/Input.svg?style=flat-square" alt="PHP.Gt/Input code quality" />
+	<img src="https://badge.status.php.gt/input-quality.svg" alt="PHP.Gt/Input code quality" />
 </a>
 <a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
-	<img src="https://img.shields.io/scrutinizer/coverage/g/PhpGt/Input/master.svg?style=flat-square" alt="PHP.Gt/Input code coverage" />
+	<img src="https://badge.status.php.gt/input-coverage.svg" alt="PHP.Gt/Input code coverage" />
 </a>
 <a href="https://packagist.org/packages/phpgt/input" target="_blank">
-	<img src="https://img.shields.io/packagist/v/phpgt/input.svg?style=flat-square" alt="PHP.Gt/Input latest release" />
+	<img src="https://badge.status.php.gt/input-version.svg" alt="PHP.Gt/Input latest release" />
 </a>
 <a href="http://www.php.gt/input" target="_blank">
-	<img src="https://img.shields.io/badge/docs-www.php.gt/input-26a5e3.svg?style=flat-square" alt="PHP.G/Input documentation" />
+	<img src="https://badge.status.php.gt/input-docs.svg" alt="PHP.G/Input documentation" />
 </a>
 
 Example usage
