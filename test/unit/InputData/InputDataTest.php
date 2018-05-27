@@ -165,4 +165,17 @@ class InputDataTest extends TestCase {
 		self::assertFalse($data->hasValue("telephone"));
 		self::assertFalse($data->hasValue("email"));
 	}
+
+	public function testAsArray():void {
+		$data = new InputData([
+			"name" => "Lisa",
+			"gender" => "f",
+			"telephone" => "07812457890",
+		]);
+		$array = $data->toArray();
+
+		foreach($array as $key => $value) {
+			self::assertEquals($data[$key], $value);
+		}
+	}
 }
