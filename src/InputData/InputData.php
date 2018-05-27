@@ -101,7 +101,12 @@ class InputData extends AbstractInputData {
 		$array = [];
 
 		foreach($this->parameters as $key => $value) {
-			$array[$key] = $value;
+			if($value instanceof MultipleInputDatum) {
+				$array[$key] = $value->toArray();
+			}
+			else {
+				$array[$key] = (string)$value;
+			}
 		}
 
 		return $array;

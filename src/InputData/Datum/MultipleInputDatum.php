@@ -12,6 +12,16 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 		return implode(", ", $this->value);
 	}
 
+	public function toArray():array {
+		$array = [];
+
+		foreach($this as $key => $value) {
+			$array[$key] = (string)$value;
+		}
+
+		return $array;
+	}
+
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
