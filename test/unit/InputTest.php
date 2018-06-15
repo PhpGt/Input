@@ -10,6 +10,15 @@ use Gt\Input\Trigger\Trigger;
 use PHPUnit\Framework\TestCase;
 
 class InputTest extends TestCase {
+	const FAKE_DATA = [
+		"a-number" => "1234",
+		"one-plus-one" => "2",
+		"half-of-five" => "2.5",
+		"many-dots" => "1.2.3.4",
+		"this-is-positive" => "oh yes",
+		"empty-value" => "",
+	];
+
 	public function tearDown() {
 		Helper::cleanUp();
 	}
@@ -435,6 +444,49 @@ class InputTest extends TestCase {
 
 		unset($input[$postToUnset]);
 		self::assertEquals($originalInputCount - 2, count($input));
+	}
+
+	public function testGetString():void {
+		$input = new Input(self::FAKE_DATA);
+		foreach(self::FAKE_DATA as $key => $value) {
+			self::assertInternalType(
+				"string",
+				$input->getString($key)
+			);
+		}
+	}
+
+	public function testGetInt():void {
+		$input = new Input(self::FAKE_DATA);
+		self::assertNotSame("1234",$input->getInt("a-number"));
+		self::assertSame(1234, $input->getInt("a-number"));
+		self::assertSame(2, $input->getInt("one-plus-one"));
+		self::assertSame(1, $input->getInt("many-dots"));
+		self::assertSame(0, $input->getInt("this-is-positive"));
+		self::assertSame(0, $input->getInt("empty-value"));
+		self::assertNull($input->getInt("not-set"));
+	}
+
+	public function testGetFloat():void {
+		$input = new Input(self::FAKE_DATA);
+		self::assertSame(1234.0, $input->getFloat("a-number"));
+		self::assertSame(2.0, $input->getFloat("one-plus-one"));
+		self::assertSame(2.5, $input->getFloat("half-of-five"));
+		self::assertSame(1.2, $input->getFloat("many-dots"));
+		self::assertSame(0.0, $input->getFloat("this-is-positive"));
+		self::assertSame(0.0, $input->getFloat("empty-value"));
+		self::assertNull($input->getFloat("not-set"));
+	}
+
+	public function testGetBool():void {
+		$input = new Input(self::FAKE_DATA);
+		self::assertSame(true, $input->getBool("a-number"));
+		self::assertSame(true, $input->getBool("one-plus-one"));
+		self::assertSame(true, $input->getBool("half-of-five"));
+		self::assertSame(true, $input->getBool("many-dots"));
+		self::assertSame(true, $input->getBool("this-is-positive"));
+		self::assertSame(false, $input->getBool("empty-value"));
+		self::assertNull($input->getBool("not-set"));
 	}
 
 	public function dataRandomGetPost():array {

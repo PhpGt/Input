@@ -17,6 +17,7 @@ use Gt\Input\InputData\FileUploadInputData;
 use Gt\Input\InputData\QueryStringInputData;
 
 class Input implements ArrayAccess, Countable, Iterator {
+	use InputValueGetter;
 	use KeyValueArrayAccess;
 	use KeyValueCountable;
 	use KeyValueIterator;
