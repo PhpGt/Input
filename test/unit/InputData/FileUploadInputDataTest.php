@@ -10,15 +10,14 @@ class FileUploadInputDataTest extends TestCase {
 	 * @dataProvider dataFilesSuperglobal
 	 */
 	public function testNormaliseArray(array $files) {
+// The $_FILES superglobal is an odd shape. Depending on the use of [] in the
+// parameter name, the contained uploadData array(s) could contain either strings
+// or arrays. The dataFilesSuperGlobal dataProvider creates $_FILES that definitely
+// contain both strings and arrays.
 		$method = Reflection::getMethod(
 			FileUploadInputData::class,
 			"normalizeArray"
 		);
-
-		// The $_FILES superglobal is an odd shape. Depending on the use of [] in the
-		// parameter name, the contained uploadData array(s) could contain either strings
-		// or arrays. The dataFilesSuperGlobal dataProvider creates $_FILES that definitely
-		// contain both strings and arrays.
 
 		$numberOfStrings = 0;
 		$numberOfArrays = 0;
@@ -59,8 +58,9 @@ class FileUploadInputDataTest extends TestCase {
 	}
 
 	public function dataFilesSuperglobal():array {
-		$data = [];
 		$num = 10;
+
+		$data = [];
 		$fileKeys = ["name", "type", "tmp_name", "error", "size"];
 
 		for($i = 0; $i < $num; $i++) {
