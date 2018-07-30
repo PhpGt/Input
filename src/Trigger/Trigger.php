@@ -86,7 +86,7 @@ class Trigger {
 		$fired = true;
 
 		foreach($this->matches as $key => $matchList) {
-			if($this->input->has($key)) {
+			if($this->input->contains($key)) {
 				if(empty($matchList)) {
 					continue;
 				}
@@ -101,7 +101,7 @@ class Trigger {
 		}
 
 		foreach($this->keyMatches as $key) {
-			if(!$this->input->has($key)) {
+			if(!$this->input->contains($key)) {
 				$fired = false;
 			}
 		}

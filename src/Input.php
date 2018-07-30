@@ -104,22 +104,22 @@ class Input implements ArrayAccess, Countable, Iterator {
 	/**
 	 * Does the input contain the specified key?
 	 */
-	public function has(string $key, string $method = null):bool {
+	public function contains(string $key, string $method = null):bool {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
 
 		switch($method) {
 		case self::DATA_QUERYSTRING:
-			$isset = $this->hasQueryStringParameter($key);
+			$isset = $this->containsQueryStringParameter($key);
 			break;
 
 		case self::DATA_BODY:
-			$isset =$this->hasBodyParameter($key);
+			$isset =$this->containsBodyParameter($key);
 			break;
 
 		case self::DATA_FILES:
-			$isset =$this->hasFile($key);
+			$isset =$this->containsFile($key);
 			break;
 
 		case self::DATA_COMBINED:
@@ -133,15 +133,15 @@ class Input implements ArrayAccess, Countable, Iterator {
 		return $isset;
 	}
 
-	public function hasQueryStringParameter(string $key):bool {
+	public function containsQueryStringParameter(string $key):bool {
 		return isset($this->queryStringParameters[$key]);
 	}
 
-	public function hasBodyParameter(string $key):bool {
+	public function containsBodyParameter(string $key):bool {
 		return isset($this->bodyParameters[$key]);
 	}
 
-	public function hasFile(string $key):bool {
+	public function containsFile(string $key):bool {
 		return isset($this->fileUploadParameters[$key]);
 	}
 
@@ -194,7 +194,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 */
 	public function with(string...$keys):Trigger {
 		foreach($keys as $key) {
-			if(!$this->parameters->has($key)) {
+			if(!$this->parameters->contains($key)) {
 				throw new MissingInputParameterException($key);
 			}
 		}
