@@ -149,9 +149,9 @@ class InputDataTest extends TestCase {
 			"name" => "James",
 			"gender" => "m",
 		]);
-		self::assertTrue($data->has("name"));
-		self::assertTrue($data->has("gender"));
-		self::assertFalse($data->has("telephone"));
+		self::assertTrue($data->contains("name"));
+		self::assertTrue($data->contains("gender"));
+		self::assertFalse($data->contains("telephone"));
 	}
 
 	public function testHasValue():void {

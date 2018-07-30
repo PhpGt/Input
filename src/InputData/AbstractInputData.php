@@ -18,7 +18,7 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 		return $this->parameters[$key] ?? null;
 	}
 
-	public function has(string $key):bool {
+	public function contains(string $key):bool {
 		return isset($this->parameters[$key]);
 	}
 
