@@ -497,6 +497,96 @@ class InputTest extends TestCase {
 		}
 	}
 
+	/** @dataProvider dataRandomGetPost */
+	public function testNotContains($get, $post):void {
+		$files = self::FAKE_FILE;
+		$input = new Input($get, $post, $files);
+
+		$all = array_merge($get, $post, $files);
+		foreach($all as $key => $value) {
+			$missingKey = "missing-$key";
+			self::assertFalse(
+				$input->contains($missingKey)
+			);
+		}
+	}
+
+	/** @dataProvider dataRandomGetPost */
+	public function testContainsIndividualParts($get, $post):void {
+		$files = self::FAKE_FILE;
+		$input = new Input($get, $post, $files);
+
+		foreach($get as $key => $value) {
+			self::assertTrue(
+				$input->contains(
+					$key,
+					Input::DATA_QUERYSTRING
+				)
+			);
+			self::assertFalse(
+				$input->contains(
+					$key,
+					Input::DATA_BODY
+				)
+			);
+			self::assertFalse(
+				$input->contains(
+					$key,
+					Input::DATA_FILES
+				)
+			);
+		}
+
+		foreach($post as $key => $value) {
+			self::assertFalse(
+				$input->contains(
+					$key,
+					Input::DATA_QUERYSTRING
+				)
+			);
+			self::assertTrue(
+				$input->contains(
+					$key,
+					Input::DATA_BODY
+				)
+			);
+			self::assertFalse(
+				$input->contains(
+					$key,
+					Input::DATA_FILES
+				)
+			);
+		}
+
+		foreach($files as $key => $value) {
+			self::assertFalse(
+				$input->contains(
+					$key,
+					Input::DATA_QUERYSTRING
+				)
+			);
+			self::assertFalse(
+				$input->contains(
+					$key,
+					Input::DATA_BODY
+				)
+			);
+			self::assertTrue(
+				$input->contains(
+					$key,
+					Input::DATA_FILES
+				)
+			);
+		}
+	}
+
+	/** @dataProvider dataRandomGetPost */
+	public function testContainsThrowsExceptionOnIncorrectType($get, $post) {
+		self::expectException(InvalidInputMethodException::class);
+		$input = new Input($get, $post);
+		$input->contains("anything", "invalid-method");
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 
