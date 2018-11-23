@@ -87,7 +87,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 			break;
 
 		case self::DATA_FILES:
-			$data = $this->fileUploadParameters->get($key);
+			$data = $this->fileUploadParameters->getFile($key);
 			break;
 
 		case self::DATA_COMBINED:

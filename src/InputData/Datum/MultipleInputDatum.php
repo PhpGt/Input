@@ -8,6 +8,12 @@ use Iterator;
 class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	protected $iteratorKey;
 
+	public function __construct($value) {
+		parent::__construct($value);
+
+		$this->iteratorKey = 0;
+	}
+
 	public function __toString():string {
 		return implode(", ", $this->value);
 	}

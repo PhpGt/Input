@@ -32,40 +32,6 @@ class InputData extends AbstractInputData {
 		}
 	}
 
-	public function getFile(string $key):FileUpload {
-		try {
-			/** @noinspection PhpIncompatibleReturnTypeInspection */
-			return $this->get($key);
-		}
-		catch(TypeError $exception) {
-			throw new DataNotFileUploadException($key);
-		}
-	}
-
-	/**
-	 * @return FileUpload[]
-	 */
-	public function getMultipleFile(string $key):MultipleInputDatum {
-		return $this->get($key);
-	}
-
-	public function getDateTime(string $key):DateTimeInterface {
-		try {
-			$dateTime = new DateTime($this[$key]);
-			return $dateTime;
-		}
-		catch(Exception $exception) {
-			throw new DataNotCompatibleFormatException($key);
-		}
-	}
-
-	/**
-	 * @return DateTime[]
-	 */
-	public function getMultipleDateTime(string $key):MultipleInputDatum {
-		return $this->get($key);
-	}
-
 	public function add(string $key, InputDatum $datum):self {
 		$this->parameters[$key] = $datum;
 		return $this;

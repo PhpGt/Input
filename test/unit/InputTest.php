@@ -2,6 +2,7 @@
 namespace Gt\Input\Test;
 
 use Gt\Input\Input;
+use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\InputData;
 use Gt\Input\InvalidInputMethodException;
 use Gt\Input\MissingInputParameterException;
@@ -78,6 +79,44 @@ class InputTest extends TestCase {
 			self::assertEquals($post[$key], $value);
 			self::assertFalse(isset($get[$key]));
 		}
+	}
+
+	/**
+	 * @dataProvider dataRandomGetPost
+	 */
+	public function testGetFileFieldSingle(array $get, array $post):void {
+		$files = [
+			"exampleFile" => [
+				"name" => "Clouds.jpg",
+				"type" => "image/jpeg",
+				"tmp_name" => "/tmp/phpgt/input/" . uniqid() . ".tmp",
+				"error" => 0,
+				"size" => 1234,
+			]
+		];
+		$input = new Input($get, $post, $files);
+		$file = $input->get("exampleFile", Input::DATA_FILES);
+
+		self::assertInstanceOf(
+			FileUpload::class,
+			$file
+		);
+		self::assertEquals(
+			$files["exampleFile"]["size"],
+			$file->getSize()
+		);
+		self::assertEquals(
+			$files["exampleFile"]["type"],
+			$file->getMimeType()
+		);
+		self::assertEquals(
+			$files["exampleFile"]["name"],
+			$file->getOriginalName()
+		);
+		self::assertEquals(
+			$files["exampleFile"]["tmp_name"],
+			$file->getRealPath()
+		);
 	}
 
 	/**

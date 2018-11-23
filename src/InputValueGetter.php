@@ -1,6 +1,14 @@
 <?php
 namespace Gt\Input;
 
+use DateTime;
+use DateTimeInterface;
+use Exception;
+use Gt\Input\InputData\Datum\FileUpload;
+use Gt\Input\InputData\Datum\MultipleInputDatum;
+use Gt\Input\InputData\FileUploadInputData;
+use TypeError;
+
 trait InputValueGetter {
 	public function getString(string $key):?string {
 		return $this->get($key);
@@ -31,5 +39,42 @@ trait InputValueGetter {
 		}
 
 		return (bool)$value;
+	}
+
+	public function getFile(string $key):FileUpload {
+		$params = $this->fileUploadParameters ?? $this->parameters;
+
+		try {
+			/** @var MultipleInputDatum $datum */
+			$datum = $params[$key];
+			return $datum->current();
+		}
+		catch(TypeError $exception) {
+			throw new DataNotFileUploadException($key);
+		}
+	}
+
+	/**
+	 * @return FileUpload[]
+	 */
+	public function getMultipleFile(string $key):MultipleInputDatum {
+		return $this->get($key);
+	}
+
+	public function getDateTime(string $key):DateTimeInterface {
+		try {
+			$dateTime = new DateTime($this[$key]);
+			return $dateTime;
+		}
+		catch(Exception $exception) {
+			throw new DataNotCompatibleFormatException($key);
+		}
+	}
+
+	/**
+	 * @return DateTime[]
+	 */
+	public function getMultipleDateTime(string $key):MultipleInputDatum {
+		return $this->get($key);
 	}
 }
