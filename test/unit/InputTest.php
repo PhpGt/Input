@@ -159,6 +159,25 @@ class InputTest extends TestCase {
 	}
 
 	/** @dataProvider dataRandomGetPost */
+	public function testGetAllFileFields(array $get, array $post):void {
+		$files = self::FAKE_FILE;
+		$input = new Input($get, $post, $files);
+		$postFields = $input->getAll(Input::DATA_FILES);
+
+		foreach($get as $key => $value) {
+			self::assertFalse(isset($postFields[$key]));
+		}
+
+		foreach($post as $key => $value) {
+			self::assertFalse(isset($postFields[$key]));
+		}
+
+		foreach($files as $key => $value) {
+			self::assertTrue(isset($postFields[$key]));
+		}
+	}
+
+	/** @dataProvider dataRandomGetPost */
 	public function testGetAll(array $get, array $post):void {
 		$input = new Input($get, $post);
 		$combined = $input->getAll();
