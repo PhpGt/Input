@@ -4,7 +4,7 @@ Encapsulated and secured user input.
 By default, PHP stores all user input in global variables, available for reading and _modification_ in any code, including third party libraries.
 
 This library wraps user input in objects that promote encapsulation, allowing functions to be
-passed only the user input they require, rather than having read/write access to everything.
+passed only the user input they require, rather than having unmitigated read/write access to everything.
 
 User input is automatically secured using openssl ([coming in v2][v2]), preventing unauthorised access to user input from areas of code that shouldn't have it.
 
