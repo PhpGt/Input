@@ -65,6 +65,44 @@ class Input implements ArrayAccess, Countable, Iterator {
 		return $this->bodyStream;
 	}
 
+	public function add(string $key, InputDatum $datum, string $method):void {
+		switch($method) {
+		case self::DATA_QUERYSTRING:
+			$this->queryStringParameters =
+				$this->queryStringParameters->withKeyValue(
+					$key,
+					$datum
+				);
+			break;
+
+		case self::DATA_BODY:
+			$this->bodyParameters =
+				$this->bodyParameters->withKeyValue(
+					$key,
+					$datum
+				);
+			break;
+
+		case self::DATA_FILES:
+			$this->fileUploadParameters =
+				$this->fileUploadParameters->withKeyValue(
+					$key,
+					$datum
+				);
+			break;
+
+		default:
+			throw new InvalidInputMethodException($method);
+			break;
+		}
+
+		$this->parameters = new CombinedInputData(
+			$this->queryStringParameters,
+			$this->bodyParameters,
+			$this->fileUploadParameters
+		);
+	}
+
 	/**
 	 * Get a particular input value by its key. To specify either GET or POST variables, pass
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
