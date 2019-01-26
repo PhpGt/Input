@@ -8,23 +8,23 @@
     "packages": [
         {
             "name": "phpgt/cookie",
-            "version": "v0.1.1",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Cookie.git",
-                "reference": "aa735fa635d8a816b06bde380ddb82f2dbd03c05"
+                "reference": "da53e2d7b3bda7bf9c885a8f3875d94a494ef30c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Cookie/zipball/aa735fa635d8a816b06bde380ddb82f2dbd03c05",
-                "reference": "aa735fa635d8a816b06bde380ddb82f2dbd03c05",
+                "url": "https://api.github.com/repos/PhpGt/Cookie/zipball/da53e2d7b3bda7bf9c885a8f3875d94a494ef30c",
+                "reference": "da53e2d7b3bda7bf9c885a8f3875d94a494ef30c",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.4"
+                "phpunit/phpunit": "7.*"
             },
             "type": "library",
             "autoload": {
@@ -43,7 +43,7 @@
                 }
             ],
             "description": "Object oriented cookie handler.",
-            "time": "2018-03-23T17:52:55+00:00"
+            "time": "2019-01-18T23:27:09+00:00"
         },
         {
             "name": "phpgt/http",
@@ -51,12 +51,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Http.git",
-                "reference": "63c8abe6bf0f2121e7bed769173a600aaf56bb60"
+                "reference": "65e1bf8eb9478eda613e9602dac640197d4eb91d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Http/zipball/63c8abe6bf0f2121e7bed769173a600aaf56bb60",
-                "reference": "63c8abe6bf0f2121e7bed769173a600aaf56bb60",
+                "url": "https://api.github.com/repos/PhpGt/Http/zipball/65e1bf8eb9478eda613e9602dac640197d4eb91d",
+                "reference": "65e1bf8eb9478eda613e9602dac640197d4eb91d",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +67,7 @@
                 "willdurand/negotiation": "^2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.4"
+                "phpunit/phpunit": "7.*"
             },
             "type": "library",
             "autoload": {
@@ -80,7 +80,7 @@
                 "MIT"
             ],
             "description": "PSR-7 HTTP message implementation.",
-            "time": "2018-12-09T21:59:56+00:00"
+            "time": "2019-01-25T17:31:01+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1549,7 +1549,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

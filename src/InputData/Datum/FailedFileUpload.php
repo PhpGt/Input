@@ -21,7 +21,25 @@ class FailedFileUpload extends FileUpload {
 		);
 	}
 
-	public function getError():string {
+	/**
+	 * Retrieve the error associated with the uploaded file.
+	 *
+	 * The return value MUST be one of PHP's UPLOAD_ERR_XXX constants.
+	 *
+	 * If the file was uploaded successfully, this method MUST return
+	 * UPLOAD_ERR_OK.
+	 *
+	 * Implementations SHOULD return the value stored in the "error" key of
+	 * the file in the $_FILES array.
+	 *
+	 * @see http://php.net/manual/en/features.file-upload.errors.php
+	 * @return int One of PHP's UPLOAD_ERR_XXX constants.
+	 */
+	public function getError() {
+		return $this->errorCode;
+	}
+
+	public function getErrorMessage():string {
 		$msg = "";
 
 		switch($this->errorCode) {
