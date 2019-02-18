@@ -51,12 +51,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Http.git",
-                "reference": "97d2ff73a4ecb15d70461f146544c05625eedceb"
+                "reference": "c0d02cc8c602cc2bb1066f31fd3ec17bcf9d4a61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Http/zipball/97d2ff73a4ecb15d70461f146544c05625eedceb",
-                "reference": "97d2ff73a4ecb15d70461f146544c05625eedceb",
+                "url": "https://api.github.com/repos/PhpGt/Http/zipball/c0d02cc8c602cc2bb1066f31fd3ec17bcf9d4a61",
+                "reference": "c0d02cc8c602cc2bb1066f31fd3ec17bcf9d4a61",
                 "shasum": ""
             },
             "require": {
@@ -80,7 +80,7 @@
                 "MIT"
             ],
             "description": "PSR-7 HTTP message implementation.",
-            "time": "2019-02-06T16:23:01+00:00"
+            "time": "2019-02-10T22:45:01+00:00"
         },
         {
             "name": "psr/http-message",
@@ -607,16 +607,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "7.0.1",
+            "version": "7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "4832739a02c418397e404da6c3e4fe680b7a4de7"
+                "reference": "cfca9c5f7f2694ca0c7749ffb142927d9f05250f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4832739a02c418397e404da6c3e4fe680b7a4de7",
-                "reference": "4832739a02c418397e404da6c3e4fe680b7a4de7",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/cfca9c5f7f2694ca0c7749ffb142927d9f05250f",
+                "reference": "cfca9c5f7f2694ca0c7749ffb142927d9f05250f",
                 "shasum": ""
             },
             "require": {
@@ -666,7 +666,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-02-01T07:29:14+00:00"
+            "time": "2019-02-15T13:40:27+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -859,16 +859,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.0.2",
+            "version": "8.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d64e502503bcfab5d46c0b74ffd41f4986831dc7"
+                "reference": "651e95a71ff705faae24d18ef5e4c7c8c5050f9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d64e502503bcfab5d46c0b74ffd41f4986831dc7",
-                "reference": "d64e502503bcfab5d46c0b74ffd41f4986831dc7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/651e95a71ff705faae24d18ef5e4c7c8c5050f9a",
+                "reference": "651e95a71ff705faae24d18ef5e4c7c8c5050f9a",
                 "shasum": ""
             },
             "require": {
@@ -937,7 +937,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-02-07T14:17:09+00:00"
+            "time": "2019-02-15T14:06:48+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
