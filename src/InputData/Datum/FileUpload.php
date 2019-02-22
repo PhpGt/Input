@@ -39,6 +39,11 @@ class FileUpload extends InputDatum {
 			DIRECTORY_SEPARATOR,
 			$destinationDirectory
 		);
+
+		if(!is_dir($destinationDirectory)) {
+			mkdir($destinationDirectory, 0775, true);
+		}
+
 		$destinationPath = implode(DIRECTORY_SEPARATOR, [
 			$destinationDirectory,
 			$renameTo,
