@@ -66,7 +66,7 @@ class InputData extends AbstractInputData {
 		return array_keys($this->parameters);
 	}
 
-	public function toArray():array {
+	public function asArray():array {
 		$array = [];
 
 		foreach($this->parameters as $key => $value) {

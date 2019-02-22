@@ -174,7 +174,7 @@ class InputDataTest extends TestCase {
 		];
 
 		$data = new InputData($sourceData);
-		$array = $data->toArray();
+		$array = $data->asArray();
 
 		foreach($array as $key => $value) {
 			self::assertEquals($data[$key], $value);
@@ -193,7 +193,7 @@ class InputDataTest extends TestCase {
 		];
 
 		$data = new InputData($sourceData);
-		$array = $data->toArray();
+		$array = $data->asArray();
 
 		foreach($array as $key => $value) {
 			self::assertEquals($sourceData[$key], $value);
