@@ -69,7 +69,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * @throws \RuntimeException in cases when no stream is available or can be
 	 *     created.
 	 */
-	public function getStream() {
+	public function getStream():StreamInterface {
 		// TODO: Implement getStream() method.
 	}
 
@@ -119,6 +119,10 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 			DIRECTORY_SEPARATOR,
 			$targetPath
 		);
+
+		if(!is_dir(dirname($targetPath))) {
+			mkdir(dirname($targetPath), 0775, true);
+		}
 
 		$success = move_uploaded_file(
 			$this->tempFilePath,
