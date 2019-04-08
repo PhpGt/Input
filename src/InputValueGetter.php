@@ -4,7 +4,6 @@ namespace Gt\Input;
 use DateTime;
 use DateTimeInterface;
 use Exception;
-use Gt\Input\InputData\CombinedInputData;
 use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\Datum\MultipleInputDatum;
