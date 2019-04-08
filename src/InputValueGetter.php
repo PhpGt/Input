@@ -4,7 +4,9 @@ namespace Gt\Input;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+use Gt\Input\InputData\CombinedInputData;
 use Gt\Input\InputData\Datum\FileUpload;
+use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputData\FileUploadInputData;
 use TypeError;
@@ -42,12 +44,18 @@ trait InputValueGetter {
 	}
 
 	public function getFile(string $key):FileUpload {
+		/** @var FileUploadInputData|InputDatum[] $params */
 		$params = $this->fileUploadParameters ?? $this->parameters;
 
 		try {
-			/** @var MultipleInputDatum $datum */
-			$datum = $params[$key];
-			return $datum->current();
+			/** @var MultipleInputDatum|FileUpload $file */
+			$file = $params[$key];
+
+			if($file instanceof MultipleInputDatum) {
+				return $file->current();
+			}
+
+			return $file;
 		}
 		catch(TypeError $exception) {
 			throw new DataNotFileUploadException($key);

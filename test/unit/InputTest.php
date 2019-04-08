@@ -90,9 +90,7 @@ class InputTest extends TestCase {
 	public function testGetFileFieldSingle(array $get, array $post):void {
 		$files = self::FAKE_FILE;
 		$input = new Input($get, $post, $files);
-		$file = $input->get("exampleFile", Input::DATA_FILES);
-
-		/** @var FileUpload $file */
+		$file = $input->getFile("exampleFile");
 
 		self::assertInstanceOf(
 			FileUpload::class,
