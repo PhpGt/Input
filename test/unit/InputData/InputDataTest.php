@@ -198,10 +198,10 @@ class InputDataTest extends TestCase {
 		foreach($array as $key => $value) {
 			self::assertEquals($sourceData[$key], $value);
 			if(is_array($sourceData[$key])) {
-				self::assertInternalType("array", $value);
+				self::assertIsArray($value);
 			}
 			else {
-				self::assertInternalType("string", $value);
+				self::assertIsString($value);
 			}
 		}
 	}
