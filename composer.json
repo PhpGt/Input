@@ -2,7 +2,6 @@
 	"name": "phpgt/input",
 	"description": "Encapsulated user input.",
 	"license": "MIT",
-	"minimum-stability": "dev",
 	"autoload": {
 		"psr-4": {
 			"Gt\\Input\\": "./src"
@@ -15,7 +14,7 @@
 	},
 
 	"require": {
-		"phpgt/http": "dev-master@dev"
+		"phpgt/http": ">=1.0"
 	},
 
 	"require-dev": {
