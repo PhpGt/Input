@@ -40,10 +40,10 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected $parameters;
 
 	public function __construct(
-	array $get = [],
-	array $post = [],
-	array $files = [],
-	string $bodyPath = "php://input"
+		array $get = [],
+		array $post = [],
+		array $files = [],
+		string $bodyPath = "php://input"
 	) {
 		$this->bodyStream = new BodyStream($bodyPath);
 

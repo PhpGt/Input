@@ -112,7 +112,7 @@ class Trigger {
 					continue;
 				}
 
-				if(!in_array($this->input->get($key),$matchList)) {
+				if(!in_array($this->input->get($key), $matchList)) {
 					$fired = false;
 				}
 			}
