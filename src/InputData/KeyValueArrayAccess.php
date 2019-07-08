@@ -1,6 +1,7 @@
 <?php
 namespace Gt\Input\InputData;
 
+use Gt\Input\Input;
 use Gt\Input\InputData\Datum\InputDatum;
 
 trait KeyValueArrayAccess {
@@ -8,8 +9,18 @@ trait KeyValueArrayAccess {
 		return isset($this->parameters[$offset]);
 	}
 
-	public function offsetGet($offset):?InputDatum {
-		return $this->get($offset);
+	/** @return mixed|null */
+	public function offsetGet($offset) {
+		if($this instanceof FileUploadInputData) {
+			return $this->getFile($offset);
+		}
+		elseif($this instanceof Input || $this instanceof InputData) {
+			if($this->contains($offset)) {
+				return $this->get($offset);
+			}
+		}
+
+		return null;
 	}
 
 	public function offsetSet($offset, $value):void {

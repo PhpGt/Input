@@ -29,7 +29,7 @@ class InputTest extends TestCase {
 		]
 	];
 
-	public function tearDown() {
+	public function tearDown():void {
 		Helper::cleanUp();
 	}
 
@@ -90,9 +90,7 @@ class InputTest extends TestCase {
 	public function testGetFileFieldSingle(array $get, array $post):void {
 		$files = self::FAKE_FILE;
 		$input = new Input($get, $post, $files);
-		$file = $input->get("exampleFile", Input::DATA_FILES);
-
-		/** @var FileUpload $file */
+		$file = $input->getFile("exampleFile");
 
 		self::assertInstanceOf(
 			FileUpload::class,
@@ -460,8 +458,7 @@ class InputTest extends TestCase {
 	public function testGetString():void {
 		$input = new Input(self::FAKE_DATA);
 		foreach(self::FAKE_DATA as $key => $value) {
-			self::assertInternalType(
-				"string",
+			self::assertIsString(
 				$input->getString($key)
 			);
 		}
