@@ -1,6 +1,7 @@
 <?php
 namespace Gt\Input\Trigger;
 
+use Gt\Input\CallOrOutOfSequenceException;
 use Gt\Input\Input;
 use Gt\Input\InputData\InputDataFactory;
 
@@ -8,15 +9,24 @@ class Trigger {
 	/** @var Input */
 	protected $input;
 
-	protected $matches = [];
-	protected $keyMatches = [];
-	protected $with = [];
-	protected $without = [];
+	protected $matches;
+	protected $keyMatches;
+	protected $with;
+	protected $without;
 	/** @var Callback[] */
-	protected $callbacks = [];
+	protected $callbacks;
+	/** @var ?bool */
+	protected $hasFired;
 
 	public function __construct(Input $input) {
 		$this->input = $input;
+
+		$this->matches = [];
+		$this->keyMatches = [];
+		$this->with = [];
+		$this->without = [];
+		$this->callbacks = [];
+		$this->hasFired = null;
 	}
 
 	public function when(...$matches):self {
@@ -77,8 +87,19 @@ class Trigger {
 
 	public function call(callable $callback, ...$args):self {
 		$this->callbacks []= new Callback($callback, ...$args);
-		$this->fire();
+		$this->hasFired = $this->fire();
+		return $this;
+	}
 
+	public function or(callable $callback, ...$args):self {
+		if(is_null($this->hasFired)) {
+			throw new CallOrOutOfSequenceException();
+		}
+		else {
+			if(!$this->hasFired) {
+				call_user_func_array($callback, $args);
+			}
+		}
 		return $this;
 	}
 
@@ -91,7 +112,7 @@ class Trigger {
 					continue;
 				}
 
-				if(!in_array($this->input->get($key),$matchList)) {
+				if(!in_array($this->input->get($key), $matchList)) {
 					$fired = false;
 				}
 			}
@@ -151,7 +172,7 @@ class Trigger {
 			else {
 				$result = array_merge(
 					$result,
-					$inner
+					[$inner]
 				);
 			}
 		}

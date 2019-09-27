@@ -40,10 +40,10 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected $parameters;
 
 	public function __construct(
-	array $get = [],
-	array $post = [],
-	array $files = [],
-	string $bodyPath = "php://input"
+		array $get = [],
+		array $post = [],
+		array $files = [],
+		string $bodyPath = "php://input"
 	) {
 		$this->bodyStream = new BodyStream($bodyPath);
 
@@ -107,8 +107,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Get a particular input value by its key. To specify either GET or POST variables, pass
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
 	 * Input::METHOD_BOTH).
+	 * @return mixed|null
 	 */
-	public function get(string $key, string $method = null):?InputDatum {
+	public function get(string $key, string $method = null) {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}

@@ -1,16 +1,9 @@
 <?php
 namespace Gt\Input\InputData;
 
-use DateTime;
-use DateTimeInterface;
-use Exception;
-use Gt\Input\DataNotCompatibleFormatException;
-use Gt\Input\DataNotFileUploadException;
-use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputValueGetter;
-use TypeError;
 
 class InputData extends AbstractInputData {
 	use InputValueGetter;
