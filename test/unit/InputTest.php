@@ -1,6 +1,8 @@
 <?php
 namespace Gt\Input\Test;
 
+use DateTime;
+use Gt\Input\DataNotCompatibleFormatException;
 use Gt\Input\Input;
 use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\InputData;
@@ -17,6 +19,10 @@ class InputTest extends TestCase {
 		"half-of-five" => "2.5",
 		"many-dots" => "1.2.3.4",
 		"this-is-positive" => "oh yes",
+		"a-date-without-timezone" => "2005-08-15T15:52:00",
+		"a-date-with-timezone" => "2005-08-15T16:52:00+01:00",
+		"a-date-without-timezone-or-seconds" => "2005-08-15T15:52",
+		"a-date-in-rss-format" => "Mon, 15 Aug 2005 15:52:00 +0000",
 		"empty-value" => "",
 	];
 	const FAKE_FILE = [
@@ -495,6 +501,29 @@ class InputTest extends TestCase {
 		self::assertSame(true, $input->getBool("this-is-positive"));
 		self::assertNull($input->getBool("empty-value"));
 		self::assertNull($input->getBool("not-set"));
+	}
+
+	public function testGetDateTime():void {
+		$dateTime = new DateTime("2005-08-15T15:52");
+
+		$input = new Input(self::FAKE_DATA);
+		self::assertNull($input->getDateTime("empty-value"));
+		self::assertEquals($dateTime, $input->getDateTime("a-date-with-timezone"));
+		self::assertEquals($dateTime, $input->getDateTime("a-date-without-timezone"));
+		self::assertEquals($dateTime, $input->getDateTime("a-date-without-timezone-or-seconds"));
+	}
+
+	public function testGetDateTimeInvalid():void {
+		$input = new Input(self::FAKE_DATA);
+		self::expectException(DataNotCompatibleFormatException::class);
+		$input->getDateTime("one-plus-one");
+	}
+
+	public function testGetDateTimeFromFormat():void {
+		$dateTime = new DateTime("2005-08-15T15:52");
+
+		$input = new Input(self::FAKE_DATA);
+		self::assertEquals($dateTime, $input->getDateTime("a-date-in-rss-format"));
 	}
 
 	/** @dataProvider dataRandomGetPost */
