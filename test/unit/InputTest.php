@@ -471,7 +471,7 @@ class InputTest extends TestCase {
 		self::assertSame(2, $input->getInt("one-plus-one"));
 		self::assertSame(1, $input->getInt("many-dots"));
 		self::assertSame(0, $input->getInt("this-is-positive"));
-		self::assertSame(0, $input->getInt("empty-value"));
+		self::assertNull($input->getInt("empty-value"));
 		self::assertNull($input->getInt("not-set"));
 	}
 
@@ -482,7 +482,7 @@ class InputTest extends TestCase {
 		self::assertSame(2.5, $input->getFloat("half-of-five"));
 		self::assertSame(1.2, $input->getFloat("many-dots"));
 		self::assertSame(0.0, $input->getFloat("this-is-positive"));
-		self::assertSame(0.0, $input->getFloat("empty-value"));
+		self::assertNull($input->getFloat("empty-value"));
 		self::assertNull($input->getFloat("not-set"));
 	}
 
@@ -493,7 +493,7 @@ class InputTest extends TestCase {
 		self::assertSame(true, $input->getBool("half-of-five"));
 		self::assertSame(true, $input->getBool("many-dots"));
 		self::assertSame(true, $input->getBool("this-is-positive"));
-		self::assertSame(false, $input->getBool("empty-value"));
+		self::assertNull($input->getBool("empty-value"));
 		self::assertNull($input->getBool("not-set"));
 	}
 
