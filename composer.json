@@ -14,7 +14,7 @@
 	},
 
 	"require": {
-		"phpgt/http": ">=1.0"
+		"phpgt/http": "^1.0"
 	},
 
 	"require-dev": {
