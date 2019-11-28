@@ -17,7 +17,7 @@ trait InputValueGetter {
 
 	public function getInt(string $key):?int {
 		$value = $this->getString($key);
-		if(is_null($value)) {
+		if(is_null($value) || strlen($value) === 0) {
 			return null;
 		}
 
@@ -26,7 +26,7 @@ trait InputValueGetter {
 
 	public function getFloat(string $key):?float {
 		$value = $this->getString($key);
-		if(is_null($value)) {
+		if(is_null($value) || strlen($value) === 0) {
 			return null;
 		}
 
@@ -35,7 +35,7 @@ trait InputValueGetter {
 
 	public function getBool(string $key):?bool {
 		$value = $this->getString($key);
-		if(is_null($value)) {
+		if(is_null($value) || strlen($value) === 0) {
 			return null;
 		}
 
@@ -68,14 +68,32 @@ trait InputValueGetter {
 		return $this->get($key);
 	}
 
-	public function getDateTime(string $key):DateTimeInterface {
+	public function getDateTime(
+		string $key,
+		string $format = null
+	):?DateTimeInterface {
+		$value = $this->getString($key);
+		if(is_null($value) || strlen($value) === 0) {
+			return null;
+		}
+
 		try {
-			$dateTime = new DateTime($this[$key]);
-			return $dateTime;
+			if($format) {
+				$dateTime = DateTime::createFromFormat($format, $value);
+			}
+			else {
+				$dateTime = new DateTime($value);
+			}
 		}
 		catch(Exception $exception) {
+			$dateTime = false;
+		}
+
+		if($dateTime === false) {
 			throw new DataNotCompatibleFormatException($key);
 		}
+
+		return $dateTime;
 	}
 
 	/**
