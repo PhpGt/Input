@@ -43,6 +43,8 @@ trait InputValueGetter {
 	}
 
 	public function getFile(string $key):FileUpload {
+		/** @var Input $this */
+
 		/** @var FileUploadInputData|InputDatum[] $params */
 		$params = $this->fileUploadParameters ?? $this->parameters;
 
