@@ -1,6 +1,7 @@
 <?php
 namespace Gt\Input\InputData\Datum;
 
+use Gt\Http\Stream;
 use Gt\Input\UploadedFileMoveException;
 use Gt\Input\UploadedFileSecurityException;
 use InvalidArgumentException;
@@ -10,10 +11,11 @@ use SplFileInfo;
 use TypeError;
 
 class FileUpload extends InputDatum implements UploadedFileInterface {
-	protected $originalFileName;
-	protected $mimeType;
-	protected $fileSize;
-	protected $tempFilePath;
+	protected string $originalFileName;
+	protected string $mimeType;
+	protected int $fileSize;
+	protected string $tempFilePath;
+	protected bool $moved;
 
 	public function __construct(
 		string $originalFilename,
@@ -25,6 +27,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 		$this->mimeType = $mimeType;
 		$this->fileSize = $fileSize;
 		$this->tempFilePath = $tempFilePath;
+		$this->moved = false;
 
 		parent::__construct($originalFilename);
 	}
@@ -70,7 +73,10 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 *     created.
 	 */
 	public function getStream():StreamInterface {
-		// TODO: Implement getStream() method.
+		if($this->moved) {
+			throw new StreamNotAvailableException("File has been moved");
+		}
+		return new Stream($this->getRealPath());
 	}
 
 	/**
@@ -132,6 +138,8 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 		if(!$success) {
 			throw new UploadedFileMoveException($this->tempFilePath);
 		}
+
+		$this->moved = true;
 	}
 
 	/**

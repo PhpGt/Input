@@ -2,6 +2,16 @@
 	"name": "phpgt/input",
 	"description": "Encapsulated user input.",
 	"license": "MIT",
+
+	"require": {
+		"phpgt/http": "1.*"
+	},
+
+	"require-dev": {
+		"phpunit/phpunit": "9.*",
+		"phpstan/phpstan": ">=0.12.64"
+	},
+
 	"autoload": {
 		"psr-4": {
 			"Gt\\Input\\": "./src"
@@ -9,15 +19,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Gt\\Input\\Test\\": "./test/unit"
+			"Gt\\Input\\Test\\": "./test/phpunit"
 		}
-	},
-
-	"require": {
-		"phpgt/http": "*"
-	},
-
-	"require-dev": {
-		"phpunit/phpunit": "8.*"
 	}
 }

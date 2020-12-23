@@ -11,6 +11,12 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	use KeyValueCountable;
 	use KeyValueIterator;
 
+	/** @var QueryStringInputData */
+	protected $queryStringParameters;
+	/** @var BodyInputData */
+	protected $bodyParameters;
+	/** @var FileUploadInputData */
+	protected $fileUploadParameters;
 	/** @var InputDatum[] */
 	protected $parameters = [];
 
