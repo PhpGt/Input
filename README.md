@@ -10,7 +10,7 @@ User input is automatically secured using openssl ([coming in v2][v2]), preventi
 
 ***
 
-<a href="https://circleci.com/gh/phpgt/input" target="_blank">
+<a href="https://github.com/PhpGt/Input/actions" target="_blank">
 	<img src="https://badge.status.php.gt/input-build.svg" alt="PHP.Gt/Input build status" />
 </a>
 <a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
