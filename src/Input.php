@@ -34,10 +34,6 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected $queryStringParameters;
 	/** @var BodyInputData */
 	protected $bodyParameters;
-	/** @var FileUploadInputData */
-	protected $fileUploadParameters;
-	/** @var CombinedInputData */
-	protected $parameters;
 
 	public function __construct(
 		array $get = [],

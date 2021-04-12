@@ -6,8 +6,6 @@ use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputValueGetter;
 
 class InputData extends AbstractInputData {
-	use InputValueGetter;
-
 	public function __construct(iterable...$sources) {
 		$this->parameters = [];
 
