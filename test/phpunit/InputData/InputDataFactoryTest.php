@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input\InputData\Test;
+namespace Gt\Input\Test\InputData;
 
 use Gt\Input\Input;
 use Gt\Input\InputData\InputDataFactory;

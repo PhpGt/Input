@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input\Trigger\Test;
+namespace Gt\Input\Test\Trigger;
 
 use Gt\Input\CallOrOutOfSequenceException;
 use Gt\Input\Input;
