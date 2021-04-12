@@ -4,13 +4,20 @@ namespace Gt\Input;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+use Gt\Input\InputData\CombinedInputData;
 use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputData\FileUploadInputData;
+use Gt\Input\InputData\InputData;
 use TypeError;
 
 trait InputValueGetter {
+	/** @var FileUploadInputData */
+	protected $fileUploadParameters;
+	/** @var CombinedInputData */
+	protected $parameters;
+
 	public function getString(string $key):?string {
 		return $this->get($key);
 	}
@@ -43,12 +50,11 @@ trait InputValueGetter {
 	}
 
 	public function getFile(string $key):FileUpload {
-		/** @var Input $this */
-
 		/** @var FileUploadInputData|InputDatum[] $params */
 		$params = $this->fileUploadParameters ?? $this->parameters;
 
 		try {
+
 			/** @var MultipleInputDatum|FileUpload $file */
 			$file = $params[$key];
 

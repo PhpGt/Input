@@ -3,10 +3,12 @@ namespace Gt\Input\InputData;
 
 use ArrayAccess;
 use Countable;
+use Gt\Input\InputValueGetter;
 use Iterator;
 use Gt\Input\InputData\Datum\InputDatum;
 
 abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
+	use InputValueGetter;
 	use KeyValueArrayAccess;
 	use KeyValueCountable;
 	use KeyValueIterator;
@@ -15,10 +17,6 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	protected $queryStringParameters;
 	/** @var BodyInputData */
 	protected $bodyParameters;
-	/** @var FileUploadInputData */
-	protected $fileUploadParameters;
-	/** @var InputDatum[] */
-	protected $parameters = [];
 
 	/** @return mixed|null */
 	public function get(string $key) {

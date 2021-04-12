@@ -1,5 +1,5 @@
 <?php
-namespace Gt\Input\InputData\Test;
+namespace Gt\Input\Test\InputData;
 
 use PHPUnit\Framework\TestCase;
 use Gt\Input\InputData\FileUploadInputData;
