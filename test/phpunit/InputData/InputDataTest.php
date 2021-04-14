@@ -11,8 +11,8 @@ class InputDataTest extends TestCase {
 			"name" => "Alice",
 			"gender" => "f",
 		]);
-		self::assertEquals("Alice", $data["name"]);
-		self::assertEquals("f", $data["gender"]);
+		self::assertSame("Alice", (string)$data["name"]);
+		self::assertSame("f", (string)$data["gender"]);
 	}
 
 	public function testMultipleSources():void {
@@ -24,24 +24,24 @@ class InputDataTest extends TestCase {
 			"userAccess" => "admin",
 		]);
 
-		self::assertEquals("Alice", $data["name"]);
-		self::assertEquals("f", $data["gender"]);
-		self::assertEquals("save", $data["do"]);
-		self::assertEquals("admin", $data["userAccess"]);
+		self::assertSame("Alice", (string)$data["name"]);
+		self::assertSame("f", (string)$data["gender"]);
+		self::assertSame("save", (string)$data["do"]);
+		self::assertSame("admin", (string)$data["userAccess"]);
 	}
 
 	public function testAddFromEmpty():void {
 		$data = new InputData();
 		$data->addKeyValue("name", "Bob");
-		self::assertEquals("Bob", $data["name"]);
+		self::assertSame("Bob", (string)$data["name"]);
 	}
 
 	public function testAddMultipleFromEmpty():void {
 		$data = new InputData();
 		$data->addKeyValue("name", "Bob");
 		$data->addKeyValue("gender", "m");
-		self::assertEquals("Bob", $data["name"]);
-		self::assertEquals("m", $data["gender"]);
+		self::assertSame("Bob", (string)$data["name"]);
+		self::assertSame("m", (string)$data["gender"]);
 	}
 
 	public function testAddFromExisting():void {
@@ -56,12 +56,12 @@ class InputDataTest extends TestCase {
 		$data->addKeyValue("view", "tab1");
 		$data->addKeyValue("screenSize", "large");
 
-		self::assertEquals("Charles", $data["name"]);
-		self::assertEquals("m", $data["gender"]);
-		self::assertEquals("save", $data["do"]);
-		self::assertEquals("admin", $data["userAccess"]);
-		self::assertEquals("tab1", $data["view"]);
-		self::assertEquals("large", $data["screenSize"]);
+		self::assertSame("Charles", (string)$data["name"]);
+		self::assertSame("m", (string)$data["gender"]);
+		self::assertSame("save", (string)$data["do"]);
+		self::assertSame("admin", (string)$data["userAccess"]);
+		self::assertSame("tab1", (string)$data["view"]);
+		self::assertSame("large", (string)$data["screenSize"]);
 	}
 
 	public function testRemove():void {
@@ -70,7 +70,7 @@ class InputDataTest extends TestCase {
 			"gender" => "f",
 		]);
 
-		self::assertEquals("f", $data["gender"]);
+		self::assertSame("f", (string)$data["gender"]);
 		$data->remove("gender");
 		self::assertNull($data["gender"]);
 	}
@@ -96,7 +96,7 @@ class InputDataTest extends TestCase {
 		$data->removeExcept("userAccess");
 		self::assertNull($data["name"]);
 		self::assertNull($data["gender"]);
-		self::assertEquals("sales", $data["userAccess"]);
+		self::assertSame("sales", (string)$data["userAccess"]);
 	}
 
 	public function testRemoveExceptMulti():void {
@@ -106,8 +106,8 @@ class InputDataTest extends TestCase {
 			"userAccess" => "sales",
 		]);
 		$data->removeExcept("name", "userAccess");
-		self::assertEquals("Emma", $data["name"]);
-		self::assertEquals("sales", $data["userAccess"]);
+		self::assertSame("Emma", (string)$data["name"]);
+		self::assertSame("sales", (string)$data["userAccess"]);
 		self::assertNull($data["gender"]);
 	}
 
@@ -128,9 +128,9 @@ class InputDataTest extends TestCase {
 			"gender" => "f",
 		]);
 		$data["userAccess"] = "test";
-		self::assertEquals("Hannah", $data["name"]);
-		self::assertEquals("f", $data["gender"]);
-		self::assertEquals("test", $data["userAccess"]);
+		self::assertSame("Hannah", (string)$data["name"]);
+		self::assertSame("f", (string)$data["gender"]);
+		self::assertSame("test", (string)$data["userAccess"]);
 	}
 
 	public function testUnsetAsArray():void {
@@ -141,7 +141,7 @@ class InputDataTest extends TestCase {
 		self::assertTrue(isset($data["gender"]));
 		unset($data["gender"]);
 		self::assertFalse(isset($data["gender"]));
-		self::assertEquals("Ian", $data["name"]);
+		self::assertSame("Ian", (string)$data["name"]);
 	}
 
 	public function testHas():void {

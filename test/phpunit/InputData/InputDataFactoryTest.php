@@ -10,34 +10,34 @@ class InputDataFactoryTest extends TestCase {
 	public function testCreateNoCriteria():void {
 		$input = $this->createInput();
 		$data = InputDataFactory::create($input);
-		self::assertEquals("Edward", $data["name"]);
-		self::assertEquals("51", $data["age"]);
-		self::assertEquals("01234 567890", $data["telephone"]);
-		self::assertEquals("AB12 3CD", $data["postcode"]);
+		self::assertSame("Edward", (string)$data["name"]);
+		self::assertSame("51", (string)$data["age"]);
+		self::assertSame("01234 567890", (string)$data["telephone"]);
+		self::assertSame("AB12 3CD", (string)$data["postcode"]);
 	}
 
 	public function testCreateCriteriaWith():void {
 		$input = $this->createInput();
 		$data = InputDataFactory::create($input, ["name", "postcode"]);
-		self::assertEquals("Edward", $data["name"]);
+		self::assertSame("Edward", (string)$data["name"]);
 		self::assertNull($data["age"]);
 		self::assertNull($data["telephone"]);
-		self::assertEquals("AB12 3CD", $data["postcode"]);
+		self::assertSame("AB12 3CD", (string)$data["postcode"]);
 	}
 
 	public function testCreateCriteriaWithout():void {
 		$input = $this->createInput();
 		$data = InputDataFactory::create($input, [],["age", "telephone"]);
-		self::assertEquals("Edward", $data["name"]);
+		self::assertSame("Edward", (string)$data["name"]);
 		self::assertNull($data["age"]);
 		self::assertNull($data["telephone"]);
-		self::assertEquals("AB12 3CD", $data["postcode"]);
+		self::assertSame("AB12 3CD", (string)$data["postcode"]);
 	}
 
 	public function testCreateCriteriaWithWithoutNoClash():void {
 		$input = $this->createInput();
 		$data = InputDataFactory::create($input, ["name"], ["postcode"]);
-		self::assertEquals("Edward", $data["name"]);
+		self::assertSame("Edward", (string)$data["name"]);
 		self::assertNull($data["age"]);
 		self::assertNull($data["telephone"]);
 		self::assertNull($data["postcode"]);
