@@ -9,8 +9,7 @@ trait KeyValueArrayAccess {
 		return isset($this->parameters[$offset]);
 	}
 
-	/** @return mixed|null */
-	public function offsetGet($offset) {
+	public function offsetGet($offset):mixed {
 		if($this instanceof FileUploadInputData) {
 			return $this->getFile($offset);
 		}
@@ -42,7 +41,7 @@ trait KeyValueArrayAccess {
 		}
 	}
 
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset):void {
 		if($this->parameters instanceof InputData) {
 			$this->parameters->remove($offset);
 		}
