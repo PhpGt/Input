@@ -13,7 +13,7 @@ trait KeyValueArrayAccess {
 		if($this instanceof FileUploadInputData) {
 			return $this->getFile($offset);
 		}
-		elseif($this instanceof Input || $this instanceof InputData) {
+		elseif(is_a($this, Input::class) || is_a($this, InputData::class)) {
 			if($this->contains($offset)) {
 				return $this->get($offset);
 			}
@@ -22,6 +22,10 @@ trait KeyValueArrayAccess {
 		return null;
 	}
 
+	/**
+	 * @param string $offset
+	 * @param string|InputDatum $value
+	 */
 	public function offsetSet($offset, $value):void {
 		if($this->parameters instanceof InputData) {
 			if(is_string($value)) {

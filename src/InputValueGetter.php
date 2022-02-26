@@ -13,10 +13,9 @@ use Gt\Input\InputData\InputData;
 use TypeError;
 
 trait InputValueGetter {
-	/** @var FileUploadInputData */
-	protected $fileUploadParameters;
-	/** @var CombinedInputData */
-	protected $parameters;
+	protected FileUploadInputData $fileUploadParameters;
+	/** @var array<string, string>|CombinedInputData */
+	protected array|CombinedInputData $parameters;
 
 	public function getString(string $key):?string {
 		return $this->get($key);
@@ -69,9 +68,7 @@ trait InputValueGetter {
 		}
 	}
 
-	/**
-	 * @return FileUpload[]
-	 */
+	/** @return MultipleInputDatum<FileUpload> */
 	public function getMultipleFile(string $key):MultipleInputDatum {
 		return $this->get($key);
 	}
@@ -104,9 +101,7 @@ trait InputValueGetter {
 		return $dateTime;
 	}
 
-	/**
-	 * @return DateTime[]
-	 */
+	/** @return MultipleInputDatum<DateTime> */
 	public function getMultipleDateTime(string $key):MultipleInputDatum {
 		return $this->get($key);
 	}

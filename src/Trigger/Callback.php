@@ -6,9 +6,10 @@ use Gt\Input\InputData\InputData;
 class Callback {
 	/** @var callable */
 	private $callback;
-	private $args;
+	/** @var array<string> */
+	private array $args;
 
-	public function __construct(callable $callback, ...$args) {
+	public function __construct(callable $callback, string...$args) {
 		$this->callback = $callback;
 		$this->args = $args;
 	}

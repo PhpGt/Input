@@ -2,7 +2,7 @@
 namespace Gt\Input\InputData\Datum;
 
 class FailedFileUpload extends FileUpload {
-	protected $errorCode;
+	protected int $errorCode;
 
 	public function __construct(
 		string $originalFilename,
