@@ -31,7 +31,7 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
-	public function current() {
+	public function current():mixed {
 		return $this->offsetGet($this->iteratorKey);
 	}
 
@@ -63,22 +63,24 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 		$this->iteratorKey = 0;
 	}
 
-	/**
-	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+	/** @link http://php.net/manual/en/arrayaccess.offsetexists.php
+	 * @param string $offset
 	 */
 	public function offsetExists($offset):bool {
 		return isset($this->value[$offset]);
 	}
 
-	/**
-	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
+	/** @link http://php.net/manual/en/arrayaccess.offsetget.php
+	 * @param string $offset
 	 */
-	public function offsetGet($offset) {
+	public function offsetGet($offset):mixed {
 		return $this->value[$offset];
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
+	 * @param string $offset
+	 * @param string $value
 	 */
 	public function offsetSet($offset, $value):void {
 		throw new ImmutableObjectModificationException();
