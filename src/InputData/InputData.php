@@ -6,6 +6,7 @@ use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputValueGetter;
 
 class InputData extends AbstractInputData {
+	/** @param iterable<string,string>|iterable<string, array<string>>|iterable<InputData>...$sources */
 	public function __construct(iterable...$sources) {
 		$this->parameters = [];
 
@@ -15,7 +16,7 @@ class InputData extends AbstractInputData {
 				&& isset($value[0])) {
 					$value = new MultipleInputDatum($value);
 				}
-				else if(!$value instanceof InputDatum) {
+				else {
 					$value = new InputDatum($value);
 				}
 				$this->add($key, $value);
@@ -53,10 +54,12 @@ class InputData extends AbstractInputData {
 		return $this;
 	}
 
+	/** @return array<string> */
 	public function getKeys():array {
 		return array_keys($this->parameters);
 	}
 
+	/** @return array<string, string|array<string>> */
 	public function asArray():array {
 		$array = [];
 

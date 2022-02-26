@@ -111,7 +111,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * @throws \RuntimeException on any error during the move operation, or on
 	 *     the second or subsequent call to the method.
 	 */
-	public function moveTo($targetPath) {
+	public function moveTo($targetPath):void {
 		if(!is_uploaded_file($this->tempFilePath)) {
 			throw new UploadedFileSecurityException($this->tempFilePath);
 		}
