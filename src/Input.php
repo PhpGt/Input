@@ -38,7 +38,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	/**
 	 * @param array<string, string> $get
 	 * @param array<string, string> $post
-	 * @param array<string, array<string, string>> $files
+	 * @param array<string, array<int|string, string|array<int|string>>> $files
 	 * @param string $bodyPath
 	 */
 	public function __construct(
@@ -108,9 +108,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Get a particular input value by its key. To specify either GET or POST variables, pass
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
 	 * Input::METHOD_BOTH).
-	 * @return mixed|null
 	 */
-	public function get(string $key, string $method = null) {
+	public function get(string $key, string $method = null):null|InputDatum|string {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
@@ -138,7 +137,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 			throw new InvalidInputMethodException($method);
 		}
 
-		return $data;
+		return $data?->getValue();
 	}
 
 	/**

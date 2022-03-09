@@ -11,4 +11,8 @@ class InputDatum {
 	public function __toString():string {
 		return $this->value;
 	}
+
+	public function getValue():mixed {
+		return $this->value;
+	}
 }

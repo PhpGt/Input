@@ -643,13 +643,19 @@ class InputTest extends TestCase {
 				"size" => [123, 321],
 				"tmp_name" => ["/tmp/aaaaa", "/tmp/bbbbb"],
 				"error" => [0, 0],
-				"full_path" => ["/upload/one.txt", "/upload/two.txt"],
+				"full_path" => ["one.txt", "two.txt"],
 			]
 		];
 		$sut = new Input($get, $post, $files);
-		/** @var InputDatum $files */
-		$files = $sut->getMultipleFile("uploads");
-		var_dump($files);die();
+		$multipleFiles = $sut->getMultipleFile("uploads");
+		self::assertCount(count($files["uploads"]["name"]), $multipleFiles);
+
+		$i = 0;
+		foreach($multipleFiles as $fileName => $file) {
+			self::assertSame($files["uploads"]["name"][$i], $fileName);
+			self::assertSame($files["uploads"]["tmp_name"][$i], $file->getRealPath());
+			$i++;
+		}
 	}
 
 	public function dataRandomGetPost():array {
