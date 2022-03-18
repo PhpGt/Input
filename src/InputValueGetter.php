@@ -13,13 +13,17 @@ use Gt\Input\InputData\InputData;
 use TypeError;
 
 trait InputValueGetter {
-	/** @var FileUploadInputData */
-	protected $fileUploadParameters;
-	/** @var CombinedInputData */
-	protected $parameters;
+	protected FileUploadInputData $fileUploadParameters;
+	/** @var array<string, string>|CombinedInputData */
+	protected array|CombinedInputData $parameters;
 
 	public function getString(string $key):?string {
 		return $this->get($key);
+	}
+
+	/** @return array<string> */
+	public function getMultipleString(string $key):array {
+		return $this->getTypedArray($key, "string");
 	}
 
 	public function getInt(string $key):?int {
@@ -31,6 +35,11 @@ trait InputValueGetter {
 		return (int)$value;
 	}
 
+	/** @return array<int> */
+	public function getMultipleInt(string $key):array {
+		return $this->getTypedArray($key, "int");
+	}
+
 	public function getFloat(string $key):?float {
 		$value = $this->getString($key);
 		if(is_null($value) || strlen($value) === 0) {
@@ -38,6 +47,11 @@ trait InputValueGetter {
 		}
 
 		return (float)$value;
+	}
+
+	/** @return array<float> */
+	public function getMultipleFloat(string $key):array {
+		return $this->getTypedArray($key, "float");
 	}
 
 	public function getBool(string $key):?bool {
@@ -49,12 +63,17 @@ trait InputValueGetter {
 		return (bool)$value;
 	}
 
+	/** @return array<bool> */
+	public function getMultipleBool(string $key):array {
+		return $this->getTypedArray($key, "bool");
+	}
+
+
 	public function getFile(string $key):FileUpload {
 		/** @var FileUploadInputData|InputDatum[] $params */
 		$params = $this->fileUploadParameters ?? $this->parameters;
 
 		try {
-
 			/** @var MultipleInputDatum|FileUpload $file */
 			$file = $params[$key];
 
@@ -64,16 +83,27 @@ trait InputValueGetter {
 
 			return $file;
 		}
-		catch(TypeError $exception) {
+		catch(TypeError) {
 			throw new DataNotFileUploadException($key);
 		}
 	}
 
-	/**
-	 * @return FileUpload[]
-	 */
-	public function getMultipleFile(string $key):MultipleInputDatum {
-		return $this->get($key);
+	/** @return array<FileUpload> */
+	public function getMultipleFile(string $key):array {
+		$multipleFileUpload = $this->get($key);
+		if(!$multipleFileUpload instanceof MultipleInputDatum) {
+			throw new InputException("Parameter '$key' is not a multiple file input.");
+		}
+
+		$array = [];
+
+		/** @var FileUpload $file */
+		foreach($multipleFileUpload as $file) {
+			$name = $file->getClientFilename();
+			$array[$name] = $file;
+		}
+
+		return $array;
 	}
 
 	public function getDateTime(
@@ -104,10 +134,30 @@ trait InputValueGetter {
 		return $dateTime;
 	}
 
-	/**
-	 * @return DateTime[]
-	 */
-	public function getMultipleDateTime(string $key):MultipleInputDatum {
+	/** @return array<DateTimeInterface> */
+	public function getMultipleDateTime(string $key):array {
 		return $this->get($key);
+	}
+
+	private function getTypedArray(string $key, string $typeName):array {
+		$array = [];
+		$datum = $this->get($key);
+
+		if(is_null($datum)) {
+			return [];
+		}
+
+		foreach($datum as $item) {
+			$cast = match($typeName) {
+				"int" => (int)$item,
+				"float" => (float)$item,
+				"bool" => (bool)$item,
+				default => (string)$item,
+			};
+
+			array_push($array, $cast);
+		}
+
+		return $array;
 	}
 }

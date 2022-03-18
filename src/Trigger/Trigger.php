@@ -6,17 +6,19 @@ use Gt\Input\Input;
 use Gt\Input\InputData\InputDataFactory;
 
 class Trigger {
-	/** @var Input */
-	protected $input;
+	protected Input $input;
 
-	protected $matches;
-	protected $keyMatches;
-	protected $with;
-	protected $without;
-	/** @var Callback[] */
-	protected $callbacks;
-	/** @var ?bool */
-	protected $hasFired;
+	/** @var array<array<string>> */
+	protected array $matches;
+	/** @var array<string> */
+	protected array $keyMatches;
+	/** @var array<string> */
+	protected array $with;
+	/** @var array<string> */
+	protected array $without;
+	/** @var array<Callback> */
+	protected array $callbacks;
+	protected ?bool $hasFired;
 
 	public function __construct(Input $input) {
 		$this->input = $input;
@@ -29,7 +31,8 @@ class Trigger {
 		$this->hasFired = null;
 	}
 
-	public function when(...$matches):self {
+	/** @param string|array<string, string>...$matches */
+	public function when(string|array...$matches):self {
 		$matches = $this->flattenArray($matches);
 
 		foreach($matches as $key => $match) {
@@ -85,13 +88,13 @@ class Trigger {
 		return $this;
 	}
 
-	public function call(callable $callback, ...$args):self {
+	public function call(callable $callback, string...$args):self {
 		$this->callbacks []= new Callback($callback, ...$args);
 		$this->hasFired = $this->fire();
 		return $this;
 	}
 
-	public function or(callable $callback, ...$args):self {
+	public function or(callable $callback, string...$args):self {
 		if(is_null($this->hasFired)) {
 			throw new CallOrOutOfSequenceException();
 		}
@@ -134,7 +137,7 @@ class Trigger {
 		return $fired;
 	}
 
-	protected function callCallbacks() {
+	protected function callCallbacks():void {
 		$fields = InputDataFactory::create(
 			$this->input,
 			$this->with,
@@ -147,6 +150,10 @@ class Trigger {
 		}
 	}
 
+	/**
+	 * @param array<string, string|array<string|int, string|array<string|int, string>>> $array
+	 * @return array<string|int, string>
+	 */
 	protected function flattenArray(array $array):array {
 		$result = [];
 

@@ -16,6 +16,10 @@ use Gt\Input\InputData\CombinedInputData;
 use Gt\Input\InputData\FileUploadInputData;
 use Gt\Input\InputData\QueryStringInputData;
 
+/**
+ * @implements ArrayAccess<string, ?string>
+ * @implements Iterator<string, ?string>
+ */
 class Input implements ArrayAccess, Countable, Iterator {
 	use InputValueGetter;
 	use KeyValueArrayAccess;
@@ -27,14 +31,16 @@ class Input implements ArrayAccess, Countable, Iterator {
 	const DATA_FILES = "files";
 	const DATA_COMBINED = "combined";
 
-	/** @var BodyStream */
-	protected $bodyStream;
+	protected BodyStream $bodyStream;
+	protected QueryStringInputData $queryStringParameters;
+	protected BodyInputData $bodyParameters;
 
-	/** @var QueryStringInputData */
-	protected $queryStringParameters;
-	/** @var BodyInputData */
-	protected $bodyParameters;
-
+	/**
+	 * @param array<string, string> $get
+	 * @param array<string, string> $post
+	 * @param array<string, array<int|string, string|array<int|string>>> $files
+	 * @param string $bodyPath
+	 */
 	public function __construct(
 		array $get = [],
 		array $post = [],
@@ -89,7 +95,6 @@ class Input implements ArrayAccess, Countable, Iterator {
 
 		default:
 			throw new InvalidInputMethodException($method);
-			break;
 		}
 
 		$this->parameters = new CombinedInputData(
@@ -103,9 +108,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Get a particular input value by its key. To specify either GET or POST variables, pass
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
 	 * Input::METHOD_BOTH).
-	 * @return mixed|null
 	 */
-	public function get(string $key, string $method = null) {
+	public function get(string $key, string $method = null):null|InputDatum|string {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
@@ -133,7 +137,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 			throw new InvalidInputMethodException($method);
 		}
 
-		return $data;
+		return $data?->getValue();
 	}
 
 	/**
@@ -217,8 +221,10 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 *
 	 * $matches is an associative array, where the key is a request variable's name and the
 	 * value is the request variable's value to match.
+	 *
+	 * @param array<string, string>|string $matches
 	 */
-	public function when(...$matches):Trigger {
+	public function when(array|string...$matches):Trigger {
 		$trigger = new Trigger($this);
 		$trigger->when($matches);
 		return $trigger;
@@ -251,7 +257,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 		return $this->newTrigger("withAll");
 	}
 
-	protected function newTrigger(string $functionName, ...$args):Trigger {
+	protected function newTrigger(string $functionName, string...$args):Trigger {
 		$trigger = new Trigger($this);
 		return $trigger->$functionName(...$args);
 	}

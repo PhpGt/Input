@@ -7,6 +7,10 @@ use Gt\Input\InputValueGetter;
 use Iterator;
 use Gt\Input\InputData\Datum\InputDatum;
 
+/**
+ * @implements ArrayAccess<string, string|InputDatum>
+ * @implements Iterator<string, string|InputDatum>
+ */
 abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	use InputValueGetter;
 	use KeyValueArrayAccess;
@@ -33,12 +37,12 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	}
 
 	protected function set(string $key, InputDatum $value):void {
-		$this->parameters[$key] = $value;
+		$this->parameters[$key] = (string)$value;
 	}
 
-	public function withKeyValue(string $key, InputDatum $value):self {
+	public function withKeyValue(string $key, InputDatum $value):static {
 		$clone = clone($this);
-		$clone->parameters[$key] = $value;
+		$clone->parameters[$key] = (string)$value;
 		return $clone;
 	}
 }

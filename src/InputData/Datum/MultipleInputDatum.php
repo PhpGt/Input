@@ -5,10 +5,14 @@ use ArrayAccess;
 use Gt\Input\ImmutableObjectModificationException;
 use Iterator;
 
+/**
+ * @implements ArrayAccess<string|int, mixed>
+ * @implements Iterator<string|int, mixed>
+ */
 class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
-	protected $iteratorKey;
+	protected int $iteratorKey;
 
-	public function __construct($value) {
+	public function __construct(mixed $value) {
 		parent::__construct($value);
 
 		$this->iteratorKey = 0;
@@ -18,6 +22,7 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 		return implode(", ", $this->value);
 	}
 
+	/** @return array<string, string> */
 	public function toArray():array {
 		$array = [];
 
@@ -31,7 +36,7 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
-	public function current() {
+	public function current():mixed {
 		return $this->offsetGet($this->iteratorKey);
 	}
 
@@ -63,22 +68,24 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 		$this->iteratorKey = 0;
 	}
 
-	/**
-	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+	/** @link http://php.net/manual/en/arrayaccess.offsetexists.php
+	 * @param string|int $offset
 	 */
 	public function offsetExists($offset):bool {
 		return isset($this->value[$offset]);
 	}
 
-	/**
-	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
+	/** @link http://php.net/manual/en/arrayaccess.offsetget.php
+	 * @param string|int $offset
 	 */
-	public function offsetGet($offset) {
+	public function offsetGet($offset):mixed {
 		return $this->value[$offset];
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
+	 * @param string|int $offset
+	 * @param string $value
 	 */
 	public function offsetSet($offset, $value):void {
 		throw new ImmutableObjectModificationException();
@@ -86,6 +93,7 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+	 * @param string|int $offset
 	 */
 	public function offsetUnset($offset):void {
 		throw new ImmutableObjectModificationException();

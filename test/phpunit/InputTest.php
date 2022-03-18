@@ -5,6 +5,7 @@ use DateTime;
 use Gt\Input\DataNotCompatibleFormatException;
 use Gt\Input\Input;
 use Gt\Input\InputData\Datum\FileUpload;
+use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\InputData;
 use Gt\Input\InvalidInputMethodException;
 use Gt\Input\MissingInputParameterException;
@@ -630,6 +631,31 @@ class InputTest extends TestCase {
 		self::expectException(InvalidInputMethodException::class);
 		$input = new Input($get, $post);
 		$input->contains("anything", "invalid-method");
+	}
+
+	public function testGetMultipleFile():void {
+		$get = [];
+		$post = ["do" => "upload"];
+		$files = [
+			"uploads" => [
+				"name" => ["one.txt", "two.txt"],
+				"type" => ["plain/text", "plain/text"],
+				"size" => [123, 321],
+				"tmp_name" => ["/tmp/aaaaa", "/tmp/bbbbb"],
+				"error" => [0, 0],
+				"full_path" => ["one.txt", "two.txt"],
+			]
+		];
+		$sut = new Input($get, $post, $files);
+		$multipleFiles = $sut->getMultipleFile("uploads");
+		self::assertCount(count($files["uploads"]["name"]), $multipleFiles);
+
+		$i = 0;
+		foreach($multipleFiles as $fileName => $file) {
+			self::assertSame($files["uploads"]["name"][$i], $fileName);
+			self::assertSame($files["uploads"]["tmp_name"][$i], $file->getRealPath());
+			$i++;
+		}
 	}
 
 	public function dataRandomGetPost():array {

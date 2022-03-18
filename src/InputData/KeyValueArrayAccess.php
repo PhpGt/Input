@@ -9,12 +9,11 @@ trait KeyValueArrayAccess {
 		return isset($this->parameters[$offset]);
 	}
 
-	/** @return mixed|null */
-	public function offsetGet($offset) {
+	public function offsetGet($offset):mixed {
 		if($this instanceof FileUploadInputData) {
 			return $this->getFile($offset);
 		}
-		elseif($this instanceof Input || $this instanceof InputData) {
+		elseif(is_a($this, Input::class) || is_a($this, InputData::class)) {
 			if($this->contains($offset)) {
 				return $this->get($offset);
 			}
@@ -23,6 +22,10 @@ trait KeyValueArrayAccess {
 		return null;
 	}
 
+	/**
+	 * @param string $offset
+	 * @param string|InputDatum $value
+	 */
 	public function offsetSet($offset, $value):void {
 		if($this->parameters instanceof InputData) {
 			if(is_string($value)) {
@@ -42,7 +45,7 @@ trait KeyValueArrayAccess {
 		}
 	}
 
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset):void {
 		if($this->parameters instanceof InputData) {
 			$this->parameters->remove($offset);
 		}

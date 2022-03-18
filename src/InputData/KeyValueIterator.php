@@ -19,11 +19,11 @@ trait KeyValueIterator {
 		return $this->getIteratorDataKey();
 	}
 
-	public function valid() {
+	public function valid():bool {
 		return !empty($this->getIteratorDataKey());
 	}
 
-	public function rewind() {
+	public function rewind():void {
 		$this->iteratorKey = 0;
 	}
 
