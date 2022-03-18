@@ -1,12 +1,12 @@
-Encapsulated and secured user input.
+Encapsulated and type-safe user input.
 ====================================
 
-By default, PHP stores all user input in global variables, available for reading and _modification_ in any code, including third party libraries.
+By default, PHP stores all user input in global arrays (`$_GET`, `$_POST`, and `$_FILES`) available for reading and _modification_ in any code, including third party libraries.
 
 This library wraps user input in objects that promote encapsulation, allowing functions to be
 passed only the user input they require, rather than having unmitigated read/write access to everything.
 
-User input is automatically secured using openssl ([coming in v2][v2]), preventing unauthorised access to user input from areas of code that shouldn't have it.
+Type-safe functions allow more predictable functionality, such as `$input->getFileUpload("photo")` and `$input->getDateTime("date-of-birth")`.
 
 ***
 
@@ -31,85 +31,52 @@ Example usage
 
 ```html
 <form method="post">
-	<h1>Buy this amazing product</h1>
+	<h1>User Profile</h1>
 	<label>
-		<span>Your name (as it appears on your card)</span>
+		<span>Your name</span>
 		<input name="name" placeholder="e.g. Eugene Kaspersky" required />	
 	</label>
 	
 	<label>
-		<span>16 digit card number</span>
-		<input name="card-number" required data-secure />
+		<span>Age</span>
+		<input name="age" type="number" required />
 	</label>
 	
 	<label>
-		<span>Expiry date</span>
-		<input name="card-expiry" pattern="\d\d\w\d\d" placeholder="e.g. 10/24" required data-secure />
+		<span>Photo</span>
+		<input name="photo" type="file" />
 	</label>
 	
-	<label>
-		<span>CVV number</span>
-		<input name="card-cvv" pattern="\d{3}" placeholder="e.g. 123" required data-secure />
-	</label>
-	
-	<label>
-		<span>Shipping address</span>
-		<textarea name="address" required data-secure></textarea>
-	</label>
-	
-	<button name="do" value="pay">Make payment!</button>
+	<button name="do" value="save">Save profile</button>
 </form>
 ```
 
 ```php
 <?php
-// Pass secured input to PaymentProcessor's processCard function:
-$payment = new PaymentProcessor();
-$input->do("pay")
-	->call([$payment, "processCard"]);
+$profile->update(
+	$profileId,
+// Use type-safe getters to help write maintainable code.
+	$input->getString("name"),
+	$input->getInt("age"),
+);
 
-// Storing user's shipping data doesn't need to know credit card information:
-$input->do("pay")
-	->with("name", "address")
-	->call("processShipping");
-
-function processShipping(InputData $data) {
-	setUsername($data->getString("name"));
-	
-	storeNameAddress(
-		$data->getString("name"), 
-		$data->getString("address")
-	);
+// Handle file uploads with a FileUpload object.
+$photoUpload = $input->getFile("photo");
+if($photoUpload instanceof FailedFileUpload) {
+	// Handle a failed upload here.
 }
+
+$photoUpload->moveTo("data/upload/$profileId.jpg");
 ```
 
-Why?
-----
+Features at a glance
+--------------------
 
-This library's primary objective is to provide automatic application security, so only the code that has authorisation to read sensitive user input can do so. 
++ Type-safe getters, implementing the [TypeSafeGetter][tsg] interface.
++ Typed `multiple` getters, for working with checkboxes, multi-select elements or multiple file uploads.
++ "do" callback functions - hook up callbacks to button presses (implemented automatically in WebEngine applications).
++ "when" triggers - execute callbacks when certain user input is present.
++ `FileUploadInputData` class for easy file uploads, including functions such as `moveTo()`, `getOriginalName()`, etc.
++ Coming soon: working with huge files by streaming them to PHP, efficiently managing memory in the process.
 
-The encapsulation of user input promotes the benefits of object oriented programming. Rather than having all user input available in global scope, the developer must decide which code receives the user input.
-
-The purpose is to enhance security, and prevent bad coding patterns such as changing the flow of logic depending on whether a particular query string parameter is set.
-
-How?
-----
-
-Once an instance of Input is created, all global variables can be unset completely, preventing ad-hoc usage and possible alteration from unknown sources. This is done using `Gt\Input\Globals::unset()`.
-
-Note that the automatic security feature is being released as [version 2][v2] and is not currently available in the library, but will be released when ready with no backwards breaking changes.
-
-The page can be secured by injecting the public key into the page. If your application uses a [DOM document][dom], the forms can be injected for you with `Gt\Input\Security\Injector`, otherwise generate your own using `Gt\Input\Security\Key` to create [secure data fields][secure-data-fields].
-
-A small amount of JavaScript is used to secure user input before being sent by the browser. The JavaScript is within the `src/JavaScript` directory.
-
-If JavaScript fails to execute or is forgotten, PHP execution will halt to prevent unsecured input being available. 
-
-What about `php://input`?
--------------------------
-
-The PHP input stream can be accessed to read raw post data, and this isn't changed by this library. However, when using [secure data fields][secure-data-fields] the user input is encrypted with your application's secret key before it is sent from the user's web browser. The fields are still available to code that reads the input stream, but will be encrypted. 
-
-[v2]: https://github.com/PhpGt/Input/issues?q=is%3Aopen+is%3Aissue+milestone%3Av2
-[dom]: https://php.gt/dom
-[secure-data-fields]: https://php.gt/input/security
+[tsg]: https://php.gt/typesafegetter
