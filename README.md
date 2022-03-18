@@ -75,6 +75,7 @@ Features at a glance
 + Type-safe getters, implementing the [TypeSafeGetter][tsg] interface.
 + Typed `multiple` getters, for working with checkboxes, multi-select elements or multiple file uploads.
 + "do" callback functions - hook up callbacks to button presses (implemented automatically in WebEngine applications).
++ "when" triggers - execute callbacks when certain user input is present.
 + `FileUploadInputData` class for easy file uploads, including functions such as `moveTo()`, `getOriginalName()`, etc.
 
 [tsg]: https://php.gt/typesafegetter
