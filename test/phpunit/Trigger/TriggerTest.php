@@ -44,7 +44,6 @@ class TriggerTest extends TestCase {
 
 	/** @dataProvider dataInput */
 	public function testFiresOr(Input $input):void {
-		$keys = Helper::getKeysFromInput($input, 1);
 		$trigger = new Trigger($input);
 		$trigger->when("this-does-not-exist");
 		$callbackCount = 0;
@@ -53,7 +52,7 @@ class TriggerTest extends TestCase {
 		$trigger->call(function() use(&$callbackCount) {
 			$callbackCount++;
 		});
-		$trigger->or(function() use(&$orCount) {
+		$trigger->orCall(function() use(&$orCount) {
 			$orCount++;
 		});
 
@@ -66,7 +65,7 @@ class TriggerTest extends TestCase {
 		self::expectException(CallOrOutOfSequenceException::class);
 		$trigger = new Trigger($input);
 		$trigger->when("this-does-not-exist");
-		$trigger->or(function() use(&$orCount) {
+		$trigger->orCall(function() use(&$orCount) {
 			$orCount++;
 		});
 	}

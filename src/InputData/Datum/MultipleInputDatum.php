@@ -88,7 +88,7 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	 * @param string $value
 	 */
 	public function offsetSet($offset, $value):void {
-		throw new ImmutableObjectModificationException();
+		throw new ImmutableObjectModificationException("Trying to set $offset with $value");
 	}
 
 	/**
@@ -96,6 +96,6 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	 * @param string|int $offset
 	 */
 	public function offsetUnset($offset):void {
-		throw new ImmutableObjectModificationException();
+		throw new ImmutableObjectModificationException("Trying to unset $offset");
 	}
 }

@@ -45,7 +45,7 @@ class InputData extends AbstractInputData {
 	}
 
 	public function removeExcept(string...$keys):self {
-		foreach($this->parameters as $key => $value) {
+		foreach(array_keys($this->parameters) as $key) {
 			if(!in_array($key, $keys)) {
 				unset($this->parameters[$key]);
 			}

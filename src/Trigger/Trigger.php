@@ -94,7 +94,7 @@ class Trigger {
 		return $this;
 	}
 
-	public function or(callable $callback, string...$args):self {
+	public function orCall(callable $callback, string...$args):self {
 		if(is_null($this->hasFired)) {
 			throw new CallOrOutOfSequenceException();
 		}
@@ -138,7 +138,8 @@ class Trigger {
 	}
 
 	protected function callCallbacks():void {
-		$fields = InputDataFactory::create(
+		$inputDataFactory = new InputDataFactory();
+		$fields = $inputDataFactory->create(
 			$this->input,
 			$this->with,
 			$this->without

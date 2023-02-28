@@ -7,11 +7,12 @@
 	<description>Custom ruleset</description>
 
 	<rule ref="rulesets/codesize.xml">
-		<exclude name="TooManyPublicMethods"/>
+		<exclude name="TooManyPublicMethods" />
 	</rule>
 
 	<rule ref="rulesets/cleancode.xml">
-		<exclude name="StaticAccess"/>
+		<exclude name="StaticAccess" />
+		<exclude name="ElseExpression" />
 	</rule>
 
 	<rule ref="rulesets/controversial.xml">
@@ -21,7 +22,9 @@
 	</rule>
 
 	<rule ref="rulesets/naming.xml">
-		<exclude name="ShortVariable"/>
+		<exclude name="ShortMethodName" />
+		<exclude name="ShortVariable" />
+		<exclude name="LongVariable" />
 	</rule>
 
 	<rule ref="rulesets/unusedcode.xml">
@@ -36,13 +39,23 @@
 
 	<rule ref="rulesets/cleancode.xml/StaticAccess">
 		<properties>
-			<property name="exceptions" value="Gt\Curl\CurlObjectLookup"/>
+			<property name="exceptions" value="DateTime,DateTimeInterface,Gt\Curl\CurlObjectLookup" />
 		</properties>
 	</rule>
 
+	<rule ref="rulesets/naming.xml/ShortMethodName">
+		<properties>
+			<property name="exceptions" value="go,do" />
+		</properties>
+	</rule>
 	<rule ref="rulesets/naming.xml/ShortVariable">
 		<properties>
 			<property name="exceptions" value="ch,mh,sh" />
+		</properties>
+	</rule>
+	<rule ref="rulesets/naming.xml/LongVariable">
+		<properties>
+			<property name="maximum" value="24" />
 		</properties>
 	</rule>
 </ruleset>
