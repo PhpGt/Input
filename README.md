@@ -1,12 +1,12 @@
 Encapsulated and type-safe user input.
-====================================
+======================================
 
 By default, PHP stores all user input in global arrays (`$_GET`, `$_POST`, and `$_FILES`) available for reading and _modification_ in any code, including third party libraries.
 
 This library wraps user input in objects that promote encapsulation, allowing functions to be
 passed only the user input they require, rather than having unmitigated read/write access to everything.
 
-Type-safe functions allow more predictable functionality, such as `$input->getFileUpload("photo")` and `$input->getDateTime("date-of-birth")`.
+Type-safe functions allow more predictable functionality, such as `$input->getFileUpload("photo")`, `$input->getDateTime("date-of-birth")`, and `$input->getMultipleString("pizza-topping")`.
 
 ***
 
@@ -36,10 +36,20 @@ Example usage
 		<span>Your name</span>
 		<input name="name" placeholder="e.g. Eugene Kaspersky" required />	
 	</label>
-	
+
 	<label>
 		<span>Age</span>
-		<input name="age" type="number" required />
+		<input type="number" name="age" />
+	</label>
+	
+	<label>
+		<span>Interests</span>
+		<select name="interest[]" multiple>
+			<option>Mathematics</option>
+			<option>Cryptography</option>
+			<option>Information Security</option>
+			<option>Cyberwarfare</option>
+		</select>
 	</label>
 	
 	<label>
@@ -59,6 +69,11 @@ $profile->update(
 	$input->getString("name"),
 	$input->getInt("age"),
 );
+
+// Handle multiple values with type safety.
+foreach($input->getMultipleString("interest") as $interest) {
+	$profile->addInterest($interest);
+}
 
 // Handle file uploads with a FileUpload object.
 $photoUpload = $input->getFile("photo");

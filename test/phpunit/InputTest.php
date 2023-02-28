@@ -673,6 +673,15 @@ class InputTest extends TestCase {
 		}
 	}
 
+	public function testGetMultipleDateTime():void {
+		$threeCommitDates = ["2017-12-01", "2017-12-02", "2018-02-23"];
+		$sut = new Input(["dt" => $threeCommitDates]);
+
+		foreach($sut->getMultipleDateTime("dt") as $i => $dateTime) {
+			self::assertSame($threeCommitDates[$i], $dateTime->format("Y-m-d"));
+		}
+	}
+
 	public function testAsArray():void {
 		$sut = new Input(post: self::FAKE_DATA);
 		self::assertSame(self::FAKE_DATA, $sut->asArray());

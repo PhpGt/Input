@@ -3,6 +3,7 @@ namespace Gt\Input;
 
 use ArrayAccess;
 use Countable;
+use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
 use Gt\Input\Trigger\Trigger;
@@ -36,8 +37,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected BodyInputData $bodyParameters;
 
 	/**
-	 * @param array<string, string> $get
-	 * @param array<string, string> $post
+	 * @param array<string, string|array<string>> $get
+	 * @param array<string, string|array<string>> $post
 	 * @param array<string, array<int|string, string|array<int|string>>> $files
 	 * @param string $bodyPath
 	 */
@@ -109,7 +110,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
 	 * Input::METHOD_BOTH).
 	 */
-	public function get(string $key, string $method = null):null|InputDatum|string {
+	public function get(string $key, string $method = null):null|InputDatum|MultipleInputDatum|string {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
