@@ -6,6 +6,7 @@ use Gt\Input\DataNotCompatibleFormatException;
 use Gt\Input\Input;
 use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
+use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputData\InputData;
 use Gt\Input\InvalidInputMethodException;
 use Gt\Input\MissingInputParameterException;
@@ -655,6 +656,20 @@ class InputTest extends TestCase {
 			self::assertSame($files["uploads"]["name"][$i], $fileName);
 			self::assertSame($files["uploads"]["tmp_name"][$i], $file->getRealPath());
 			$i++;
+		}
+	}
+
+	public function testGet():void {
+		$sut = new Input(post: Helper::getPostPizza());
+		self::assertInstanceOf(InputDatum::class, $sut->get("name"));
+		self::assertInstanceOf(MultipleInputDatum::class, $sut->get("toppings"));
+	}
+
+	public function testGetMultipleString():void {
+		$sut = new Input(post: Helper::getPostPizza());
+		$toppingsArray = $sut->getMultipleString("toppings");
+		foreach(Helper::getPostPizza()["toppings"] as $toppingString) {
+			self::assertContains($toppingString, $toppingsArray);
 		}
 	}
 
