@@ -658,6 +658,11 @@ class InputTest extends TestCase {
 		}
 	}
 
+	public function testAsArray():void {
+		$sut = new Input(post: self::FAKE_DATA);
+		self::assertSame(self::FAKE_DATA, $sut->asArray());
+	}
+
 	public function dataRandomGetPost():array {
 		$data = [];
 

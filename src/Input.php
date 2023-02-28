@@ -261,4 +261,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 		$trigger = new Trigger($this);
 		return $trigger->$functionName(...$args);
 	}
+
+	/** @return array<string, string> */
+	public function asArray():array {
+		return $this->getAll()->asArray();
+	}
 }
