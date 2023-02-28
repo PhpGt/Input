@@ -13,10 +13,10 @@ Type-safe functions allow more predictable functionality, such as `$input->getFi
 <a href="https://github.com/PhpGt/Input/actions" target="_blank">
 	<img src="https://badge.status.php.gt/input-build.svg" alt="PHP.Gt/Input build status" />
 </a>
-<a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
+<a href="https://app.codacy.com/gh/PhpGt/Input" target="_blank">
 	<img src="https://badge.status.php.gt/input-quality.svg" alt="PHP.Gt/Input code quality" />
 </a>
-<a href="https://scrutinizer-ci.com/g/phpgt/input" target="_blank">
+<a href="https://app.codecov.io/gh/PhpGt/Input" target="_blank">
 	<img src="https://badge.status.php.gt/input-coverage.svg" alt="PHP.Gt/Input code coverage" />
 </a>
 <a href="https://packagist.org/packages/phpgt/input" target="_blank">
