@@ -7,71 +7,28 @@
     "content-hash": "bd4008bcfec3a7ec80daf21fe9565655",
     "packages": [
         {
-            "name": "phpgt/cookie",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PhpGt/Cookie.git",
-                "reference": "dd811b6f04becc7c1f8524d84ad02e4635f4a94e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Cookie/zipball/dd811b6f04becc7c1f8524d84ad02e4635f4a94e",
-                "reference": "dd811b6f04becc7c1f8524d84ad02e4635f4a94e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "8.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Gt\\Cookie\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Greg Bowler",
-                    "email": "greg.bowler@g105b.com"
-                }
-            ],
-            "description": "Object oriented cookie handler.",
-            "support": {
-                "issues": "https://github.com/PhpGt/Cookie/issues",
-                "source": "https://github.com/PhpGt/Cookie/tree/v1.0.2"
-            },
-            "time": "2019-07-17T20:11:11+00:00"
-        },
-        {
             "name": "phpgt/http",
-            "version": "v1.1.2",
+            "version": "v1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Http.git",
-                "reference": "80683cebb3c9490f0f7eb71fa5f25cc85a9eb5ed"
+                "reference": "e3e4cf5eee74b96bc56063a802f9cfa85f96d42f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Http/zipball/80683cebb3c9490f0f7eb71fa5f25cc85a9eb5ed",
-                "reference": "80683cebb3c9490f0f7eb71fa5f25cc85a9eb5ed",
+                "url": "https://api.github.com/repos/PhpGt/Http/zipball/e3e4cf5eee74b96bc56063a802f9cfa85f96d42f",
+                "reference": "e3e4cf5eee74b96bc56063a802f9cfa85f96d42f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2",
-                "phpgt/cookie": "*",
-                "phpgt/input": "*",
-                "psr/http-message": "^1.0.1",
-                "willdurand/negotiation": "^2.3"
+                "php": ">=8.1",
+                "phpgt/input": "^v1",
+                "psr/http-message": "^v1.0.1",
+                "willdurand/negotiation": "v3.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "8.*"
+                "phpstan/phpstan": "^v1.8",
+                "phpunit/phpunit": "^v9.5"
             },
             "type": "library",
             "autoload": {
@@ -86,9 +43,15 @@
             "description": "PSR-7 HTTP message implementation.",
             "support": {
                 "issues": "https://github.com/PhpGt/Http/issues",
-                "source": "https://github.com/PhpGt/Http/tree/v1.1.2"
+                "source": "https://github.com/PhpGt/Http/tree/v1.1.8"
             },
-            "time": "2020-06-16T13:13:25+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/PhpGt",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-31T15:04:57+00:00"
         },
         {
             "name": "psr/http-message",
@@ -145,28 +108,28 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "v2.3.1",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "03436ededa67c6e83b9b12defac15384cb399dc9"
+                "reference": "68e9ea0553ef6e2ee8db5c1d98829f111e623ec2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/03436ededa67c6e83b9b12defac15384cb399dc9",
-                "reference": "03436ededa67c6e83b9b12defac15384cb399dc9",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/68e9ea0553ef6e2ee8db5c1d98829f111e623ec2",
+                "reference": "68e9ea0553ef6e2ee8db5c1d98829f111e623ec2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.5"
+                "symfony/phpunit-bridge": "^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -195,9 +158,9 @@
             ],
             "support": {
                 "issues": "https://github.com/willdurand/Negotiation/issues",
-                "source": "https://github.com/willdurand/Negotiation/tree/2.x"
+                "source": "https://github.com/willdurand/Negotiation/tree/3.1.0"
             },
-            "time": "2017-05-14T17:21:12+00:00"
+            "time": "2022-01-30T20:08:53+00:00"
         }
     ],
     "packages-dev": [
@@ -2927,5 +2890,5 @@
         "php": ">=8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
