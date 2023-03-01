@@ -7,6 +7,7 @@ use Gt\Input\UploadedFileSecurityException;
 use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use RuntimeException;
 use SplFileInfo;
 use TypeError;
 
@@ -69,7 +70,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * an exception.
 	 *
 	 * @return StreamInterface Stream representation of the uploaded file.
-	 * @throws \RuntimeException in cases when no stream is available or can be
+	 * @throws RuntimeException in cases when no stream is available or can be
 	 *     created.
 	 */
 	public function getStream():StreamInterface {
@@ -108,7 +109,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * @see http://php.net/move_uploaded_file
 	 * @param string $targetPath Path to which to move the uploaded file.
 	 * @throws InvalidArgumentException if the $targetPath specified is invalid.
-	 * @throws \RuntimeException on any error during the move operation, or on
+	 * @throws RuntimeException on any error during the move operation, or on
 	 *     the second or subsequent call to the method.
 	 */
 	public function moveTo($targetPath):void {
@@ -117,7 +118,13 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 		}
 
 		if(!is_string($targetPath)) {
-			throw new TypeError("Argument 1 passed to " . __METHOD__ . " must be of type string, " . gettype($targetPath) . "given");
+			throw new TypeError(
+				"Argument 1 passed to "
+				. __METHOD__
+				. " must be of type string, "
+				. gettype($targetPath)
+				. "given"
+			);
 		}
 
 		$targetPath = str_replace(
@@ -156,7 +163,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * @see http://php.net/manual/en/features.file-upload.errors.php
 	 * @return int One of PHP's UPLOAD_ERR_XXX constants.
 	 */
-	public function getError() {
+	public function getError():int {
 // Note that this class ALWAYS returns UPLOAD_ERR_OK, due to failed uploads being
 // represented by another class, FailedFileUpload.
 		return UPLOAD_ERR_OK;
@@ -175,7 +182,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * @return string|null The filename sent by the client or null if none
 	 *     was provided.
 	 */
-	public function getClientFilename() {
+	public function getClientFilename():?string {
 		return $this->originalFileName;
 	}
 
@@ -192,7 +199,7 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 	 * @return string|null The media type sent by the client or null if none
 	 *     was provided.
 	 */
-	public function getClientMediaType() {
+	public function getClientMediaType():?string {
 		return $this->getMimeType();
 	}
 }

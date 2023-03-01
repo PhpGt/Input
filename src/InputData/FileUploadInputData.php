@@ -50,7 +50,7 @@ class FileUploadInputData extends InputData {
 		foreach($files as $inputName => $details) {
 			$datumList[$inputName] = [];
 
-			foreach($details["tmp_name"] as $i => $tmpPath) {
+			foreach(array_keys($details["tmp_name"]) as $i) {
 				$params = [
 					$details["name"][$i],
 					$details["type"][$i],

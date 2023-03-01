@@ -6,6 +6,7 @@ use Gt\Input\DataNotCompatibleFormatException;
 use Gt\Input\Input;
 use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
+use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputData\InputData;
 use Gt\Input\InvalidInputMethodException;
 use Gt\Input\MissingInputParameterException;
@@ -656,6 +657,43 @@ class InputTest extends TestCase {
 			self::assertSame($files["uploads"]["tmp_name"][$i], $file->getRealPath());
 			$i++;
 		}
+	}
+
+	public function testGet():void {
+		$sut = new Input(post: Helper::getPostPizza());
+		self::assertInstanceOf(InputDatum::class, $sut->get("name"));
+		self::assertInstanceOf(MultipleInputDatum::class, $sut->get("toppings"));
+	}
+
+	public function testGetMultipleString():void {
+		$sut = new Input(post: Helper::getPostPizza());
+		$toppingsArray = $sut->getMultipleString("toppings");
+		foreach(Helper::getPostPizza()["toppings"] as $toppingString) {
+			self::assertContains($toppingString, $toppingsArray);
+		}
+	}
+
+	public function testGetMultipleDateTime():void {
+		$threeCommitDates = ["2017-12-01", "2017-12-02", "2018-02-23"];
+		$sut = new Input(["dt" => $threeCommitDates]);
+
+		foreach($sut->getMultipleDateTime("dt") as $i => $dateTime) {
+			self::assertSame($threeCommitDates[$i], $dateTime->format("Y-m-d"));
+		}
+	}
+
+	public function testGetMultipleFloat():void {
+		$threeFloatValues = [12.34, 56.78, 90.00];
+		$sut = new Input(["money" => $threeFloatValues]);
+
+		foreach($sut->getMultipleFloat("money") as $i => $floatValue) {
+			self::assertSame($threeFloatValues[$i], $floatValue);
+		}
+	}
+
+	public function testAsArray():void {
+		$sut = new Input(post: self::FAKE_DATA);
+		self::assertSame(self::FAKE_DATA, $sut->asArray());
 	}
 
 	public function dataRandomGetPost():array {

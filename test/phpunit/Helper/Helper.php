@@ -7,6 +7,13 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 class Helper {
+	public static function getPostPizza():array {
+		return [
+			"toppings" => ["Mozzarella", "Basil", "Mushroom", "Peppers", "Onion", "Spinach"],
+			"name" => "Greg's pizza",
+		];
+	}
+
 	public static function getRandomKvp(int $num, string $prefix = ""):array {
 		$kvp = [];
 

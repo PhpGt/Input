@@ -35,7 +35,7 @@ class FailedFileUpload extends FileUpload {
 	 * @see http://php.net/manual/en/features.file-upload.errors.php
 	 * @return int One of PHP's UPLOAD_ERR_XXX constants.
 	 */
-	public function getError() {
+	public function getError():int {
 		return $this->errorCode;
 	}
 
