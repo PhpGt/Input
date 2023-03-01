@@ -682,6 +682,15 @@ class InputTest extends TestCase {
 		}
 	}
 
+	public function testGetMultipleFloat():void {
+		$threeFloatValues = [12.34, 56.78, 90.00];
+		$sut = new Input(["money" => $threeFloatValues]);
+
+		foreach($sut->getMultipleFloat("money") as $i => $floatValue) {
+			self::assertSame($threeFloatValues[$i], $floatValue);
+		}
+	}
+
 	public function testAsArray():void {
 		$sut = new Input(post: self::FAKE_DATA);
 		self::assertSame(self::FAKE_DATA, $sut->asArray());
