@@ -90,7 +90,7 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	 * @SuppressWarnings("UnusedFormalParameter")
 	 */
 	public function offsetSet($offset, $value):void {
-		throw new ImmutableObjectModificationException();
+		throw new ImmutableObjectModificationException("Trying to set $offset with $value");
 	}
 
 	/**
@@ -99,6 +99,6 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	 * @SuppressWarnings("UnusedFormalParameter")
 	 */
 	public function offsetUnset($offset):void {
-		throw new ImmutableObjectModificationException();
+		throw new ImmutableObjectModificationException("Trying to unset $offset");
 	}
 }

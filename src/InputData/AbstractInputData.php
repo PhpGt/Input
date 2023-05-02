@@ -3,6 +3,7 @@ namespace Gt\Input\InputData;
 
 use ArrayAccess;
 use Countable;
+use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputValueGetter;
 use Iterator;
 use Gt\Input\InputData\Datum\InputDatum;
@@ -17,13 +18,10 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	use KeyValueCountable;
 	use KeyValueIterator;
 
-	/** @var QueryStringInputData */
-	protected $queryStringParameters;
-	/** @var BodyInputData */
-	protected $bodyParameters;
+	protected QueryStringInputData $queryStringParameters;
+	protected BodyInputData $bodyParameters;
 
-	/** @return mixed|null */
-	public function get(string $key) {
+	public function get(string $key):null|InputDatum|MultipleInputDatum {
 		return $this->parameters[$key] ?? null;
 	}
 
