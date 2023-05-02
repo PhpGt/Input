@@ -114,28 +114,13 @@ class Input implements ArrayAccess, Countable, Iterator {
 			$method = self::DATA_COMBINED;
 		}
 
-		$data = null;
-
-		switch($method) {
-		case self::DATA_QUERYSTRING:
-			$data = $this->queryStringParameters->get($key);
-			break;
-
-		case self::DATA_BODY:
-			$data =$this->bodyParameters->get($key);
-			break;
-
-		case self::DATA_FILES:
-			$data = $this->fileUploadParameters->getFile($key);
-			break;
-
-		case self::DATA_COMBINED:
-			$data = $this->parameters->get($key);
-			break;
-
-		default:
-			throw new InvalidInputMethodException($method);
-		}
+		$data = match($method) {
+			self::DATA_QUERYSTRING => $this->queryStringParameters->get($key),
+			self::DATA_BODY => $this->bodyParameters->get($key),
+			self::DATA_FILES => $this->fileUploadParameters->getFile($key),
+			self::DATA_COMBINED => $this->parameters->get($key),
+			default => throw new InvalidInputMethodException($method),
+		};
 
 		return $data?->getValue();
 	}

@@ -142,6 +142,7 @@ trait InputValueGetter {
 	/** @return array<int|float|bool|string> */
 	private function getTypedArray(string $key, string $typeName):array {
 		$array = [];
+		/** @var null|iterable<string, mixed> $datum */
 		$datum = $this->get($key);
 
 		if(is_null($datum)) {
