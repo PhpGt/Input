@@ -21,7 +21,7 @@ abstract class AbstractInputData implements ArrayAccess, Countable, Iterator {
 	protected QueryStringInputData $queryStringParameters;
 	protected BodyInputData $bodyParameters;
 
-	public function get(string $key):null|InputDatum|MultipleInputDatum {
+	public function get(string $key):mixed {
 		return $this->parameters[$key] ?? null;
 	}
 

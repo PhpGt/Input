@@ -3,7 +3,6 @@ namespace Gt\Input;
 
 use ArrayAccess;
 use Countable;
-use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
 use Gt\Input\Trigger\Trigger;
@@ -37,8 +36,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected BodyInputData $bodyParameters;
 
 	/**
-	 * @param array<string, string|array<string>> $get
-	 * @param array<string, string|array<string>> $post
+	 * @param array<string, string> $get
+	 * @param array<string, string> $post
 	 * @param array<string, array<int|string, string|array<int|string>>> $files
 	 * @param string $bodyPath
 	 */
@@ -106,16 +105,16 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Get a particular input value by its key. To specify either GET or POST variables, pass
-	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
-	 * Input::METHOD_BOTH).
+	 * Get a particular input value by its key. To specify either GET or
+	 * POST variables, pass Input::METHOD_GET or Input::METHOD_POST as the
+	 * second parameter (defaults to Input::METHOD_BOTH).
 	 */
-	public function get(string $key, string $method = null):null|InputDatum|MultipleInputDatum|string {
+	public function get(string $key, string $method = null):mixed {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
 
-		$data = match ($method) {
+		$data = match($method) {
 			self::DATA_QUERYSTRING => $this->queryStringParameters->get($key),
 			self::DATA_BODY => $this->bodyParameters->get($key),
 			self::DATA_FILES => $this->fileUploadParameters->getFile($key),
@@ -134,13 +133,28 @@ class Input implements ArrayAccess, Countable, Iterator {
 			$method = self::DATA_COMBINED;
 		}
 
-		return match ($method) {
-			self::DATA_QUERYSTRING => $this->containsQueryStringParameter($key),
-			self::DATA_BODY => $this->containsBodyParameter($key),
-			self::DATA_FILES => $this->containsFile($key),
-			self::DATA_COMBINED => isset($this->parameters[$key]),
-			default => throw new InvalidInputMethodException($method),
-		};
+		switch($method) {
+		case self::DATA_QUERYSTRING:
+			$isset = $this->containsQueryStringParameter($key);
+			break;
+
+		case self::DATA_BODY:
+			$isset =$this->containsBodyParameter($key);
+			break;
+
+		case self::DATA_FILES:
+			$isset =$this->containsFile($key);
+			break;
+
+		case self::DATA_COMBINED:
+			$isset = isset($this->parameters[$key]);
+			break;
+
+		default:
+			throw new InvalidInputMethodException($method);
+		}
+
+		return $isset;
 	}
 
 	public function containsQueryStringParameter(string $key):bool {
@@ -156,21 +170,27 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Get an InputData object containing all request variables. To specify only GET or POST
-	 * variables, pass Input::METHOD_GET or Input::METHOD_POST.
+	 * Get an InputData object containing all request variables. To specify
+	 * only GET or POST variables, pass Input::METHOD_GET
+	 * or Input::METHOD_POST.
 	 */
 	public function getAll(string $method = null):InputData {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
 
-		return match ($method) {
-			self::DATA_QUERYSTRING => $this->queryStringParameters,
-			self::DATA_BODY => $this->bodyParameters,
-			self::DATA_FILES => $this->fileUploadParameters,
-			self::DATA_COMBINED => $this->parameters,
-			default => throw new InvalidInputMethodException($method),
-		};
+		switch($method) {
+		case self::DATA_QUERYSTRING:
+			return $this->queryStringParameters;
+		case self::DATA_BODY:
+			return $this->bodyParameters;
+		case self::DATA_FILES:
+			return $this->fileUploadParameters;
+		case self::DATA_COMBINED:
+			return $this->parameters;
+		default:
+			throw new InvalidInputMethodException($method);
+		}
 	}
 
 	/**
@@ -182,11 +202,12 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Return a Trigger, firing when one or more request variables are present with
-	 * the provided key value pair(s) are present.
+	 * Return a Trigger, firing when one or more request variables are
+	 * present with the provided key value pair(s) are present.
 	 *
-	 * $matches is an associative array, where the key is a request variable's name and the
-	 * value is the request variable's value to match.
+	 * $matches is an associative array, where the key is a request
+	 * variable's name and the value is the request variable's value
+	 * to match.
 	 *
 	 * @param array<string, string>|string $matches
 	 */
@@ -210,7 +231,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Return a Trigger that will pass all keys apart from the provided keys to its callback.
+	 * Return a Trigger that will pass all keys apart from the provided
+	 * keys to its callback.
 	 */
 	public function without(string...$keys):Trigger {
 		return $this->newTrigger("without", ...$keys);
@@ -226,10 +248,5 @@ class Input implements ArrayAccess, Countable, Iterator {
 	protected function newTrigger(string $functionName, string...$args):Trigger {
 		$trigger = new Trigger($this);
 		return $trigger->$functionName(...$args);
-	}
-
-	/** @return array<string, string> */
-	public function asArray():array {
-		return $this->getAll()->asArray();
 	}
 }

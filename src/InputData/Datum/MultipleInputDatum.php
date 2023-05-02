@@ -8,6 +8,7 @@ use Iterator;
 /**
  * @implements ArrayAccess<string|int, mixed>
  * @implements Iterator<string|int, mixed>
+ * @SuppressWarnings("TooManyPublicMethods")
  */
 class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	protected int $iteratorKey;
@@ -86,14 +87,18 @@ class MultipleInputDatum extends InputDatum implements ArrayAccess, Iterator {
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
 	 * @param string|int $offset
 	 * @param string $value
+	 * @SuppressWarnings("UnusedFormalParameter")
 	 */
 	public function offsetSet($offset, $value):void {
-		throw new ImmutableObjectModificationException("Trying to set $offset with $value");
+		throw new ImmutableObjectModificationException(
+			"Trying to set $offset with $value"
+		);
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 * @param string|int $offset
+	 * @SuppressWarnings("UnusedFormalParameter")
 	 */
 	public function offsetUnset($offset):void {
 		throw new ImmutableObjectModificationException("Trying to unset $offset");

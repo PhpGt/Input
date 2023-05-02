@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd4008bcfec3a7ec80daf21fe9565655",
+    "content-hash": "d46b445f736c4e569a20ff7a8da0e59b",
     "packages": [
         {
             "name": "phpgt/cookie",

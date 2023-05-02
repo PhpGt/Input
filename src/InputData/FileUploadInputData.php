@@ -15,15 +15,17 @@ class FileUploadInputData extends InputData {
 	}
 
 	/**
-	 * The files array is an associative array where the key is the name of the request
-	 * parameter, and the value is another associative array with keys:
+	 * The files array is an associative array where the key is the name of
+	 * the request parameter, and the value is another associative array
+	 * with keys:
 	 * + name
 	 * + type
 	 * + tmp_name
 	 * + error
 	 * + size
-	 * Each key's value is string, unless the request parameter name ends with [], in which case
-	 * each value is another array. This function normalises the array to the latter.
+	 * Each key's value is string, unless the request parameter name ends
+	 * with [], in which case each value is another array. This function
+	 * normalises the array to the latter.
 	 *
 	 * @param array<string, string|array<string, string>> $files
 	 * @return array<string, array<string, array<string>>>

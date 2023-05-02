@@ -7,18 +7,19 @@
 	<description>Custom ruleset</description>
 
 	<rule ref="rulesets/codesize.xml">
-		<exclude name="TooManyPublicMethods" />
 	</rule>
 
 	<rule ref="rulesets/cleancode.xml">
-		<exclude name="StaticAccess" />
+		<exclude name="BooleanArgumentFlag" />
 		<exclude name="ElseExpression" />
+		<exclude name="IfStatementAssignment" />
 	</rule>
 
 	<rule ref="rulesets/controversial.xml">
 	</rule>
 
 	<rule ref="rulesets/design.xml">
+		<exclude name="NumberOfChildren" />
 	</rule>
 
 	<rule ref="rulesets/naming.xml">
@@ -30,32 +31,14 @@
 	<rule ref="rulesets/unusedcode.xml">
 	</rule>
 
-	<rule ref="rulesets/codesize.xml/TooManyPublicMethods">
-		<priority>1</priority>
-		<properties>
-			<property name="maxmethods" value="20" />
-		</properties>
-	</rule>
-
-	<rule ref="rulesets/cleancode.xml/StaticAccess">
-		<properties>
-			<property name="exceptions" value="DateTime,DateTimeInterface,Gt\Curl\CurlObjectLookup" />
-		</properties>
-	</rule>
-
-	<rule ref="rulesets/naming.xml/ShortMethodName">
-		<properties>
-			<property name="exceptions" value="go,do" />
-		</properties>
-	</rule>
 	<rule ref="rulesets/naming.xml/ShortVariable">
 		<properties>
-			<property name="exceptions" value="ch,mh,sh" />
+			<property name="exceptions" value="a,b,i" />
 		</properties>
 	</rule>
-	<rule ref="rulesets/naming.xml/LongVariable">
+	<rule ref="rulesets/naming.xml/ShortMethodName">
 		<properties>
-			<property name="maximum" value="24" />
+			<property name="exceptions" value="or,do" />
 		</properties>
 	</rule>
 </ruleset>

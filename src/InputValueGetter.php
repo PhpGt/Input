@@ -9,6 +9,7 @@ use Gt\Input\InputData\Datum\FileUpload;
 use Gt\Input\InputData\Datum\InputDatum;
 use Gt\Input\InputData\Datum\MultipleInputDatum;
 use Gt\Input\InputData\FileUploadInputData;
+use Gt\Input\InputData\InputData;
 use TypeError;
 
 trait InputValueGetter {
@@ -67,6 +68,7 @@ trait InputValueGetter {
 		return $this->getTypedArray($key, "bool");
 	}
 
+
 	public function getFile(string $key):FileUpload {
 		/** @var FileUploadInputData|InputDatum[] $params */
 		$params = $this->fileUploadParameters ?? $this->parameters;
@@ -115,7 +117,7 @@ trait InputValueGetter {
 
 		try {
 			if($format) {
-				$dateTime = DateTime::createFromFormat($format, $value);
+				$dateTime = date_create_from_format($format, $value);
 			}
 			else {
 				$dateTime = new DateTime($value);
@@ -134,36 +136,25 @@ trait InputValueGetter {
 
 	/** @return array<DateTimeInterface> */
 	public function getMultipleDateTime(string $key):array {
-		return $this->getTypedArray($key, DateTimeInterface::class);
+		return $this->get($key);
 	}
 
-	/**
-	 * @template T of object
-	 * @param string $key
-	 * @param string|class-string<T> $typeName
-	 * @return ($typeName is class-string ? array<T> : array<int|float|bool|string>)
-	 */
+	/** @return array<int|float|bool|string> */
 	private function getTypedArray(string $key, string $typeName):array {
 		$array = [];
+		/** @var null|iterable<string, mixed> $datum */
 		$datum = $this->get($key);
 
 		if(is_null($datum)) {
-			return $array;
-		}
-
-		if(!$datum instanceof MultipleInputDatum) {
-			return $array;
+			return [];
 		}
 
 		foreach($datum as $item) {
-			$item = (string)$item;
-
 			$cast = match($typeName) {
 				"int" => (int)$item,
 				"float" => (float)$item,
 				"bool" => (bool)$item,
-				DateTimeInterface::class => new DateTime($item),
-				default => $item,
+				default => (string)$item,
 			};
 
 			array_push($array, $cast);

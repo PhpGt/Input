@@ -4,6 +4,7 @@ namespace Gt\Input\InputData\Datum;
 use Gt\Http\Stream;
 use Gt\Input\UploadedFileMoveException;
 use Gt\Input\UploadedFileSecurityException;
+use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use SplFileInfo;
@@ -47,7 +48,6 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 		return pathinfo($this->originalFileName, PATHINFO_EXTENSION);
 	}
 
-	/** @inheritDoc */
 	public function getSize():int {
 		return $this->fileSize;
 	}
@@ -94,8 +94,8 @@ class FileUpload extends InputDatum implements UploadedFileInterface {
 
 	/** @inheritDoc */
 	public function getError():int {
-// Note that this class ALWAYS returns UPLOAD_ERR_OK, due to failed uploads being
-// represented by another class, FailedFileUpload.
+// Note that this class ALWAYS returns UPLOAD_ERR_OK, due to failed uploads
+// being represented by another class, FailedFileUpload.
 		return UPLOAD_ERR_OK;
 	}
 

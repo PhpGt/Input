@@ -9,10 +9,10 @@ class InputDataFactory {
 	 * @param array<string>|array<string, string> $with
 	 * @param array<string>|array<string, string> $without
 	 */
-	public function create(
+	public static function create(
 		Input $input,
 		array $with = [],
-		array $without = []
+		array $without = [],
 	):InputData {
 		$data = $input->getAll();
 
@@ -21,7 +21,8 @@ class InputDataFactory {
 			return $data;
 		}
 
-// It's fine to call $input->with()->without, but not if the same value exists in with and without.
+// It's fine to call $input->with()->without, but not if the same value exists
+// in with and without.
 		if(!empty($with)
 		&& !empty($without)) {
 			$clash = array_intersect($with, $without);
