@@ -106,7 +106,7 @@ jobs:
         with:
           php_version: ${{ matrix.php }}
           path: src/
-          level: 7
+          level: 6
 
   phpmd:
     runs-on: ubuntu-latest
