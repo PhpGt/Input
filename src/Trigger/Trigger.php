@@ -19,8 +19,10 @@ class Trigger {
 	/** @var array<Callback> */
 	protected array $callbacks;
 	protected ?bool $hasFired;
+	private InputDataFactory $inputDataFactory;
 
 	public function __construct(Input $input) {
+		$this->inputDataFactory = new InputDataFactory();
 		$this->input = $input;
 
 		$this->matches = [];
@@ -138,7 +140,7 @@ class Trigger {
 	}
 
 	protected function callCallbacks():void {
-		$fields = InputDataFactory::create(
+		$fields = $this->inputDataFactory->create(
 			$this->input,
 			$this->with,
 			$this->without
@@ -151,7 +153,7 @@ class Trigger {
 	}
 
 	/**
-	 * @param array<string, string|array<string|int, string|array<string|int, string>>> $array
+	 * @param array<int|string, string|array<int|string, mixed>> $array
 	 * @return array<string|int, string>
 	 */
 	protected function flattenArray(array $array):array {

@@ -105,9 +105,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Get a particular input value by its key. To specify either GET or POST variables, pass
-	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
-	 * Input::METHOD_BOTH).
+	 * Get a particular input value by its key. To specify either GET or
+	 * POST variables, pass Input::METHOD_GET or Input::METHOD_POST as the
+	 * second parameter (defaults to Input::METHOD_BOTH).
 	 */
 	public function get(string $key, string $method = null):mixed {
 		if(is_null($method)) {
@@ -185,8 +185,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Get an InputData object containing all request variables. To specify only GET or POST
-	 * variables, pass Input::METHOD_GET or Input::METHOD_POST.
+	 * Get an InputData object containing all request variables. To specify
+	 * only GET or POST variables, pass Input::METHOD_GET
+	 * or Input::METHOD_POST.
 	 */
 	public function getAll(string $method = null):InputData {
 		if(is_null($method)) {
@@ -216,11 +217,12 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Return a Trigger, firing when one or more request variables are present with
-	 * the provided key value pair(s) are present.
+	 * Return a Trigger, firing when one or more request variables are
+	 * present with the provided key value pair(s) are present.
 	 *
-	 * $matches is an associative array, where the key is a request variable's name and the
-	 * value is the request variable's value to match.
+	 * $matches is an associative array, where the key is a request
+	 * variable's name and the value is the request variable's value
+	 * to match.
 	 *
 	 * @param array<string, string>|string $matches
 	 */
@@ -244,7 +246,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 	}
 
 	/**
-	 * Return a Trigger that will pass all keys apart from the provided keys to its callback.
+	 * Return a Trigger that will pass all keys apart from the provided
+	 * keys to its callback.
 	 */
 	public function without(string...$keys):Trigger {
 		return $this->newTrigger("without", ...$keys);

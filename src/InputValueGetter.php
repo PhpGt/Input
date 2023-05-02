@@ -117,13 +117,13 @@ trait InputValueGetter {
 
 		try {
 			if($format) {
-				$dateTime = DateTime::createFromFormat($format, $value);
+				$dateTime = date_create_from_format($format, $value);
 			}
 			else {
 				$dateTime = new DateTime($value);
 			}
 		}
-		catch(Exception $exception) {
+		catch(Exception) {
 			$dateTime = false;
 		}
 
