@@ -248,7 +248,7 @@ class TriggerTest extends TestCase {
 		self::assertTrue($trigger->fire());
 	}
 
-	public function dataInput():array {
+	public static function dataInput():array {
 		$data = [];
 
 		for($i = 0; $i < 10; $i++) {

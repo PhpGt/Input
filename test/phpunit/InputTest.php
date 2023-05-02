@@ -658,7 +658,7 @@ class InputTest extends TestCase {
 		}
 	}
 
-	public function dataRandomGetPost():array {
+	public static function dataRandomGetPost():array {
 		$data = [];
 
 		for($i = 0; $i < 10; $i++) {
@@ -672,7 +672,7 @@ class InputTest extends TestCase {
 		return $data;
 	}
 
-	public function dataRandomString():array {
+	public static function dataRandomString():array {
 		$data = [];
 
 		for($i = 0; $i < 10; $i++) {

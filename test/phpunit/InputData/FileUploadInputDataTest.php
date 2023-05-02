@@ -57,7 +57,7 @@ class FileUploadInputDataTest extends TestCase {
 		self::assertGreaterThan(0, $numberOfArrays);
 	}
 
-	public function dataFilesSuperglobal():array {
+	public static function dataFilesSuperglobal():array {
 		$num = 10;
 
 		$data = [];
