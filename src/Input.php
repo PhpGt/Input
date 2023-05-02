@@ -109,7 +109,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * Input::METHOD_GET or Input::METHOD_POST as the second parameter (defaults to
 	 * Input::METHOD_BOTH).
 	 */
-	public function get(string $key, string $method = null):null|InputDatum|string {
+	public function get(string $key, string $method = null):mixed {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
