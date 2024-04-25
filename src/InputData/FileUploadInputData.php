@@ -27,7 +27,7 @@ class FileUploadInputData extends InputData {
 	 * with [], in which case each value is another array. This function
 	 * normalises the array to the latter.
 	 *
-	 * @param array<string, string|array<string, string>> $files
+	 * @param array<string, string|array<string, string|array<string>>> $files
 	 * @return array<string, array<string, array<string>>>
 	 */
 	protected function normalizeArray(array $files):array {
