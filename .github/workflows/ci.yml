@@ -10,7 +10,7 @@ jobs:
         php: [ 8.1, 8.2, 8.3 ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
@@ -27,7 +27,7 @@ jobs:
         run: mkdir /tmp/github-actions/ && tar -cvf /tmp/github-actions/build.tar ./
 
       - name: Upload build archive for test runners
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
@@ -43,7 +43,7 @@ jobs:
       coverage: ${{ steps.store-coverage.outputs.coverage_text }}
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
@@ -73,9 +73,9 @@ jobs:
     needs: [ phpunit ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: code-coverage
           path: _coverage
@@ -94,7 +94,7 @@ jobs:
         php: [ 8.1, 8.2, 8.3 ]
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
@@ -117,7 +117,7 @@ jobs:
         php: [ 8.1, 8.2, 8.3 ]
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
@@ -141,7 +141,7 @@ jobs:
         php: [ 8.1, 8.2, 8.3 ]
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
