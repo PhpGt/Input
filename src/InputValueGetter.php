@@ -69,14 +69,18 @@ trait InputValueGetter {
 	}
 
 
-	public function getFile(string $key):FileUpload {
+	public function getFile(string $key):?FileUpload {
 		/** @var FileUploadInputData|InputDatum[] $params */
 		$params = $this->fileUploadParameters ?? $this->parameters;
 
-		try {
-			/** @var MultipleInputDatum|FileUpload $file */
-			$file = $params[$key];
+		/** @var MultipleInputDatum|FileUpload|null $file */
+		$file = $params[$key] ?? null;
 
+		if(is_null($file)) {
+			return null;
+		}
+
+		try {
 			if($file instanceof MultipleInputDatum) {
 				return $file->current();
 			}
