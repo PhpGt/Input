@@ -63,7 +63,7 @@ jobs:
           coverage_clover: _coverage/clover.xml
 
       - name: Store coverage data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: _coverage
