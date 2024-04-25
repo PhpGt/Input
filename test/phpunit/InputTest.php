@@ -121,6 +121,12 @@ class InputTest extends TestCase {
 		);
 	}
 
+	public function testGetFile_null():void {
+		$input = new Input([], [], []);
+		$file = $input->getFile("exampleFile");
+		self::assertNull($file);
+	}
+
 	/** @dataProvider dataRandomGetPost */
 	public function testGetInvalidDataType(array $get, array $post):void {
 		self::expectException(InvalidInputMethodException::class);
