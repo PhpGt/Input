@@ -65,7 +65,7 @@ jobs:
       - name: Store coverage data
         uses: actions/upload-artifact@v4
         with:
-          name: code-coverage-${{ github.sha }}
+          name: code-coverage-${{ github.sha }}-${{ github.run_number}}
           path: _coverage
 
   coverage:
@@ -77,7 +77,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: code-coverage-${{ github.sha }}
+          name: code-coverage-${{ github.sha }}-${{ github.run_number}}
           path: _coverage
 
       - name: Output coverage
