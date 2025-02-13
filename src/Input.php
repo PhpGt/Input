@@ -109,7 +109,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * POST variables, pass Input::METHOD_GET or Input::METHOD_POST as the
 	 * second parameter (defaults to Input::METHOD_BOTH).
 	 */
-	public function get(string $key, string $method = null):mixed {
+	public function get(string $key, ?string $method = null):mixed {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
@@ -128,7 +128,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	/**
 	 * Does the input contain the specified key?
 	 */
-	public function contains(string $key, string $method = null):bool {
+	public function contains(string $key, ?string $method = null):bool {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
@@ -174,7 +174,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	 * only GET or POST variables, pass Input::METHOD_GET
 	 * or Input::METHOD_POST.
 	 */
-	public function getAll(string $method = null):InputData {
+	public function getAll(?string $method = null):InputData {
 		if(is_null($method)) {
 			$method = self::DATA_COMBINED;
 		}
