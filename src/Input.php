@@ -235,7 +235,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	/**
 	 * Return a Trigger that will only pass the provided keys to its callback.
 	 */
-	public function with(string...$keys):Trigger {
+	public function select(string...$keys):Trigger {
 		foreach($keys as $key) {
 			if(!$this->parameters->contains($key)) {
 				throw new MissingInputParameterException($key);
@@ -244,20 +244,32 @@ class Input implements ArrayAccess, Countable, Iterator {
 
 		return $this->newTrigger("with", ...$keys);
 	}
+	#[\Deprecated("Use select() instead to avoid ambiguity with immutable `with` functions")]
+	public function with(string...$keys):Trigger {
+		return $this->select(...$keys);
+	}
 
 	/**
 	 * Return a Trigger that will pass all keys apart from the provided
 	 * keys to its callback.
 	 */
-	public function without(string...$keys):Trigger {
+	public function selectAllExcept(string...$keys):Trigger {
 		return $this->newTrigger("without", ...$keys);
+	}
+	#[\Deprecated("Use selectAllExcept() instead to avoid ambiguity with immutable `with` functions")]
+	public function without(string...$keys):Trigger {
+		return $this->selectAllExcept(...$keys);
 	}
 
 	/**
 	 * Return a Trigger that will pass all keys to its callback.
 	 */
-	public function withAll():Trigger {
+	public function selectAll():Trigger {
 		return $this->newTrigger("withAll");
+	}
+	#[\Deprecated("Use selectAll() instead to avoid ambiguity with immutable `with` functions")]
+	public function withAll():Trigger {
+		return $this->selectAll();
 	}
 
 	protected function newTrigger(string $functionName, string...$args):Trigger {
