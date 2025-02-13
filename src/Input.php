@@ -22,6 +22,7 @@ use Gt\Input\InputData\QueryStringInputData;
 /**
  * @implements ArrayAccess<string, ?string>
  * @implements Iterator<string, ?string>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Input implements ArrayAccess, Countable, Iterator {
 	use InputValueGetter;
