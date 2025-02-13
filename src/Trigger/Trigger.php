@@ -56,7 +56,7 @@ class Trigger {
 
 		return $this;
 	}
-	#[\Deprecated("Use select() instead to avoid ambiguity with immutable `with` functions")]
+	/** @deprecated Use select() instead to avoid ambiguity with immutable `with` functions */
 	public function with(string...$keys):self {
 		return $this->select(...$keys);
 	}
@@ -68,7 +68,7 @@ class Trigger {
 
 		return $this;
 	}
-	#[\Deprecated("Use selectAllExcept() instead to avoid ambiguity with immutable `with` functions")]
+	/** @deprecated Use selectAllExcept() instead to avoid ambiguity with immutable `with` functions */
 	public function without(string...$keys):self {
 		return $this->selectAllExcept(...$keys);
 	}
@@ -79,7 +79,7 @@ class Trigger {
 
 		return $this;
 	}
-	#[\Deprecated("Use selectAll() instead to avoid ambiguity with immutable `with` functions")]
+	/** @deprecated Use selectAll() instead to avoid ambiguity with immutable `with` functions */
 	public function withAll():self {
 		return $this->selectAll();
 	}

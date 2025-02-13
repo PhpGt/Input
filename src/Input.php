@@ -244,7 +244,8 @@ class Input implements ArrayAccess, Countable, Iterator {
 
 		return $this->newTrigger("with", ...$keys);
 	}
-	#[\Deprecated("Use select() instead to avoid ambiguity with immutable `with` functions")]
+
+	/** @deprecated Use select() instead to avoid ambiguity with immutable `with` functions */
 	public function with(string...$keys):Trigger {
 		return $this->select(...$keys);
 	}
@@ -256,7 +257,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	public function selectAllExcept(string...$keys):Trigger {
 		return $this->newTrigger("without", ...$keys);
 	}
-	#[\Deprecated("Use selectAllExcept() instead to avoid ambiguity with immutable `with` functions")]
+	/** @deprecated Use selectAllExcept() instead to avoid ambiguity with immutable `with` functions */
 	public function without(string...$keys):Trigger {
 		return $this->selectAllExcept(...$keys);
 	}
@@ -267,7 +268,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 	public function selectAll():Trigger {
 		return $this->newTrigger("withAll");
 	}
-	#[\Deprecated("Use selectAll() instead to avoid ambiguity with immutable `with` functions")]
+	/** @deprecated Use selectAll() instead to avoid ambiguity with immutable `with` functions */
 	public function withAll():Trigger {
 		return $this->selectAll();
 	}
