@@ -23,7 +23,7 @@ use Gt\Input\InputData\QueryStringInputData;
  * @implements ArrayAccess<string, ?string>
  * @implements Iterator<string, ?string>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods) Only until the deprecations are removed
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class Input implements ArrayAccess, Countable, Iterator {
 	use InputValueGetter;
