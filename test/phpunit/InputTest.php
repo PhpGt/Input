@@ -664,6 +664,14 @@ class InputTest extends TestCase {
 		}
 	}
 
+	public function testGetBodyJson_notJson():void {
+		$get = [];
+		$post = ["this" => "is not JSON!"];
+		$sut = new Input($get, $post);
+		$json = $sut->getBodyJson();
+		self::assertNull($json);
+	}
+
 	public static function dataRandomGetPost():array {
 		$data = [];
 

@@ -3,6 +3,7 @@ namespace Gt\Input;
 
 use ArrayAccess;
 use Countable;
+use Gt\Json\JsonObject;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
 use Gt\Input\Trigger\Trigger;
@@ -249,4 +250,9 @@ class Input implements ArrayAccess, Countable, Iterator {
 		$trigger = new Trigger($this);
 		return $trigger->$functionName(...$args);
 	}
+
+	public function getBodyJson():?JsonObject {
+		return null;
+	}
+
 }
