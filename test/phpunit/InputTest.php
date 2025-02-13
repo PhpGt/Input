@@ -11,6 +11,9 @@ use Gt\Input\InvalidInputMethodException;
 use Gt\Input\MissingInputParameterException;
 use Gt\Input\Test\Helper\Helper;
 use Gt\Input\Trigger\Trigger;
+use Gt\Json\JsonObject;
+use Gt\Json\JsonPrimitive\JsonArrayPrimitive;
+use Gt\Json\JsonPrimitive\JsonStringPrimitive;
 use PHPUnit\Framework\TestCase;
 
 class InputTest extends TestCase {
@@ -670,6 +673,41 @@ class InputTest extends TestCase {
 		$sut = new Input($get, $post);
 		$json = $sut->getBodyJson();
 		self::assertNull($json);
+	}
+
+	public function testGetBodyJson_string():void {
+		$inputPath = tempnam(sys_get_temp_dir(), "phpgt-input-test-");
+		file_put_contents($inputPath, "\"Hello, PHP.Gt!\"");
+		$sut = new Input(bodyPath: $inputPath);
+		$json = $sut->getBodyJson();
+		self::assertInstanceOf(JsonStringPrimitive::class, $json);
+		self::assertSame("Hello, PHP.Gt!", $json->getPrimitiveValue());
+	}
+
+	public function testGetBodyJson_arrayWithObject():void {
+		$inputPath = tempnam(sys_get_temp_dir(), "phpgt-input-test-");
+		file_put_contents($inputPath, "[1, 2, 3, {\"name\": \"Cody\"}]");
+		$sut = new Input(bodyPath: $inputPath);
+		$json = $sut->getBodyJson();
+		self::assertInstanceOf(JsonArrayPrimitive::class, $json);
+		$array = $json->getPrimitiveValue();
+		self::assertSame(1, $array[0]);
+		self::assertSame(2, $array[1]);
+		self::assertSame(3, $array[2]);
+		/** @var JsonObject $thirdArrayElement */
+		$thirdArrayElement = $array[3];
+		self::assertInstanceOf(JsonObject::class, $thirdArrayElement);
+		self::assertSame("Cody", $thirdArrayElement->getString("name"));
+	}
+
+	public function testGetBodyJson_withQueryString():void {
+		$inputPath = tempnam(sys_get_temp_dir(), "phpgt-input-test-");
+		file_put_contents($inputPath, "\"Hello, PHP.Gt!\"");
+		$sut = new Input(["id" => 123], bodyPath: $inputPath);
+		$json = $sut->getBodyJson();
+		self::assertInstanceOf(JsonStringPrimitive::class, $json);
+		self::assertSame("Hello, PHP.Gt!", $json->getPrimitiveValue());
+		self::assertSame(123, $sut->getInt("id"));
 	}
 
 	public static function dataRandomGetPost():array {

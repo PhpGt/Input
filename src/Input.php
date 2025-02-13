@@ -3,7 +3,9 @@ namespace Gt\Input;
 
 use ArrayAccess;
 use Countable;
+use Gt\Json\JsonDecodeException;
 use Gt\Json\JsonObject;
+use Gt\Json\JsonObjectBuilder;
 use Iterator;
 use Psr\Http\Message\StreamInterface;
 use Gt\Input\Trigger\Trigger;
@@ -46,7 +48,7 @@ class Input implements ArrayAccess, Countable, Iterator {
 		array $get = [],
 		array $post = [],
 		array $files = [],
-		string $bodyPath = "php://input"
+		string $bodyPath = "php://input",
 	) {
 		$this->bodyStream = new BodyStream($bodyPath);
 
@@ -194,6 +196,17 @@ class Input implements ArrayAccess, Countable, Iterator {
 		}
 	}
 
+	public function getBodyJson():?JsonObject {
+		$jsonBuilder = new JsonObjectBuilder();
+
+		try {
+			return $jsonBuilder->fromJsonString($this->bodyStream->getContents());
+		}
+		catch(JsonDecodeException) {
+			return null;
+		}
+	}
+
 	/**
 	 * Return a "do" Trigger, matching when a request variable is present with the
 	 * provided $match value.
@@ -250,9 +263,4 @@ class Input implements ArrayAccess, Countable, Iterator {
 		$trigger = new Trigger($this);
 		return $trigger->$functionName(...$args);
 	}
-
-	public function getBodyJson():?JsonObject {
-		return null;
-	}
-
 }
